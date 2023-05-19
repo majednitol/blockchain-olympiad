@@ -120,10 +120,11 @@ contract Helth {
         returns (address, string memory, uint256, uint256, uint256, bool)
     {
         Doctor storage newDoctor = allDoctor[_doctor];
-        // require(
-        //     Patient.accressList[_doctor][msg.sender] == true,
-        //     "user alredy have accress in your data"
-        // );
+        require(
+            _doctor == msg.sender ||
+                Patient.accressList(_doctor, msg.sender) == true,
+            "user alredy have accress in your data"
+        );
         return (
             newDoctor.doctor,
             newDoctor.name,
@@ -158,7 +159,8 @@ contract Helth {
         address _pharmacyCompany
     ) public view returns (address, string memory, uint256, bool) {
         require(
-            Patient.accressList(_pharmacyCompany, msg.sender) == true,
+            _pharmacyCompany == msg.sender ||
+                Patient.accressList(_pharmacyCompany, msg.sender) == true,
             "user alredy have accress in your data"
         );
         PharmacyCompany storage newPharmacyCompany = allPharmacyCompany[
@@ -195,7 +197,8 @@ contract Helth {
         address _pharmaciest
     ) public view returns (address, string memory, uint256, bool) {
         require(
-            Patient.accressList(_pharmaciest, msg.sender) == true,
+            _pharmaciest == msg.sender ||
+                Patient.accressList(_pharmaciest, msg.sender) == true,
             "user alredy have accress in your data"
         );
         Pharmaciest storage newPharmaciest = allPharmaciest[_pharmaciest];
@@ -230,7 +233,8 @@ contract Helth {
         address _foodIndusty
     ) public view returns (address, string memory, uint256, bool) {
         require(
-            Patient.accressList(_foodIndusty, msg.sender) == true,
+            _foodIndusty == msg.sender ||
+                Patient.accressList(_foodIndusty, msg.sender) == true,
             "user alredy have accress in your data"
         );
         FoodIndusty storage newFoodIndusty = allFoodIndusty[_foodIndusty];
@@ -266,7 +270,8 @@ contract Helth {
         address _hospital
     ) public view returns (address, string memory, uint256, bool) {
         require(
-            Patient.accressList(_hospital, msg.sender) == true,
+            _hospital == msg.sender ||
+                Patient.accressList(_hospital, msg.sender) == true,
             "user alredy have accress in your data"
         );
         Hospital storage newHospital = allHospital[_hospital];
@@ -302,7 +307,8 @@ contract Helth {
         address _dataAnalyst
     ) public view returns (address, string memory, uint256, bool) {
         require(
-            Patient.accressList(_dataAnalyst, msg.sender) == true,
+            _dataAnalyst == msg.sender ||
+                Patient.accressList(_dataAnalyst, msg.sender) == true,
             "user alredy have accress in your data"
         );
         DataAnalyst storage newDataAnalyst = allDataAnalyst[_dataAnalyst];
@@ -338,7 +344,8 @@ contract Helth {
         address _pharmacy
     ) public view returns (address, string memory, uint256, bool) {
         require(
-            Patient.accressList(_pharmacy, msg.sender) == true,
+            _pharmacy == msg.sender ||
+                Patient.accressList(_pharmacy, msg.sender) == true,
             "user alredy have accress in your data"
         );
         Pharmacy storage newPharmacy = allPharmacy[_pharmacy];

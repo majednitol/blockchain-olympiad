@@ -203,7 +203,8 @@ contract PatientData {
         )
     {
         require(
-            accressList[_patientParient][msg.sender] == true,
+            _patientParient == msg.sender ||
+                accressList[_patientParient][msg.sender] == true,
             "user alredy have accress in your data"
         );
         PatientParient memory newPatientParient = allPatientParient[
