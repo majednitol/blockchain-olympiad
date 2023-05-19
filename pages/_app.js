@@ -1,5 +1,14 @@
+// import { NavBar } from '@/components'
+
+import HealthProvider from '@/context/Health'
 import '@/styles/globals.css'
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const App = ({ Component, pageProps }) =>
+(<HealthProvider>
+  {/* <NavBar/> */}
+  <Component {...pageProps} />
+</HealthProvider>
+
+)
+export default App
+
