@@ -157,10 +157,10 @@ contract Helth {
     function viewPharmacyCompany(
         address _pharmacyCompany
     ) public view returns (address, string memory, uint256, bool) {
-        // require(
-        //     Patient.accressList[_pharmacyCompany][msg.sender] == true,
-        //     "user alredy have accress in your data"
-        // );
+        require(
+            Patient.accressList(_pharmacyCompany, msg.sender) == true,
+            "user alredy have accress in your data"
+        );
         PharmacyCompany storage newPharmacyCompany = allPharmacyCompany[
             _pharmacyCompany
         ];
@@ -194,10 +194,10 @@ contract Helth {
     function viewPharmaciest(
         address _pharmaciest
     ) public view returns (address, string memory, uint256, bool) {
-        // require(
-        //     Patient.accressList[_pharmaciest][msg.sender] == true,
-        //     "user alredy have accress in your data"
-        // );
+        require(
+            Patient.accressList(_pharmaciest, msg.sender) == true,
+            "user alredy have accress in your data"
+        );
         Pharmaciest storage newPharmaciest = allPharmaciest[_pharmaciest];
 
         return (
@@ -229,10 +229,10 @@ contract Helth {
     function viewFoodIndusty(
         address _foodIndusty
     ) public view returns (address, string memory, uint256, bool) {
-        // require(
-        //     Patient.accressList[_foodIndusty][msg.sender] == true,
-        //     "user alredy have accress in your data"
-        // );
+        require(
+            Patient.accressList(_foodIndusty, msg.sender) == true,
+            "user alredy have accress in your data"
+        );
         FoodIndusty storage newFoodIndusty = allFoodIndusty[_foodIndusty];
 
         return (
@@ -265,10 +265,10 @@ contract Helth {
     function viewHospital(
         address _hospital
     ) public view returns (address, string memory, uint256, bool) {
-        // require(
-        //     Patient.accressList[_hospital][msg.sender] == true,
-        //     "user alredy have accress in your data"
-        // );
+        require(
+            Patient.accressList(_hospital, msg.sender) == true,
+            "user alredy have accress in your data"
+        );
         Hospital storage newHospital = allHospital[_hospital];
 
         return (
@@ -301,10 +301,10 @@ contract Helth {
     function viewDataAnalyst(
         address _dataAnalyst
     ) public view returns (address, string memory, uint256, bool) {
-        // require(
-        //     Patient.accressList[_dataAnalyst][msg.sender] == true,
-        //     "user alredy have accress in your data"
-        // );
+        require(
+            Patient.accressList(_dataAnalyst, msg.sender) == true,
+            "user alredy have accress in your data"
+        );
         DataAnalyst storage newDataAnalyst = allDataAnalyst[_dataAnalyst];
 
         return (
@@ -337,10 +337,10 @@ contract Helth {
     function viewPharmacy(
         address _pharmacy
     ) public view returns (address, string memory, uint256, bool) {
-        // require(
-        //     Patient.accressList[_pharmacy][msg.sender] == true,
-        //     "user alredy have accress in your data"
-        // );
+        require(
+            Patient.accressList(_pharmacy, msg.sender) == true,
+            "user alredy have accress in your data"
+        );
         Pharmacy storage newPharmacy = allPharmacy[_pharmacy];
 
         return (
