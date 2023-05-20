@@ -12,6 +12,7 @@ contract PatientData {
         uint256 nid;
         bool isAdded;
     }
+
     struct Patient {
         address patient;
         string name;
@@ -28,18 +29,18 @@ contract PatientData {
 
     struct Credential {
         address issuerAddress;
-        string credentielType;
+        string credentialType;
         string credentialIssuer;
         string credentialValue;
         string dateIssued;
         bool isAdded;
-        bool dataAccress;
+        bool dataAccess;
     }
 
     mapping(address => Patient) public allPatient;
     mapping(address => PatientParient) public allPatientParient;
     mapping(address => Credential) public allCredential;
-    mapping(address => mapping(address => bool)) public accressList;
+    mapping(address => mapping(address => bool)) public accessList;
     address[] public allPatientAddress;
     address[] public allPatientParientAddress;
     address[] public allCredentialAddress;
@@ -54,10 +55,7 @@ contract PatientData {
         string memory _bloodGroup,
         uint256 _nid
     ) public {
-        require(
-            allPatient[_patient].isAdded == false,
-            "you already added yourself"
-        );
+        require(!allPatient[_patient].isAdded, "You have already added yourself");
         Patient storage newPatient = allPatient[_patient];
 
         newPatient.patient = _patient;
@@ -66,15 +64,13 @@ contract PatientData {
         newPatient.patientId = _patientId;
         newPatient.gender = _gender;
         newPatient.birthDay = _birthDay;
-        newPatient.nid = _nid;
         newPatient.bloodGroup = _bloodGroup;
+        newPatient.nid = _nid;
         newPatient.isAdded = true;
         allPatientAddress.push(_patient);
     }
 
-    function viewPatient(
-        address _patient
-    )
+    function viewPatient(address _patient)
         public
         view
         returns (
@@ -89,36 +85,38 @@ contract PatientData {
             bool
         )
     {
-        Patient memory newPatient = allPatient[_patient];
+        require(
+            _patient == msg.sender ||
+                accessList[_patient][msg.sender] == true,
+            "user don't have access in your data"
+        );
+        Patient memory patient = allPatient[_patient];
 
         return (
-            newPatient.patient,
-            newPatient.name,
-            newPatient.age,
-            newPatient.patientId,
-            newPatient.gender,
-            newPatient.birthDay,
-            newPatient.bloodGroup,
-            newPatient.nid,
-            newPatient.isAdded
+            patient.patient,
+            patient.name,
+            patient.age,
+            patient.patientId,
+            patient.gender,
+            patient.birthDay,
+            patient.bloodGroup,
+            patient.nid,
+            patient.isAdded
         );
     }
 
     function addCredential(
         address _issuerAddress,
-        string memory _credentielType,
+        string memory _credentialType,
         string memory _credentialIssuer,
         string memory _credentialValue,
         string memory _dateIssued
     ) public {
-        require(
-            allCredential[_issuerAddress].isAdded == false,
-            "you already added your Credential"
-        );
+        require(!allCredential[_issuerAddress].isAdded, "You have already added your Credential");
         Credential storage newCredential = allCredential[_issuerAddress];
 
         newCredential.issuerAddress = _issuerAddress;
-        newCredential.credentielType = _credentielType;
+        newCredential.credentialType = _credentialType;
         newCredential.credentialIssuer = _credentialIssuer;
         newCredential.credentialValue = _credentialValue;
         newCredential.dateIssued = _dateIssued;
@@ -126,9 +124,7 @@ contract PatientData {
         allCredentialAddress.push(_issuerAddress);
     }
 
-    function viewCredential(
-        address _issuerAddress
-    )
+    function viewCredential(address _issuerAddress)
         public
         view
         returns (
@@ -141,101 +137,33 @@ contract PatientData {
         )
     {
         require(
-            accressList[_issuerAddress][msg.sender] == true,
-            "user alredy have accress in your data"
+            _issuerAddress == msg.sender ||
+                accessList[_issuerAddress][msg.sender] == true,
+            "user don't have access in your data"
         );
-        Credential storage newCredential = allCredential[_issuerAddress];
+        Credential memory credential = allCredential[_issuerAddress];
 
         return (
-            newCredential.issuerAddress,
-            newCredential.credentielType,
-            newCredential.credentialIssuer,
-            newCredential.credentialValue,
-            newCredential.dateIssued,
-            newCredential.isAdded
+            credential.issuerAddress,
+            credential.credentialType,
+            credential.credentialIssuer,
+            credential.credentialValue,
+            credential.dateIssued,
+            credential.isAdded
         );
     }
 
-    function addPatientParient(
-        string memory _name,
-        address _patientParient,
-        uint256 _age,
-        string memory _gender,
-        uint256 _birthDay,
-        string memory _bloodGroup,
-        uint256 _nid
-    ) public {
-        require(
-            allPatientParient[_patientParient].isAdded == false,
-            "you already create your profile"
-        );
-        PatientParient storage newPatientParient = allPatientParient[
-            _patientParient
-        ];
-
-        newPatientParient.name = _name;
-        newPatientParient.patientParient = _patientParient;
-        newPatientParient.age = _age;
-
-        newPatientParient.gender = _gender;
-        newPatientParient.birthDay = _birthDay;
-        newPatientParient.bloodGroup = _bloodGroup;
-        newPatientParient.nid = _nid;
-
-        newPatientParient.isAdded = true;
-        allPatientParientAddress.push(_patientParient);
+    function grantAccess(address _patientAddress) public {
+        accessList[msg.sender][_patientAddress] = true;
     }
 
-    function viewPatientParient(
-        address _patientParient
-    )
-        public
-        view
-        returns (
-            string memory,
-            address,
-            uint256,
-            string memory,
-            uint256,
-            string memory,
-            uint256,
-            bool
-        )
-    {
-        require(
-            _patientParient == msg.sender ||
-                accressList[_patientParient][msg.sender] == true,
-            "user alredy have accress in your data"
-        );
-        PatientParient memory newPatientParient = allPatientParient[
-            _patientParient
-        ];
-
-        return (
-            newPatientParient.name,
-            newPatientParient.patientParient,
-            newPatientParient.age,
-            newPatientParient.gender,
-            newPatientParient.birthDay,
-            newPatientParient.bloodGroup,
-            newPatientParient.nid,
-            newPatientParient.isAdded
-        );
+    function revokeAccess(address _patientAddress) public {
+        accessList[msg.sender][_patientAddress] = false;
     }
 
-    function accressDataAnyone(address user) public {
-        require(msg.sender != user, "you can't accress yourself ");
-        require(
-            accressList[msg.sender][user] = true,
-            "user alredy have accress in your data"
-        );
-    }
-
-    function revokeDataAnyone(address user) public {
-        require(msg.sender != user, "you can't revoke yourself ");
-        require(
-            accressList[msg.sender][user] = false,
-            "user alredy revoked from  data accress"
-        );
+    function checkAccess(address _patientAddress) public view returns (bool) {
+        return accessList[msg.sender][_patientAddress];
     }
 }
+
+

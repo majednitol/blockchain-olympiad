@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
 import React, { useEffect, useState } from 'react'
-import { healthABI, healthAddess } from './constants'
+import { healthABI, healthAddess, patientABI, patientAddress } from './constants'
 import { useRouter } from 'next/router';
 import { connectWallet, connectWalletBycontractData } from '@/Utils/apiFreature';
 
@@ -29,15 +29,10 @@ const HealthProvider = ({ children }) => {
 
         // connectWallet();
         fetchData()
-        AddNewPharmacy("0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7", "majed", 54)
+        // AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54, 33, 9999)
         doctorAllData()
-        PharmacyAllData()
-        // createAccount()
-        // addFriends()
-        // sendMessage()
-        // readMessage("0xF141b8EE9E4afC31134DCdF732BA1296c2f8B27c")
-        // readUser()
-        // console.log(contractData);
+
+
     }, [])
 
     const fetchData = async () => {
@@ -48,7 +43,7 @@ const HealthProvider = ({ children }) => {
 
 
             const contractData = await connectWalletBycontractData(provider)
-            console.log(contractData);
+            console.log("oooo", contractData[0]);
             setContractData(contractData)
             setAccount(connectedAccount)
 
@@ -63,49 +58,49 @@ const HealthProvider = ({ children }) => {
     const patientAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const patientData = await contractData.viewPatient(connectedAccount)
+        const patientData = await contractData[1].viewPatient(connectedAccount)
         setPatientData(patientData)
         console.log("patientData ", patientData);
     }
     const doctorAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const doctorData = await contractData.viewDoctor(connectedAccount)
+        const doctorData = await contractData[0].viewDoctor(connectedAccount)
         setDoctorData(doctorData)
         console.log("doctorData", doctorData);
     }
     const pharmaciestAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const pharmaciestData = await contractData.viewPharmaciest(connectedAccount)
+        const pharmaciestData = await contractData[0].viewPharmaciest(connectedAccount)
         setPharmaciest(pharmaciestData)
         console.log("pharmaciestData", pharmaciestData);
     }
     const FoodIndustyAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const FoodIndustyData = await contractData.viewFoodIndusty(connectedAccount)
+        const FoodIndustyData = await contractData[0].viewFoodIndusty(connectedAccount)
         setFoodIndusty(FoodIndustyData)
         console.log(FoodIndustyData);
     }
     const DataAnalystAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const DataAnalystData = await contractData.viewDataAnalyst(connectedAccount)
+        const DataAnalystData = await contractData[0].viewDataAnalyst(connectedAccount)
         setDataAnalyst(DataAnalystData)
         console.log(DataAnalystData);
     }
     const HospitalAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const HospitalData = await contractData.viewHospital(connectedAccount)
+        const HospitalData = await contractData[0].viewHospital(connectedAccount)
         setHospital(HospitalData)
         console.log(HospitalData);
     }
     const PharmacyAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const viewPharmacyData = await contractData.viewPharmacy(
+        const viewPharmacyData = await contractData[0].viewPharmacy(
             connectedAccount)
         setPharmacy(viewPharmacyData)
         console.log(viewPharmacyData);
@@ -114,7 +109,7 @@ const HealthProvider = ({ children }) => {
     const PatientCredentialAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const PatientCredentialData = await contractData.viewCredential(
+        const PatientCredentialData = await contractData[1].viewCredential(
             connectedAccount)
         setPatientCredential(PatientCredentialData)
         console.log(PatientCredentialData);
@@ -123,7 +118,7 @@ const HealthProvider = ({ children }) => {
     const PatientParientAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const PatientParientData = await contractData.viewPatientParient(
+        const PatientParientData = await contractData[1].viewPatientParient(
             connectedAccount)
         setPatientParient(PatientParientData)
         console.log(PatientParientData);
@@ -182,7 +177,7 @@ const HealthProvider = ({ children }) => {
 
                 const signer = provider.getSigner()
                 console.log('signer', signer);
-                const contract = new ethers.Contract(healthAddess, healthABI, signer)
+                const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
                 const addNewPatientData = await contract.addPatient(patientAddress, name, BigInt(age * 1), BigInt(patientId * 1), gender, BigInt(birthDay * 1), bloodGroup, BigInt(nid * 1))
 
@@ -430,7 +425,7 @@ const HealthProvider = ({ children }) => {
 
                 const signer = provider.getSigner()
                 console.log('signer', signer);
-                const contract = new ethers.Contract(healthAddess, healthABI, signer)
+                const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
                 const addNewCredentialData = await contract.addCredential(issuerAddress,
                     credentielType,
@@ -464,7 +459,7 @@ const HealthProvider = ({ children }) => {
 
                 const signer = provider.getSigner()
                 console.log('signer', signer);
-                const contract = new ethers.Contract(healthAddess, healthABI, signer)
+                const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
                 const AccressDataAnyOne = await contract.accressDataAnyone(userAddress,
                 )
@@ -496,7 +491,7 @@ const HealthProvider = ({ children }) => {
 
                 const signer = provider.getSigner()
                 console.log('signer', signer);
-                const contract = new ethers.Contract(healthAddess, healthABI, signer)
+                const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
                 const revokeAccressAnyOne = await contract.revokeDataAnyone(userAddress
                 )

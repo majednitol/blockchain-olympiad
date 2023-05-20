@@ -2,70 +2,53 @@
 pragma solidity >=0.4.22 <0.9.0;
 import "./Patient.sol";
 
-contract Helth {
-    PatientData public Patient;
-    address public admin;
+contract Helth is PatientData {
+    address public ownerOfContract;
 
-    constructor(PatientData _PatientContract) {
-        Patient = _PatientContract;
-        admin = msg.sender;
+    constructor() {
+        ownerOfContract = msg.sender;
     }
 
     struct Doctor {
         address doctor;
         string name;
-        uint256 age;
         uint256 doctorId;
-        uint256 nid;
-        bool isAdded;
-        bool dataAccress;
     }
+
     struct PharmacyCompany {
         address pharmacyCompany;
         string name;
-        uint256 pharmacyCompanyId;
-        bool isAdded;
-        bool dataAccress;
+        uint256 companyId;
     }
 
     struct Pharmaciest {
         address pharmaciest;
         string name;
         uint256 pharmaciestId;
-        bool isAdded;
-        bool dataAccress;
     }
 
     struct FoodIndusty {
         address foodIndusty;
         string name;
         uint256 foodIndustyId;
-        bool isAdded;
-        bool dataAccress;
     }
 
     struct Hospital {
         address hospital;
         string name;
         uint256 hospitalId;
-        bool isAdded;
-        bool dataAccress;
     }
 
     struct Pharmacy {
         address pharmacy;
         string name;
         uint256 pharmacyId;
-        bool isAdded;
-        bool dataAccress;
     }
 
     struct DataAnalyst {
         address dataAnalyst;
         string name;
-        uint256 dataAnalystId;
-        bool isAdded;
-        bool dataAccress;
+        uint256 analystId;
     }
 
     mapping(address => Doctor) public allDoctor;
@@ -75,9 +58,6 @@ contract Helth {
     mapping(address => Hospital) public allHospital;
     mapping(address => Pharmacy) public allPharmacy;
     mapping(address => DataAnalyst) public allDataAnalyst;
-
-    //all address
-
     address[] public allDoctorAddress;
     address[] public allPharmacyCompanyAddress;
     address[] public allPharmaciestAddress;
@@ -86,63 +66,32 @@ contract Helth {
     address[] public allPharmacyAddress;
     address[] public allDataAnalystAddress;
 
-    address[] public allAddress;
-
-    address public ContractOwner;
-
     function addDoctor(
         address _doctor,
         string memory _name,
-        uint256 _age,
-        uint256 _doctorId,
-        uint256 _nid
+        uint256 _doctorId
     ) public {
-        require(
-            allDoctor[_doctor].isAdded == false,
-            "you already added yourself"
-        );
+        require(!isDoctorAdded(_doctor), "Doctor already added");
         Doctor storage newDoctor = allDoctor[_doctor];
 
         newDoctor.doctor = _doctor;
         newDoctor.name = _name;
-        newDoctor.age = _age;
         newDoctor.doctorId = _doctorId;
-        newDoctor.nid = _nid;
-        newDoctor.isAdded = true;
         allDoctorAddress.push(_doctor);
     }
 
-    function viewDoctor(
-        address _doctor
-    )
-        public
-        view
-        returns (address, string memory, uint256, uint256, uint256, bool)
-    {
-        Doctor storage newDoctor = allDoctor[_doctor];
-        require(
-            _doctor == msg.sender ||
-                Patient.accressList(_doctor, msg.sender) == true,
-            "user alredy have accress in your data"
-        );
-        return (
-            newDoctor.doctor,
-            newDoctor.name,
-            newDoctor.age,
-            newDoctor.doctorId,
-            newDoctor.nid,
-            newDoctor.isAdded
-        );
+    function isDoctorAdded(address _doctor) public view returns (bool) {
+        return allDoctor[_doctor].doctor == msg.sender;
     }
 
     function addPharmacyCompany(
         address _pharmacyCompany,
         string memory _name,
-        uint256 _pharmacyCompanyId
+        uint256 _companyId
     ) public {
         require(
-            allPharmacyCompany[_pharmacyCompany].isAdded == false,
-            "you already added yourself"
+            !isPharmacyCompanyAdded(_pharmacyCompany),
+            "Pharmacy Company already added"
         );
         PharmacyCompany storage newPharmacyCompany = allPharmacyCompany[
             _pharmacyCompany
@@ -150,29 +99,15 @@ contract Helth {
 
         newPharmacyCompany.pharmacyCompany = _pharmacyCompany;
         newPharmacyCompany.name = _name;
-        newPharmacyCompany.pharmacyCompanyId = _pharmacyCompanyId;
-        newPharmacyCompany.isAdded = true;
+        newPharmacyCompany.companyId = _companyId;
         allPharmacyCompanyAddress.push(_pharmacyCompany);
     }
 
-    function viewPharmacyCompany(
+    function isPharmacyCompanyAdded(
         address _pharmacyCompany
-    ) public view returns (address, string memory, uint256, bool) {
-        require(
-            _pharmacyCompany == msg.sender ||
-                Patient.accressList(_pharmacyCompany, msg.sender) == true,
-            "user alredy have accress in your data"
-        );
-        PharmacyCompany storage newPharmacyCompany = allPharmacyCompany[
-            _pharmacyCompany
-        ];
-
-        return (
-            newPharmacyCompany.pharmacyCompany,
-            newPharmacyCompany.name,
-            newPharmacyCompany.pharmacyCompanyId,
-            newPharmacyCompany.isAdded
-        );
+    ) public view returns (bool) {
+        return
+            allPharmacyCompany[_pharmacyCompany].pharmacyCompany == msg.sender;
     }
 
     function addPharmaciest(
@@ -180,35 +115,19 @@ contract Helth {
         string memory _name,
         uint256 _pharmaciestId
     ) public {
-        require(
-            allPharmaciest[_pharmaciest].isAdded == false,
-            "you already added yourself"
-        );
+        require(!isPharmaciestAdded(_pharmaciest), "Pharmaciest already added");
         Pharmaciest storage newPharmaciest = allPharmaciest[_pharmaciest];
 
         newPharmaciest.pharmaciest = _pharmaciest;
         newPharmaciest.name = _name;
         newPharmaciest.pharmaciestId = _pharmaciestId;
-        newPharmaciest.isAdded = true;
         allPharmaciestAddress.push(_pharmaciest);
     }
 
-    function viewPharmaciest(
+    function isPharmaciestAdded(
         address _pharmaciest
-    ) public view returns (address, string memory, uint256, bool) {
-        require(
-            _pharmaciest == msg.sender ||
-                Patient.accressList(_pharmaciest, msg.sender) == true,
-            "user alredy have accress in your data"
-        );
-        Pharmaciest storage newPharmaciest = allPharmaciest[_pharmaciest];
-
-        return (
-            newPharmaciest.pharmaciest,
-            newPharmaciest.name,
-            newPharmaciest.pharmaciestId,
-            newPharmaciest.isAdded
-        );
+    ) public view returns (bool) {
+        return allPharmaciest[_pharmaciest].pharmaciest == msg.sender;
     }
 
     function addFoodIndusty(
@@ -217,34 +136,21 @@ contract Helth {
         uint256 _foodIndustyId
     ) public {
         require(
-            allFoodIndusty[_foodIndusty].isAdded == false,
-            "you already added yourself"
+            !isFoodIndustyAdded(_foodIndusty),
+            "Food Industry already added"
         );
         FoodIndusty storage newFoodIndusty = allFoodIndusty[_foodIndusty];
 
         newFoodIndusty.foodIndusty = _foodIndusty;
         newFoodIndusty.name = _name;
         newFoodIndusty.foodIndustyId = _foodIndustyId;
-        newFoodIndusty.isAdded = true;
         allFoodIndustyAddress.push(_foodIndusty);
     }
 
-    function viewFoodIndusty(
+    function isFoodIndustyAdded(
         address _foodIndusty
-    ) public view returns (address, string memory, uint256, bool) {
-        require(
-            _foodIndusty == msg.sender ||
-                Patient.accressList(_foodIndusty, msg.sender) == true,
-            "user alredy have accress in your data"
-        );
-        FoodIndusty storage newFoodIndusty = allFoodIndusty[_foodIndusty];
-
-        return (
-            newFoodIndusty.foodIndusty,
-            newFoodIndusty.name,
-            newFoodIndusty.foodIndustyId,
-            newFoodIndusty.isAdded
-        );
+    ) public view returns (bool) {
+        return allFoodIndusty[_foodIndusty].foodIndusty == msg.sender;
     }
 
     function addHospital(
@@ -252,73 +158,17 @@ contract Helth {
         string memory _name,
         uint256 _hospitalId
     ) public {
-        require(
-            allHospital[_hospital].isAdded == false,
-            "you already create your profile"
-        );
+        require(!isHospitalAdded(_hospital), "Hospital already added");
         Hospital storage newHospital = allHospital[_hospital];
 
         newHospital.hospital = _hospital;
         newHospital.name = _name;
         newHospital.hospitalId = _hospitalId;
-
-        newHospital.isAdded = true;
         allHospitalAddress.push(_hospital);
     }
 
-    function viewHospital(
-        address _hospital
-    ) public view returns (address, string memory, uint256, bool) {
-        require(
-            _hospital == msg.sender ||
-                Patient.accressList(_hospital, msg.sender) == true,
-            "user alredy have accress in your data"
-        );
-        Hospital storage newHospital = allHospital[_hospital];
-
-        return (
-            newHospital.hospital,
-            newHospital.name,
-            newHospital.hospitalId,
-            newHospital.isAdded
-        );
-    }
-
-    function addDataAnalyst(
-        address _dataAnalyst,
-        string memory _name,
-        uint256 _dataAnalystId
-    ) public {
-        require(
-            allDataAnalyst[_dataAnalyst].isAdded == false,
-            "you already added yourself"
-        );
-        DataAnalyst storage newDataAnalyst = allDataAnalyst[_dataAnalyst];
-
-        newDataAnalyst.dataAnalyst = _dataAnalyst;
-        newDataAnalyst.name = _name;
-        newDataAnalyst.dataAnalystId = _dataAnalystId;
-
-        newDataAnalyst.isAdded = true;
-        allDataAnalystAddress.push(_dataAnalyst);
-    }
-
-    function viewDataAnalyst(
-        address _dataAnalyst
-    ) public view returns (address, string memory, uint256, bool) {
-        require(
-            _dataAnalyst == msg.sender ||
-                Patient.accressList(_dataAnalyst, msg.sender) == true,
-            "user alredy have accress in your data"
-        );
-        DataAnalyst storage newDataAnalyst = allDataAnalyst[_dataAnalyst];
-
-        return (
-            newDataAnalyst.dataAnalyst,
-            newDataAnalyst.name,
-            newDataAnalyst.dataAnalystId,
-            newDataAnalyst.isAdded
-        );
+    function isHospitalAdded(address _hospital) public view returns (bool) {
+        return allHospital[_hospital].hospital == msg.sender;
     }
 
     function addPharmacy(
@@ -326,37 +176,122 @@ contract Helth {
         string memory _name,
         uint256 _pharmacyId
     ) public {
-        require(
-            allPharmacy[_pharmacy].isAdded == false,
-            "you already added yourself"
-        );
+        require(!isPharmacyAdded(_pharmacy), "Pharmacy already added");
         Pharmacy storage newPharmacy = allPharmacy[_pharmacy];
 
         newPharmacy.pharmacy = _pharmacy;
         newPharmacy.name = _name;
         newPharmacy.pharmacyId = _pharmacyId;
-
-        newPharmacy.isAdded = true;
         allPharmacyAddress.push(_pharmacy);
     }
 
-    function viewPharmacy(
-        address _pharmacy
-    ) public view returns (address, string memory, uint256, bool) {
-        require(
-            _pharmacy == msg.sender ||
-                Patient.accressList(_pharmacy, msg.sender) == true,
-            "user alredy have accress in your data"
-        );
-        Pharmacy storage newPharmacy = allPharmacy[_pharmacy];
-
-        return (
-            newPharmacy.pharmacy,
-            newPharmacy.name,
-            newPharmacy.pharmacyId,
-            newPharmacy.isAdded
-        );
+    function isPharmacyAdded(address _pharmacy) public view returns (bool) {
+        return allPharmacy[_pharmacy].pharmacy == msg.sender;
     }
 
-    // accress and revoke function
+    function addDataAnalyst(
+        address _dataAnalyst,
+        string memory _name,
+        uint256 _analystId
+    ) public {
+        require(
+            !isDataAnalystAdded(_dataAnalyst),
+            "Data Analyst already added"
+        );
+        DataAnalyst storage newDataAnalyst = allDataAnalyst[_dataAnalyst];
+
+        newDataAnalyst.dataAnalyst = _dataAnalyst;
+        newDataAnalyst.name = _name;
+        newDataAnalyst.analystId = _analystId;
+        allDataAnalystAddress.push(_dataAnalyst);
+    }
+
+    function isDataAnalystAdded(
+        address _dataAnalyst
+    ) public view returns (bool) {
+        return allDataAnalyst[_dataAnalyst].dataAnalyst == msg.sender;
+    }
+
+    function viewDoctorData(
+        address _doctor
+    ) public view returns (string memory, uint256) {
+        require(
+            _doctor == msg.sender || accessList[_doctor][msg.sender] == true,
+            "user don't have access in your data"
+        );
+        Doctor storage doctor = allDoctor[_doctor];
+        return (doctor.name, doctor.doctorId);
+    }
+
+    function viewPharmacyCompanyData(
+        address _pharmacyCompany
+    ) public view returns (string memory, uint256) {
+        require(
+            _pharmacyCompany == msg.sender ||
+                accessList[_pharmacyCompany][msg.sender] == true,
+            "user don't have access in your data"
+        );
+        PharmacyCompany storage company = allPharmacyCompany[_pharmacyCompany];
+        return (company.name, company.companyId);
+    }
+
+    function viewPharmaciestData(
+        address _pharmaciest
+    ) public view returns (string memory, uint256) {
+        require(
+            _pharmaciest == msg.sender ||
+                accessList[_pharmaciest][msg.sender] == true,
+            "user don't have access in your data"
+        );
+        Pharmaciest storage pharmaciest = allPharmaciest[_pharmaciest];
+        return (pharmaciest.name, pharmaciest.pharmaciestId);
+    }
+
+    function viewFoodIndustyData(
+        address _foodIndusty
+    ) public view returns (string memory, uint256) {
+        require(
+            _foodIndusty == msg.sender ||
+                accessList[_foodIndusty][msg.sender] == true,
+            "user don't have access in your data"
+        );
+        FoodIndusty storage foodIndusty = allFoodIndusty[_foodIndusty];
+        return (foodIndusty.name, foodIndusty.foodIndustyId);
+    }
+
+    function viewHospitalData(
+        address _hospital
+    ) public view returns (string memory, uint256) {
+        require(
+            _hospital == msg.sender ||
+                accessList[_hospital][msg.sender] == true,
+            "user don't have access in your data"
+        );
+        Hospital storage hospital = allHospital[_hospital];
+        return (hospital.name, hospital.hospitalId);
+    }
+
+    function viewPharmacyData(
+        address _pharmacy
+    ) public view returns (string memory, uint256) {
+        require(
+            _pharmacy == msg.sender ||
+                accessList[_pharmacy][msg.sender] == true,
+            "user don't have access in your data"
+        );
+        Pharmacy storage pharmacy = allPharmacy[_pharmacy];
+        return (pharmacy.name, pharmacy.pharmacyId);
+    }
+
+    function viewDataAnalystData(
+        address _dataAnalyst
+    ) public view returns (string memory, uint256) {
+        require(
+            _dataAnalyst == msg.sender ||
+                accessList[_dataAnalyst][msg.sender] == true,
+            "user don't have access in your data"
+        );
+        DataAnalyst storage dataAnalyst = allDataAnalyst[_dataAnalyst];
+        return (dataAnalyst.name, dataAnalyst.analystId);
+    }
 }
