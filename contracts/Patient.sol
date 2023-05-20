@@ -37,7 +37,7 @@ contract PatientData {
         bool dataAccess;
     }
 
-    mapping(address => Patient) public allPatient;
+    mapping(address => Patient) allPatient;
     mapping(address => PatientParient) public allPatientParient;
     mapping(address => Credential) public allCredential;
     mapping(address => mapping(address => bool)) public accessList;
@@ -55,7 +55,10 @@ contract PatientData {
         string memory _bloodGroup,
         uint256 _nid
     ) public {
-        require(!allPatient[_patient].isAdded, "You have already added yourself");
+        require(
+            !allPatient[_patient].isAdded,
+            "You have already added yourself"
+        );
         Patient storage newPatient = allPatient[_patient];
 
         newPatient.patient = _patient;
@@ -70,7 +73,9 @@ contract PatientData {
         allPatientAddress.push(_patient);
     }
 
-    function viewPatient(address _patient)
+    function viewPatient(
+        address _patient
+    )
         public
         view
         returns (
@@ -86,8 +91,7 @@ contract PatientData {
         )
     {
         require(
-            _patient == msg.sender ||
-                accessList[_patient][msg.sender] == true,
+            _patient == msg.sender || accessList[_patient][msg.sender] == true,
             "user don't have access in your data"
         );
         Patient memory patient = allPatient[_patient];
@@ -112,7 +116,10 @@ contract PatientData {
         string memory _credentialValue,
         string memory _dateIssued
     ) public {
-        require(!allCredential[_issuerAddress].isAdded, "You have already added your Credential");
+        require(
+            !allCredential[_issuerAddress].isAdded,
+            "You have already added your Credential"
+        );
         Credential storage newCredential = allCredential[_issuerAddress];
 
         newCredential.issuerAddress = _issuerAddress;
@@ -124,7 +131,9 @@ contract PatientData {
         allCredentialAddress.push(_issuerAddress);
     }
 
-    function viewCredential(address _issuerAddress)
+    function viewCredential(
+        address _issuerAddress
+    )
         public
         view
         returns (
@@ -165,5 +174,3 @@ contract PatientData {
         return accessList[msg.sender][_patientAddress];
     }
 }
-
-
