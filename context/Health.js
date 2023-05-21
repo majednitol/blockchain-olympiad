@@ -29,8 +29,9 @@ const HealthProvider = ({ children }) => {
 
         // connectWallet();
         fetchData()
-        // AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54, 33, 9999)
+        //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
         doctorAllData()
+        // patientAllData()
 
 
     }, [])
@@ -65,7 +66,7 @@ const HealthProvider = ({ children }) => {
     const doctorAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
-        const doctorData = await contractData[0].viewDoctor(connectedAccount)
+        const doctorData = await contractData[0].viewDoctorData(connectedAccount)
         setDoctorData(doctorData)
         console.log("doctorData", doctorData);
     }
@@ -138,7 +139,7 @@ const HealthProvider = ({ children }) => {
 
 
 
-    const AddDoctor = async (doctorAddress, Doctorname, age, doctorId, nid) => {   // works
+    const AddDoctor = async (doctorAddress, Doctorname, doctorId) => {   // works
         // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
 
         try {
@@ -150,7 +151,7 @@ const HealthProvider = ({ children }) => {
                 console.log('signer', signer);
                 const contract = new ethers.Contract(healthAddess, healthABI, signer)
 
-                const addNewDoctorData = await contract.addDoctor(doctorAddress, Doctorname, BigInt(age * 1), BigInt(doctorId * 1), BigInt(nid * 1))
+                const addNewDoctorData = await contract.addDoctor(doctorAddress, Doctorname, BigInt(doctorId * 1))
 
 
                 await addNewDoctorData.wait()

@@ -91,7 +91,7 @@ contract PatientData {
         )
     {
         require(
-            _patient == msg.sender || accessList[_patient][msg.sender] == true,
+            _patient == msg.sender || accessList[_patient][msg.sender],
             "user don't have access in your data"
         );
         Patient memory patient = allPatient[_patient];
@@ -147,7 +147,7 @@ contract PatientData {
     {
         require(
             _issuerAddress == msg.sender ||
-                accessList[_issuerAddress][msg.sender] == true,
+                accessList[_issuerAddress][msg.sender],
             "user don't have access in your data"
         );
         Credential memory credential = allCredential[_issuerAddress];

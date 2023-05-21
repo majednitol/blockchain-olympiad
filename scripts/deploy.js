@@ -2,12 +2,12 @@ const { ethers } = require("hardhat")
 
 async function main() {
     const [deployer] = await ethers.getSigners()
-    const PatientData = await ethers.getContractFactory("PatientData")
+
     const Helth = await ethers.getContractFactory("Helth")
 
-    const patient = await PatientData.deploy()
-    const helth = await Helth.deploy(patient.address)
-    console.log("patient.address :", patient.address);
+
+    const helth = await Helth.deploy()
+
     console.log("health.address :", helth.address);
 
 }

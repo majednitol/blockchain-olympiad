@@ -216,7 +216,7 @@ contract Helth is PatientData {
         address _doctor
     ) public view returns (string memory, uint256) {
         require(
-            _doctor == msg.sender || accessList[_doctor][msg.sender] == true,
+            _doctor == msg.sender || accessList[_doctor][msg.sender],
             "user don't have access in your data"
         );
         Doctor storage doctor = allDoctor[_doctor];
@@ -228,7 +228,7 @@ contract Helth is PatientData {
     ) public view returns (string memory, uint256) {
         require(
             _pharmacyCompany == msg.sender ||
-                accessList[_pharmacyCompany][msg.sender] == true,
+                accessList[_pharmacyCompany][msg.sender],
             "user don't have access in your data"
         );
         PharmacyCompany storage company = allPharmacyCompany[_pharmacyCompany];
@@ -239,8 +239,7 @@ contract Helth is PatientData {
         address _pharmaciest
     ) public view returns (string memory, uint256) {
         require(
-            _pharmaciest == msg.sender ||
-                accessList[_pharmaciest][msg.sender] == true,
+            _pharmaciest == msg.sender || accessList[_pharmaciest][msg.sender],
             "user don't have access in your data"
         );
         Pharmaciest storage pharmaciest = allPharmaciest[_pharmaciest];
@@ -251,8 +250,7 @@ contract Helth is PatientData {
         address _foodIndusty
     ) public view returns (string memory, uint256) {
         require(
-            _foodIndusty == msg.sender ||
-                accessList[_foodIndusty][msg.sender] == true,
+            _foodIndusty == msg.sender || accessList[_foodIndusty][msg.sender],
             "user don't have access in your data"
         );
         FoodIndusty storage foodIndusty = allFoodIndusty[_foodIndusty];
@@ -263,8 +261,7 @@ contract Helth is PatientData {
         address _hospital
     ) public view returns (string memory, uint256) {
         require(
-            _hospital == msg.sender ||
-                accessList[_hospital][msg.sender] == true,
+            _hospital == msg.sender || accessList[_hospital][msg.sender],
             "user don't have access in your data"
         );
         Hospital storage hospital = allHospital[_hospital];
@@ -275,8 +272,7 @@ contract Helth is PatientData {
         address _pharmacy
     ) public view returns (string memory, uint256) {
         require(
-            _pharmacy == msg.sender ||
-                accessList[_pharmacy][msg.sender] == true,
+            _pharmacy == msg.sender || accessList[_pharmacy][msg.sender],
             "user don't have access in your data"
         );
         Pharmacy storage pharmacy = allPharmacy[_pharmacy];
@@ -287,8 +283,7 @@ contract Helth is PatientData {
         address _dataAnalyst
     ) public view returns (string memory, uint256) {
         require(
-            _dataAnalyst == msg.sender ||
-                accessList[_dataAnalyst][msg.sender] == true,
+            _dataAnalyst == msg.sender || accessList[_dataAnalyst][msg.sender],
             "user don't have access in your data"
         );
         DataAnalyst storage dataAnalyst = allDataAnalyst[_dataAnalyst];
