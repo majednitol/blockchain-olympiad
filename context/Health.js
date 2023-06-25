@@ -40,7 +40,7 @@ const HealthProvider = ({ children }) => {
         try {
             const connectedAccount = await connectWallet()
             setAccount(connectedAccount)
-            console.log("kkkk", connectedAccount);
+            console.log("current account ", connectedAccount);
 
 
             const contractData = await connectWalletBycontractData(provider)

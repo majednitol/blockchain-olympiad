@@ -12,6 +12,7 @@ contract MedicalData {
         string location;
         string parentInformation;
         int256 parentNumber;
+        bool isAdded;
     }
 
     struct Doctor {
@@ -25,6 +26,7 @@ contract MedicalData {
         uint256 totalRating;
         string aboutDoctors;
         string chamberLocation;
+        bool isAdded;
     }
 
     struct Hospital {
@@ -35,6 +37,7 @@ contract MedicalData {
         string hospitalSpecialty;
         string serviceInformation;
         string patientRating;
+        bool isAdded;
     }
 
     struct Pathologist {
@@ -46,6 +49,7 @@ contract MedicalData {
         uint256 totalExperience;
         uint256 totalRating;
         string review;
+        bool isAdded;
     }
 
     struct MedicalResearchLab {
@@ -54,6 +58,7 @@ contract MedicalData {
         uint256 licenseID;
         string researchArea;
         string labRating;
+        bool isAdded;
     }
 
     struct PharmacyCompany {
@@ -62,6 +67,7 @@ contract MedicalData {
         uint256 licenseID;
         string productInformation;
         string pharmacyRating;
+        bool isAdded;
     }
 
     struct MedicalInsurance {
@@ -70,6 +76,7 @@ contract MedicalData {
         uint256 licenseID;
         string insuranceType;
         string companyReview;
+        bool isAdded;
     }
 
     struct Parent {
@@ -78,6 +85,7 @@ contract MedicalData {
         int256 parentIDNumber;
         uint256 phoneNumber;
         string NIDInfo;
+        bool isAdded;
     }
 
     struct DataScientist {
@@ -86,21 +94,23 @@ contract MedicalData {
         uint256 licenseNumber;
         string about;
         uint256 yearExperience;
+        bool isAdded;
     }
 
-    mapping(uint256 => Patient) private patients;
-    mapping(uint256 => Doctor) private doctors;
-    mapping(uint256 => Hospital) private hospitals;
-    mapping(uint256 => Pathologist) private pathologists;
-    mapping(uint256 => MedicalResearchLab) private medicalResearchLabs;
-    mapping(uint256 => PharmacyCompany) private pharmacyCompanies;
-    mapping(uint256 => MedicalInsurance) private medicalInsurances;
-    mapping(uint256 => Parent) private parents;
-    mapping(uint256 => DataScientist) private dataScientists;
+    mapping(address => Patient) private patients;
+    mapping(address => Doctor) private doctors;
+    mapping(address => Hospital) private hospitals;
+    mapping(address => Pathologist) private pathologists;
+    mapping(address => MedicalResearchLab) private medicalResearchLabs;
+    mapping(address => PharmacyCompany) private pharmacyCompanies;
+    mapping(address => MedicalInsurance) private medicalInsurances;
+    mapping(address => Parent) private parents;
+    mapping(address => DataScientist) private dataScientists;
+    mapping(address => mapping(address => bool)) accressList;
 
     // Setters and Getters for Patient struct
     function setPatient(
-        uint256 id,
+        address user,
         string memory patientID,
         string memory name,
         string memory gender,
@@ -108,9 +118,14 @@ contract MedicalData {
         string memory bloodGroup,
         string memory location,
         string memory parentInformation,
-        int256 parentNumber
-    ) external {
-        patients[id] = Patient(
+        int256 parentNumber,
+        bool isAdded
+    ) public {
+        require(
+            patients[user].isAdded == false,
+            "you already create your profile"
+        );
+        patients[user] = Patient(
             patientID,
             name,
             gender,
@@ -118,14 +133,15 @@ contract MedicalData {
             bloodGroup,
             location,
             parentInformation,
-            parentNumber
+            parentNumber,
+            isAdded = true
         );
     }
 
     function getPatient(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (
             string memory,
@@ -138,7 +154,7 @@ contract MedicalData {
             int256
         )
     {
-        Patient memory patient = patients[id];
+        Patient memory patient = patients[user];
         return (
             patient.patientID,
             patient.name,
@@ -153,7 +169,7 @@ contract MedicalData {
 
     // Setters and Getters for Doctor struct
     function setDoctor(
-        uint256 id,
+        address user,
         string memory doctorID,
         string memory name,
         string memory specialty,
@@ -163,9 +179,14 @@ contract MedicalData {
         uint256 joiningDate,
         uint256 totalRating,
         string memory aboutDoctors,
-        string memory chamberLocation
-    ) external {
-        doctors[id] = Doctor(
+        string memory chamberLocation,
+        bool isAdded
+    ) public {
+        require(
+            doctors[user].isAdded == false,
+            "you already create your profile"
+        );
+        doctors[user] = Doctor(
             doctorID,
             name,
             specialty,
@@ -175,14 +196,15 @@ contract MedicalData {
             joiningDate,
             totalRating,
             aboutDoctors,
-            chamberLocation
+            chamberLocation,
+            isAdded = true
         );
     }
 
     function getDoctor(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (
             string memory,
@@ -197,7 +219,7 @@ contract MedicalData {
             string memory
         )
     {
-        Doctor memory doctor = doctors[id];
+        Doctor memory doctor = doctors[user];
         return (
             doctor.doctorID,
             doctor.name,
@@ -214,30 +236,36 @@ contract MedicalData {
 
     // Setters and Getters for Hospital struct
     function setHospital(
-        uint256 id,
+        address user,
         string memory hospitalID,
         string memory name,
         string memory location,
         uint256 contactNumber,
         string memory hospitalSpecialty,
         string memory serviceInformation,
-        string memory patientRating
-    ) external {
-        hospitals[id] = Hospital(
+        string memory patientRating,
+        bool isAdded
+    ) public {
+        require(
+            hospitals[user].isAdded == false,
+            "you already create your profile"
+        );
+        hospitals[user] = Hospital(
             hospitalID,
             name,
             location,
             contactNumber,
             hospitalSpecialty,
             serviceInformation,
-            patientRating
+            patientRating,
+            isAdded = true
         );
     }
 
     function getHospital(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (
             string memory,
@@ -249,7 +277,11 @@ contract MedicalData {
             string memory
         )
     {
-        Hospital memory hospital = hospitals[id];
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        Hospital memory hospital = hospitals[user];
         return (
             hospital.hospitalID,
             hospital.name,
@@ -263,7 +295,7 @@ contract MedicalData {
 
     // Setters and Getters for Pathologist struct
     function setPathologist(
-        uint256 id,
+        address user,
         string memory pathologistID,
         string memory name,
         uint256 licenseNumber,
@@ -271,9 +303,14 @@ contract MedicalData {
         string memory serviceArea,
         uint256 totalExperience,
         uint256 totalRating,
-        string memory review
-    ) external {
-        pathologists[id] = Pathologist(
+        string memory review,
+        bool isAdded
+    ) public {
+        require(
+            pathologists[user].isAdded == false,
+            "you already create your profile"
+        );
+        pathologists[user] = Pathologist(
             pathologistID,
             name,
             licenseNumber,
@@ -281,14 +318,15 @@ contract MedicalData {
             serviceArea,
             totalExperience,
             totalRating,
-            review
+            review,
+            isAdded = true
         );
     }
 
     function getPathologist(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (
             string memory,
@@ -301,7 +339,11 @@ contract MedicalData {
             string memory
         )
     {
-        Pathologist memory pathologist = pathologists[id];
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        Pathologist memory pathologist = pathologists[user];
         return (
             pathologist.pathologistID,
             pathologist.name,
@@ -316,26 +358,32 @@ contract MedicalData {
 
     // Setters and Getters for MedicalResearchLab struct
     function setMedicalResearchLab(
-        uint256 id,
+        address user,
         string memory labID,
         string memory name,
         uint256 licenseID,
         string memory researchArea,
-        string memory labRating
-    ) external {
-        medicalResearchLabs[id] = MedicalResearchLab(
+        string memory labRating,
+        bool isAdded
+    ) public {
+        require(
+            medicalResearchLabs[user].isAdded == false,
+            "you already create your profile"
+        );
+        medicalResearchLabs[user] = MedicalResearchLab(
             labID,
             name,
             licenseID,
             researchArea,
-            labRating
+            labRating,
+            isAdded = true
         );
     }
 
     function getMedicalResearchLab(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (
             string memory,
@@ -345,7 +393,11 @@ contract MedicalData {
             string memory
         )
     {
-        MedicalResearchLab memory lab = medicalResearchLabs[id];
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        MedicalResearchLab memory lab = medicalResearchLabs[user];
         return (
             lab.labID,
             lab.name,
@@ -357,26 +409,32 @@ contract MedicalData {
 
     // Setters and Getters for PharmacyCompany struct
     function setPharmacyCompany(
-        uint256 id,
+        address user,
         string memory companyID,
         string memory name,
         uint256 licenseID,
         string memory productInformation,
-        string memory pharmacyRating
-    ) external {
-        pharmacyCompanies[id] = PharmacyCompany(
+        string memory pharmacyRating,
+        bool isAdded
+    ) public {
+        require(
+            pharmacyCompanies[user].isAdded == false,
+            "you already create your profile"
+        );
+        pharmacyCompanies[user] = PharmacyCompany(
             companyID,
             name,
             licenseID,
             productInformation,
-            pharmacyRating
+            pharmacyRating,
+            isAdded = true
         );
     }
 
     function getPharmacyCompany(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (
             string memory,
@@ -386,7 +444,11 @@ contract MedicalData {
             string memory
         )
     {
-        PharmacyCompany memory company = pharmacyCompanies[id];
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        PharmacyCompany memory company = pharmacyCompanies[user];
         return (
             company.companyID,
             company.name,
@@ -398,26 +460,32 @@ contract MedicalData {
 
     // Setters and Getters for MedicalInsurance struct
     function setMedicalInsurance(
-        uint256 id,
+        address user,
         string memory insuranceID,
         string memory name,
         uint256 licenseID,
         string memory insuranceType,
-        string memory companyReview
-    ) external {
-        medicalInsurances[id] = MedicalInsurance(
+        string memory companyReview,
+        bool isAdded
+    ) public {
+        require(
+            medicalInsurances[user].isAdded == false,
+            "you already create your profile"
+        );
+        medicalInsurances[user] = MedicalInsurance(
             insuranceID,
             name,
             licenseID,
             insuranceType,
-            companyReview
+            companyReview,
+            isAdded = true
         );
     }
 
     function getMedicalInsurance(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (
             string memory,
@@ -427,7 +495,11 @@ contract MedicalData {
             string memory
         )
     {
-        MedicalInsurance memory insurance = medicalInsurances[id];
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        MedicalInsurance memory insurance = medicalInsurances[user];
         return (
             insurance.insuranceID,
             insurance.name,
@@ -439,30 +511,36 @@ contract MedicalData {
 
     // Setters and Getters for Parent struct
     function setParent(
-        uint256 id,
+        address user,
         string memory parentID,
         string memory name,
         int256 parentIDNumber,
         uint256 phoneNumber,
-        string memory NIDInfo
-    ) external {
-        parents[id] = Parent(
+        string memory NIDInfo,
+        bool isAdded
+    ) public {
+        parents[user] = Parent(
             parentID,
             name,
             parentIDNumber,
             phoneNumber,
-            NIDInfo
+            NIDInfo,
+            isAdded = true
         );
     }
 
     function getParent(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (string memory, string memory, int256, uint256, string memory)
     {
-        Parent memory parent = parents[id];
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        Parent memory parent = parents[user];
         return (
             parent.parentID,
             parent.name,
@@ -474,36 +552,58 @@ contract MedicalData {
 
     // Setters and Getters for DataScientist struct
     function setDataScientist(
-        uint256 id,
+        address user,
         string memory scientistID,
         string memory name,
         uint256 licenseNumber,
         string memory about,
-        uint256 yearExperience
-    ) external {
-        dataScientists[id] = DataScientist(
+        uint256 yearExperience,
+        bool isAdded
+    ) public {
+        dataScientists[user] = DataScientist(
             scientistID,
             name,
             licenseNumber,
             about,
-            yearExperience
+            yearExperience,
+            isAdded = true
         );
     }
 
     function getDataScientist(
-        uint256 id
+        address user
     )
-        external
+        public
         view
         returns (string memory, string memory, uint256, string memory, uint256)
     {
-        DataScientist memory scientist = dataScientists[id];
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        DataScientist memory scientist = dataScientists[user];
         return (
             scientist.scientistID,
             scientist.name,
             scientist.licenseNumber,
             scientist.about,
             scientist.yearExperience
+        );
+    }
+
+    function accressDataAnyone(address user) public {
+        require(msg.sender != user, "you can't accress yourself ");
+        require(
+            accressList[msg.sender][user] = true,
+            "user alredy have accress in your data"
+        );
+    }
+
+    function revokeDataAnyone(address user) public {
+        require(msg.sender != user, "you can't revoke yourself ");
+        require(
+            accressList[msg.sender][user] = false,
+            "user alredy revoked from  data accress"
         );
     }
 }

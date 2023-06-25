@@ -2,7 +2,7 @@
 pragma solidity >=0.4.22 <0.9.0;
 import "./Patient.sol";
 
-contract Helth is PatientData {
+contract Helth is MedicalData {
     address public ownerOfContract;
 
     constructor() {
