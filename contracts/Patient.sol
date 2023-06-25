@@ -107,6 +107,15 @@ contract MedicalData {
     mapping(address => Parent) private parents;
     mapping(address => DataScientist) private dataScientists;
     mapping(address => mapping(address => bool)) accressList;
+    address[] public allPatientsAddress;
+    address[] public allDoctorAddress;
+    address[] public allPharmacyCompanyAddress;
+    address[] public allpathologistsAddress;
+    address[] public allmedicalResearchLabsAddress;
+    address[] public allHospitalAddress;
+    address[] public allparentsAddress;
+    address[] public allmedicalInsurancesAddress;
+    address[] public allDataScientistsAddress;
 
     // Setters and Getters for Patient struct
     function setPatient(
@@ -136,6 +145,7 @@ contract MedicalData {
             parentNumber,
             isAdded = true
         );
+        allPatientsAddress.push(user);
     }
 
     function getPatient(
@@ -199,6 +209,7 @@ contract MedicalData {
             chamberLocation,
             isAdded = true
         );
+        allDoctorAddress.push(user);
     }
 
     function getDoctor(
@@ -260,6 +271,7 @@ contract MedicalData {
             patientRating,
             isAdded = true
         );
+        allHospitalAddress.push(user);
     }
 
     function getHospital(
@@ -321,6 +333,7 @@ contract MedicalData {
             review,
             isAdded = true
         );
+        allpathologistsAddress.push(user);
     }
 
     function getPathologist(
@@ -378,6 +391,7 @@ contract MedicalData {
             labRating,
             isAdded = true
         );
+        allmedicalResearchLabsAddress.push(user);
     }
 
     function getMedicalResearchLab(
@@ -429,6 +443,7 @@ contract MedicalData {
             pharmacyRating,
             isAdded = true
         );
+        allparentsAddress.push(user);
     }
 
     function getPharmacyCompany(
@@ -480,6 +495,7 @@ contract MedicalData {
             companyReview,
             isAdded = true
         );
+        allmedicalInsurancesAddress.push(user);
     }
 
     function getMedicalInsurance(
@@ -527,6 +543,7 @@ contract MedicalData {
             NIDInfo,
             isAdded = true
         );
+        allparentsAddress.push(user);
     }
 
     function getParent(
@@ -568,6 +585,7 @@ contract MedicalData {
             yearExperience,
             isAdded = true
         );
+        allDataScientistsAddress.push(user);
     }
 
     function getDataScientist(
