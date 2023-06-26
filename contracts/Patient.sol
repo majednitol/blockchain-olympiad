@@ -10,9 +10,9 @@ contract MedicalData {
         uint256 age;
         string bloodGroup;
         string location;
-        string parentInformation;
-        int256 parentNumber;
+        Parent parent;
         bool isAdded;
+        string[] data;
     }
 
     struct Doctor {
@@ -126,25 +126,33 @@ contract MedicalData {
         uint256 age,
         string memory bloodGroup,
         string memory location,
-        string memory parentInformation,
-        int256 parentNumber,
-        bool isAdded
+        string memory parentID,
+        string memory parentName,
+        int256 parentIDNumber,
+        uint256 phoneNumber,
+        string memory NIDInfo
     ) public {
         require(
             patients[user].isAdded == false,
             "you already create your profile"
         );
-        patients[user] = Patient(
-            patientID,
-            name,
-            gender,
-            age,
-            bloodGroup,
-            location,
-            parentInformation,
-            parentNumber,
-            isAdded = true
-        );
+
+        Patient storage patient = patients[user];
+
+        patient.patientID = patientID;
+        patient.name = name;
+        patient.gender = gender;
+        patient.age = age;
+        patient.bloodGroup = bloodGroup;
+        patient.location = location;
+        patient.isAdded = true;
+        patient.parent.parentID = parentID;
+        patient.parent.name = parentName;
+        patient.parent.parentIDNumber = parentIDNumber;
+        patient.parent.phoneNumber = phoneNumber;
+        patient.parent.NIDInfo = NIDInfo;
+        patient.parent.isAdded = true;
+
         allPatientsAddress.push(user);
     }
 
@@ -161,10 +169,20 @@ contract MedicalData {
             string memory,
             string memory,
             string memory,
-            int256
+            string memory,
+            int256,
+            uint256,
+            string memory
         )
     {
         Patient memory patient = patients[user];
+
+        require(patient.isAdded, "Patient does not exist");
+        require(patient.parent.isAdded, "Parent does not exist");
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
         return (
             patient.patientID,
             patient.name,
@@ -172,8 +190,11 @@ contract MedicalData {
             patient.age,
             patient.bloodGroup,
             patient.location,
-            patient.parentInformation,
-            patient.parentNumber
+            patient.parent.parentID,
+            patient.parent.name,
+            patient.parent.parentIDNumber,
+            patient.parent.phoneNumber,
+            patient.parent.NIDInfo
         );
     }
 
@@ -189,26 +210,25 @@ contract MedicalData {
         uint256 joiningDate,
         uint256 totalRating,
         string memory aboutDoctors,
-        string memory chamberLocation,
-        bool isAdded
+        string memory chamberLocation
     ) public {
         require(
             doctors[user].isAdded == false,
             "you already create your profile"
         );
-        doctors[user] = Doctor(
-            doctorID,
-            name,
-            specialty,
-            consultationFee,
-            BMDCNumber,
-            yearOfExperience,
-            joiningDate,
-            totalRating,
-            aboutDoctors,
-            chamberLocation,
-            isAdded = true
-        );
+
+        Doctor memory doctor = doctors[user];
+        doctor.doctorID = doctorID;
+        doctor.name = name;
+        doctor.specialty = specialty;
+        doctor.consultationFee = consultationFee;
+        doctor.BMDCNumber = BMDCNumber;
+        doctor.yearOfExperience = yearOfExperience;
+        doctor.joiningDate = joiningDate;
+        doctor.totalRating = totalRating;
+        doctor.aboutDoctors = aboutDoctors;
+        doctor.chamberLocation = chamberLocation;
+        doctor.isAdded = true;
         allDoctorAddress.push(user);
     }
 
@@ -230,6 +250,11 @@ contract MedicalData {
             string memory
         )
     {
+        require(doctors[user].isAdded, "doctor does not exist");
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
         Doctor memory doctor = doctors[user];
         return (
             doctor.doctorID,
@@ -254,23 +279,23 @@ contract MedicalData {
         uint256 contactNumber,
         string memory hospitalSpecialty,
         string memory serviceInformation,
-        string memory patientRating,
-        bool isAdded
+        string memory patientRating
     ) public {
         require(
             hospitals[user].isAdded == false,
             "you already create your profile"
         );
-        hospitals[user] = Hospital(
-            hospitalID,
-            name,
-            location,
-            contactNumber,
-            hospitalSpecialty,
-            serviceInformation,
-            patientRating,
-            isAdded = true
-        );
+
+        Hospital memory hospital = hospitals[user];
+
+        hospital.hospitalID = hospitalID;
+        hospital.name = name;
+        hospital.location = location;
+        hospital.contactNumber = contactNumber;
+        hospital.hospitalSpecialty = hospitalSpecialty;
+        hospital.serviceInformation = serviceInformation;
+        hospital.patientRating = patientRating;
+        hospital.isAdded = true;
         allHospitalAddress.push(user);
     }
 
@@ -289,6 +314,7 @@ contract MedicalData {
             string memory
         )
     {
+        require(hospitals[user].isAdded, "hospital  does not exist");
         require(
             msg.sender == user || accressList[user][msg.sender] == true,
             "user don't have accress in your data"
@@ -315,24 +341,24 @@ contract MedicalData {
         string memory serviceArea,
         uint256 totalExperience,
         uint256 totalRating,
-        string memory review,
-        bool isAdded
+        string memory review
     ) public {
         require(
             pathologists[user].isAdded == false,
             "you already create your profile"
         );
-        pathologists[user] = Pathologist(
-            pathologistID,
-            name,
-            licenseNumber,
-            specializationArea,
-            serviceArea,
-            totalExperience,
-            totalRating,
-            review,
-            isAdded = true
-        );
+
+        Pathologist memory pathologist = pathologists[user];
+
+        pathologist.pathologistID = pathologistID;
+        pathologist.name = name;
+        pathologist.licenseNumber = licenseNumber;
+        pathologist.specializationArea = specializationArea;
+        pathologist.serviceArea = serviceArea;
+        pathologist.totalExperience = totalExperience;
+        pathologist.totalRating = totalRating;
+        pathologist.review = review;
+        pathologist.isAdded = true;
         allpathologistsAddress.push(user);
     }
 
@@ -352,6 +378,7 @@ contract MedicalData {
             string memory
         )
     {
+        require(pathologists[user].isAdded, "pathologists does not exist");
         require(
             msg.sender == user || accressList[user][msg.sender] == true,
             "user don't have accress in your data"
@@ -376,21 +403,21 @@ contract MedicalData {
         string memory name,
         uint256 licenseID,
         string memory researchArea,
-        string memory labRating,
-        bool isAdded
+        string memory labRating
     ) public {
         require(
             medicalResearchLabs[user].isAdded == false,
             "you already create your profile"
         );
-        medicalResearchLabs[user] = MedicalResearchLab(
-            labID,
-            name,
-            licenseID,
-            researchArea,
-            labRating,
-            isAdded = true
-        );
+
+        MedicalResearchLab memory lab = medicalResearchLabs[user];
+
+        lab.labID = labID;
+        lab.name = name;
+        lab.licenseID = licenseID;
+        lab.researchArea = researchArea;
+        lab.labRating = labRating;
+        lab.isAdded = true;
         allmedicalResearchLabsAddress.push(user);
     }
 
@@ -407,6 +434,10 @@ contract MedicalData {
             string memory
         )
     {
+        require(
+            medicalResearchLabs[user].isAdded,
+            "Medical Research lab does not exist"
+        );
         require(
             msg.sender == user || accressList[user][msg.sender] == true,
             "user don't have accress in your data"
@@ -428,21 +459,22 @@ contract MedicalData {
         string memory name,
         uint256 licenseID,
         string memory productInformation,
-        string memory pharmacyRating,
-        bool isAdded
+        string memory pharmacyRating
     ) public {
         require(
             pharmacyCompanies[user].isAdded == false,
             "you already create your profile"
         );
-        pharmacyCompanies[user] = PharmacyCompany(
-            companyID,
-            name,
-            licenseID,
-            productInformation,
-            pharmacyRating,
-            isAdded = true
-        );
+
+        PharmacyCompany memory company = pharmacyCompanies[user];
+
+        company.companyID = companyID;
+        company.name = name;
+        company.licenseID = licenseID;
+        company.productInformation = productInformation;
+        company.pharmacyRating = pharmacyRating;
+        company.isAdded = true;
+
         allparentsAddress.push(user);
     }
 
@@ -459,6 +491,10 @@ contract MedicalData {
             string memory
         )
     {
+        require(
+            pharmacyCompanies[user].isAdded,
+            "Pharmacy Companies does not exist"
+        );
         require(
             msg.sender == user || accressList[user][msg.sender] == true,
             "user don't have accress in your data"
@@ -480,21 +516,22 @@ contract MedicalData {
         string memory name,
         uint256 licenseID,
         string memory insuranceType,
-        string memory companyReview,
-        bool isAdded
+        string memory companyReview
     ) public {
         require(
             medicalInsurances[user].isAdded == false,
             "you already create your profile"
         );
-        medicalInsurances[user] = MedicalInsurance(
-            insuranceID,
-            name,
-            licenseID,
-            insuranceType,
-            companyReview,
-            isAdded = true
-        );
+
+        MedicalInsurance memory insurance = medicalInsurances[user];
+
+        insurance.insuranceID = insuranceID;
+        insurance.name = name;
+        insurance.licenseID = licenseID;
+        insurance.insuranceType = insuranceType;
+        insurance.companyReview = companyReview;
+        insurance.isAdded = true;
+
         allmedicalInsurancesAddress.push(user);
     }
 
@@ -512,6 +549,10 @@ contract MedicalData {
         )
     {
         require(
+            medicalInsurances[user].isAdded,
+            "medicalInsurances does not exist"
+        );
+        require(
             msg.sender == user || accressList[user][msg.sender] == true,
             "user don't have accress in your data"
         );
@@ -526,46 +567,6 @@ contract MedicalData {
     }
 
     // Setters and Getters for Parent struct
-    function setParent(
-        address user,
-        string memory parentID,
-        string memory name,
-        int256 parentIDNumber,
-        uint256 phoneNumber,
-        string memory NIDInfo,
-        bool isAdded
-    ) public {
-        parents[user] = Parent(
-            parentID,
-            name,
-            parentIDNumber,
-            phoneNumber,
-            NIDInfo,
-            isAdded = true
-        );
-        allparentsAddress.push(user);
-    }
-
-    function getParent(
-        address user
-    )
-        public
-        view
-        returns (string memory, string memory, int256, uint256, string memory)
-    {
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        Parent memory parent = parents[user];
-        return (
-            parent.parentID,
-            parent.name,
-            parent.parentIDNumber,
-            parent.phoneNumber,
-            parent.NIDInfo
-        );
-    }
 
     // Setters and Getters for DataScientist struct
     function setDataScientist(
@@ -574,17 +575,21 @@ contract MedicalData {
         string memory name,
         uint256 licenseNumber,
         string memory about,
-        uint256 yearExperience,
-        bool isAdded
+        uint256 yearExperience
     ) public {
-        dataScientists[user] = DataScientist(
-            scientistID,
-            name,
-            licenseNumber,
-            about,
-            yearExperience,
-            isAdded = true
+        require(
+            dataScientists[user].isAdded == false,
+            "you already create your profile"
         );
+
+        DataScientist memory scientist = dataScientists[user];
+
+        scientist.scientistID = scientistID;
+        scientist.name = name;
+        scientist.licenseNumber = licenseNumber;
+        scientist.about = about;
+        scientist.yearExperience = yearExperience;
+        scientist.isAdded = true;
         allDataScientistsAddress.push(user);
     }
 
@@ -595,6 +600,7 @@ contract MedicalData {
         view
         returns (string memory, string memory, uint256, string memory, uint256)
     {
+        require(dataScientists[user].isAdded, "dataScientists does not exist");
         require(
             msg.sender == user || accressList[user][msg.sender] == true,
             "user don't have accress in your data"
@@ -623,5 +629,10 @@ contract MedicalData {
             accressList[msg.sender][user] = false,
             "user alredy revoked from  data accress"
         );
+    }
+
+    // Add data to patient's data array
+    function addPatientData(address user, string memory data) external {
+        patients[user].data.push(data);
     }
 }
