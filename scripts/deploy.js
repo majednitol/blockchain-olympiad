@@ -3,7 +3,7 @@ const { ethers } = require("hardhat")
 async function main() {
     const [deployer] = await ethers.getSigners()
 
-    const Helth = await ethers.getContractFactory("Helth")
+    const Helth = await ethers.getContractFactory("MedicalData")
 
 
     const helth = await Helth.deploy()

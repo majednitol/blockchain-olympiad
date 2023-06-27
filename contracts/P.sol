@@ -114,7 +114,7 @@ contract MedicalData {
     mapping(address => MedicalInsurance) private medicalInsurances;
     mapping(address => Parent) private parents;
     mapping(address => DataScientist) private dataScientists;
-    mapping(address => mapping(address => bool)) accressList;
+    mapping(address => mapping(address => bool)) public accressList;
     address[] public allPatientsAddress;
     address[] public allDoctorAddress;
     address[] public allPharmacyCompanyAddress;
@@ -164,46 +164,99 @@ contract MedicalData {
         allPatientsAddress.push(user);
     }
 
-    function getPatient(
-        address user
-    )
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            string memory,
-            uint256,
-            string memory,
-            string memory,
-            string memory,
-            string memory,
-            int256,
-            uint256,
-            string memory
-        )
-    {
-        Patient memory patient = patients[user];
-
-        require(patient.isAdded, "Patient does not exist");
-        require(patient.parent.isAdded, "Parent does not exist");
+    modifier onlyPatient(address user) {
+        require(patients[user].isAdded, "Patient does not exist");
+        require(patients[user].parent.isAdded, "Parent does not exist");
         require(
             msg.sender == user || accressList[user][msg.sender] == true,
             "user don't have accress in your data"
         );
-        return (
-            patient.patientID,
-            patient.name,
-            patient.gender,
-            patient.age,
-            patient.bloodGroup,
-            patient.location,
-            patient.parent.parentID,
-            patient.parent.name,
-            patient.parent.parentIDNumber,
-            patient.parent.phoneNumber,
-            patient.parent.NIDInfo
+        _;
+    }
+
+    modifier onlyDoctor(address user) {
+        require(doctors[user].isAdded, "Doctor does not exist");
+
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
         );
+        _;
+    }
+
+    modifier onlyHospital(address user) {
+        require(hospitals[user].isAdded, "hospital  does not exist");
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        _;
+    }
+
+    modifier onlyPathologist(address user) {
+        require(pathologists[user].isAdded, "pathologists does not exist");
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        _;
+    }
+
+    modifier onlyMedicalResearchLab(address user) {
+        require(
+            medicalResearchLabs[user].isAdded,
+            "Medical Research lab does not exist"
+        );
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        _;
+    }
+
+    modifier onlyPharmacyCompany(address user) {
+        require(
+            pharmacyCompanies[user].isAdded,
+            "Pharmacy Companies does not exist"
+        );
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        _;
+    }
+
+    modifier onlyMedicalInsurance(address user) {
+        require(
+            medicalInsurances[user].isAdded,
+            "medicalInsurances does not exist"
+        );
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        _;
+    }
+
+    modifier onlyDataScientist(address user) {
+        require(dataScientists[user].isAdded, "dataScientists does not exist");
+        require(
+            msg.sender == user || accressList[user][msg.sender] == true,
+            "user don't have accress in your data"
+        );
+        _;
+    }
+
+    function getDoctorh(
+        address _doctorAddress
+    ) public view onlyDoctor(_doctorAddress) returns (Doctor memory) {
+        return doctors[_doctorAddress];
+    }
+
+    function getPatient(
+        address _patientAddress
+    ) public view onlyPatient(_patientAddress) returns (Patient memory) {
+        return patients[_patientAddress];
     }
 
     // Setters and Getters for Doctor struct
@@ -240,44 +293,6 @@ contract MedicalData {
         allDoctorAddress.push(user);
     }
 
-    function getDoctor(
-        address user
-    )
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            string memory,
-            uint256,
-            uint256,
-            string memory,
-            uint256,
-            uint256,
-            string memory,
-            string memory
-        )
-    {
-        require(doctors[user].isAdded, "doctor does not exist");
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        Doctor memory doctor = doctors[user];
-        return (
-            doctor.doctorID,
-            doctor.name,
-            doctor.specialty,
-            doctor.consultationFee,
-            doctor.BMDCNumber,
-            doctor.yearOfExperience,
-            doctor.joiningDate,
-            doctor.totalRating,
-            doctor.aboutDoctors,
-            doctor.chamberLocation
-        );
-    }
-
     // Setters and Getters for Hospital struct
     function setHospital(
         address user,
@@ -305,38 +320,6 @@ contract MedicalData {
         hospital.patientRating = patientRating;
         hospital.isAdded = true;
         allHospitalAddress.push(user);
-    }
-
-    function getHospital(
-        address user
-    )
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            string memory,
-            uint256,
-            string memory,
-            string memory,
-            string memory
-        )
-    {
-        require(hospitals[user].isAdded, "hospital  does not exist");
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        Hospital memory hospital = hospitals[user];
-        return (
-            hospital.hospitalID,
-            hospital.name,
-            hospital.location,
-            hospital.contactNumber,
-            hospital.hospitalSpecialty,
-            hospital.serviceInformation,
-            hospital.patientRating
-        );
     }
 
     // Setters and Getters for Pathologist struct
@@ -370,40 +353,6 @@ contract MedicalData {
         allpathologistsAddress.push(user);
     }
 
-    function getPathologist(
-        address user
-    )
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            uint256,
-            string memory,
-            string memory,
-            uint256,
-            uint256,
-            string memory
-        )
-    {
-        require(pathologists[user].isAdded, "pathologists does not exist");
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        Pathologist memory pathologist = pathologists[user];
-        return (
-            pathologist.pathologistID,
-            pathologist.name,
-            pathologist.licenseNumber,
-            pathologist.specializationArea,
-            pathologist.serviceArea,
-            pathologist.totalExperience,
-            pathologist.totalRating,
-            pathologist.review
-        );
-    }
-
     // Setters and Getters for MedicalResearchLab struct
     function setMedicalResearchLab(
         address user,
@@ -427,37 +376,6 @@ contract MedicalData {
         lab.labRating = labRating;
         lab.isAdded = true;
         allmedicalResearchLabsAddress.push(user);
-    }
-
-    function getMedicalResearchLab(
-        address user
-    )
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            uint256,
-            string memory,
-            string memory
-        )
-    {
-        require(
-            medicalResearchLabs[user].isAdded,
-            "Medical Research lab does not exist"
-        );
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        MedicalResearchLab memory lab = medicalResearchLabs[user];
-        return (
-            lab.labID,
-            lab.name,
-            lab.licenseID,
-            lab.researchArea,
-            lab.labRating
-        );
     }
 
     // Setters and Getters for PharmacyCompany struct
@@ -484,94 +402,6 @@ contract MedicalData {
         company.isAdded = true;
 
         allparentsAddress.push(user);
-    }
-
-    function getPharmacyCompany(
-        address user
-    )
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            uint256,
-            string memory,
-            string memory
-        )
-    {
-        require(
-            pharmacyCompanies[user].isAdded,
-            "Pharmacy Companies does not exist"
-        );
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        PharmacyCompany memory company = pharmacyCompanies[user];
-        return (
-            company.companyID,
-            company.name,
-            company.licenseID,
-            company.productInformation,
-            company.pharmacyRating
-        );
-    }
-
-    // Setters and Getters for MedicalInsurance struct
-    function setMedicalInsurance(
-        address user,
-        string memory insuranceID,
-        string memory name,
-        uint256 licenseID,
-        string memory insuranceType,
-        string memory companyReview
-    ) public {
-        require(
-            medicalInsurances[user].isAdded == false,
-            "you already create your profile"
-        );
-
-        MedicalInsurance memory insurance = medicalInsurances[user];
-
-        insurance.insuranceID = insuranceID;
-        insurance.name = name;
-        insurance.licenseID = licenseID;
-        insurance.insuranceType = insuranceType;
-        insurance.companyReview = companyReview;
-        insurance.isAdded = true;
-
-        allmedicalInsurancesAddress.push(user);
-    }
-
-    function getMedicalInsurance(
-        address user
-    )
-        public
-        view
-        returns (
-            string memory,
-            string memory,
-            uint256,
-            string memory,
-            string memory
-        )
-    {
-        require(
-            medicalInsurances[user].isAdded,
-            "medicalInsurances does not exist"
-        );
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        MedicalInsurance memory insurance = medicalInsurances[user];
-        return (
-            insurance.insuranceID,
-            insurance.name,
-            insurance.licenseID,
-            insurance.insuranceType,
-            insurance.companyReview
-        );
     }
 
     // Setters and Getters for Parent struct
@@ -601,28 +431,6 @@ contract MedicalData {
         allDataScientistsAddress.push(user);
     }
 
-    function getDataScientist(
-        address user
-    )
-        public
-        view
-        returns (string memory, string memory, uint256, string memory, uint256)
-    {
-        require(dataScientists[user].isAdded, "dataScientists does not exist");
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        DataScientist memory scientist = dataScientists[user];
-        return (
-            scientist.scientistID,
-            scientist.name,
-            scientist.licenseNumber,
-            scientist.about,
-            scientist.yearExperience
-        );
-    }
-
     function accressDataAnyone(address user) public {
         require(msg.sender != user, "you can't accress yourself ");
         require(
@@ -640,11 +448,11 @@ contract MedicalData {
     }
 
     // Add data to patient's data array
-    function addPatientData(address user, string memory data) external {
+    function addPatientData(address user, string memory data) public {
         patients[user].data.push(data);
     }
 
-    function transferDataToDoctor(address user1, address user2) external {
+    function transferDataToDoctor(address user1, address user2) public {
         require(patients[user1].isAdded, "Patient does not exist");
         require(doctors[user2].BMDCNumber != 0, "Doctor does not exist");
 
@@ -652,5 +460,55 @@ contract MedicalData {
         for (uint256 i = 0; i < patientData.length; i++) {
             doctors[user2].data.push(patientData[i]);
         }
+    }
+
+    function getHospital(
+        address _hospitalAddress
+    ) public view onlyHospital(_hospitalAddress) returns (Hospital memory) {
+        return hospitals[_hospitalAddress];
+    }
+
+    function getPathologist(
+        address _pathologistAddress
+    )
+        public
+        view
+        onlyPathologist(_pathologistAddress)
+        returns (Pathologist memory)
+    {
+        return pathologists[_pathologistAddress];
+    }
+
+    function getMedicalResearchLab(
+        address _labAddress
+    )
+        public
+        view
+        onlyMedicalResearchLab(_labAddress)
+        returns (MedicalResearchLab memory)
+    {
+        return medicalResearchLabs[_labAddress];
+    }
+
+    function getMedicalInsurance(
+        address _insuranceAddress
+    )
+        public
+        view
+        onlyMedicalInsurance(_insuranceAddress)
+        returns (MedicalInsurance memory)
+    {
+        return medicalInsurances[_insuranceAddress];
+    }
+
+    function getDataScientist(
+        address _scientistAddress
+    )
+        public
+        view
+        onlyDataScientist(_scientistAddress)
+        returns (DataScientist memory)
+    {
+        return dataScientists[_scientistAddress];
     }
 }
