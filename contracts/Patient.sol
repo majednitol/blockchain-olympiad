@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 
 contract MedicalData {
     struct Patient {
+        address patientAddress;
         string patientID;
         string name;
         string gender;
@@ -20,6 +21,7 @@ contract MedicalData {
     }
 
     struct Doctor {
+        address DoctorAddress;
         string doctorID;
         string name;
         string specialty;
@@ -35,6 +37,7 @@ contract MedicalData {
     }
 
     struct Hospital {
+        address hospitalAddress;
         string hospitalID;
         string name;
         string location;
@@ -47,6 +50,7 @@ contract MedicalData {
     }
 
     struct Pathologist {
+        address pathologistAddress;
         string pathologistID;
         string name;
         uint256 licenseNumber;
@@ -60,6 +64,7 @@ contract MedicalData {
     }
 
     struct MedicalResearchLab {
+        address labAddress;
         string labID;
         string name;
         uint256 licenseID;
@@ -70,6 +75,7 @@ contract MedicalData {
     }
 
     struct PharmacyCompany {
+        address pharmacyCompanyAddress;
         string companyID;
         string name;
         uint256 licenseID;
@@ -80,6 +86,7 @@ contract MedicalData {
     }
 
     struct MedicalInsurance {
+        address medicalInsuranceAddress;
         string insuranceID;
         string name;
         uint256 licenseID;
@@ -90,6 +97,7 @@ contract MedicalData {
     }
 
     struct DataScientist {
+        address dataSciencetistAddress;
         string scientistID;
         string name;
         uint256 licenseNumber;
@@ -240,17 +248,17 @@ contract MedicalData {
         _;
     }
 
-    function getDoctorh(
+    function getDoctor(
         address _doctorAddress
     ) public view onlyDoctor(_doctorAddress) returns (Doctor memory) {
         return doctors[_doctorAddress];
     }
 
-    // function getPatient(
-    //     address _patientAddress
-    // ) public view onlyPatient(_patientAddress) returns (Patient memory) {
-    //     return patients[_patientAddress];
-    // }
+    function getPatient(
+        address _patientAddress
+    ) public view onlyPatient(_patientAddress) returns (Patient memory) {
+        return patients[_patientAddress];
+    }
 
     // Setters and Getters for Doctor struct
     function setDoctor(
@@ -271,7 +279,7 @@ contract MedicalData {
             "you already create your profile"
         );
 
-        Doctor memory doctor = doctors[user];
+        Doctor storage doctor = doctors[user];
         doctor.doctorID = doctorID;
         doctor.name = name;
         doctor.specialty = specialty;
@@ -302,7 +310,7 @@ contract MedicalData {
             "you already create your profile"
         );
 
-        Hospital memory hospital = hospitals[user];
+        Hospital storage hospital = hospitals[user];
 
         hospital.hospitalID = hospitalID;
         hospital.name = name;
@@ -332,7 +340,7 @@ contract MedicalData {
             "you already create your profile"
         );
 
-        Pathologist memory pathologist = pathologists[user];
+        Pathologist storage pathologist = pathologists[user];
 
         pathologist.pathologistID = pathologistID;
         pathologist.name = name;
@@ -360,7 +368,7 @@ contract MedicalData {
             "you already create your profile"
         );
 
-        MedicalResearchLab memory lab = medicalResearchLabs[user];
+        MedicalResearchLab storage lab = medicalResearchLabs[user];
 
         lab.labID = labID;
         lab.name = name;
@@ -385,7 +393,7 @@ contract MedicalData {
             "you already create your profile"
         );
 
-        PharmacyCompany memory company = pharmacyCompanies[user];
+        PharmacyCompany storage company = pharmacyCompanies[user];
 
         company.companyID = companyID;
         company.name = name;
@@ -413,7 +421,7 @@ contract MedicalData {
             "you already create your profile"
         );
 
-        DataScientist memory scientist = dataScientists[user];
+        DataScientist storage scientist = dataScientists[user];
 
         scientist.scientistID = scientistID;
         scientist.name = name;
