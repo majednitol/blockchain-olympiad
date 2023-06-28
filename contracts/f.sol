@@ -250,8 +250,7 @@ contract MedicalData {
         uint256 _joiningDate,
         uint256 _totalRating,
         string memory _aboutDoctors,
-        string memory _chamberLocation,
-        string[] memory _data
+        string memory _chamberLocation
     ) external {
         require(!doctors[msg.sender].isAdded, "Doctor already exists");
 
@@ -314,8 +313,7 @@ contract MedicalData {
         uint256 _contactNumber,
         string memory _hospitalSpecialty,
         string memory _serviceInformation,
-        string memory _patientRating,
-        string[] memory _data
+        string memory _patientRating
     ) external {
         require(!hospitals[msg.sender].isAdded, "Hospital already exists");
 
@@ -370,8 +368,7 @@ contract MedicalData {
         string memory _serviceArea,
         uint256 _totalExperience,
         uint256 _totalRating,
-        string memory _review,
-        string[] memory _data
+        string memory _review
     ) external {
         require(
             !pathologists[msg.sender].isAdded,
