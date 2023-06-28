@@ -103,7 +103,22 @@ contract MedicalData {
         bool isAdded;
         string[] data;
     }
+    enum UserType {
+        Doctor,
+        Hospital,
+        Pathologist,
+        MedicalResearchLab,
+        PharmacyCompany,
+        MedicalInsurance,
+        DataScientist
+    }
+    struct Entity {
+        UserType userType;
+        string[] data;
+    }
+    mapping(address => Entity) public entities;
 
+    mapping(address => UserType) public userType;
     mapping(address => Patient) private patients;
     mapping(address => Doctor) private doctors;
     mapping(address => Hospital) private hospitals;
@@ -176,7 +191,7 @@ contract MedicalData {
             phoneNumber: 0,
             NIDInfo: "",
             isAdded: false,
-            data: _data
+            data: new string[](0)
         });
 
         patients[msg.sender] = Patient({
@@ -188,7 +203,7 @@ contract MedicalData {
             location: _location,
             parent: parent,
             isAdded: true,
-            data: _data
+            data: new string[](0)
         });
     }
 
@@ -252,7 +267,7 @@ contract MedicalData {
             aboutDoctors: _aboutDoctors,
             chamberLocation: _chamberLocation,
             isAdded: true,
-            data: _data
+            data: new string[](0)
         });
     }
 
@@ -313,7 +328,7 @@ contract MedicalData {
             serviceInformation: _serviceInformation,
             patientRating: _patientRating,
             isAdded: true,
-            data: _data
+            data: new string[](0)
         });
     }
 
@@ -373,7 +388,7 @@ contract MedicalData {
             totalRating: _totalRating,
             review: _review,
             isAdded: true,
-            data: _data
+            data: new string[](0)
         });
     }
 
@@ -595,6 +610,180 @@ contract MedicalData {
             scientist.yearExperience,
             scientist.data
         );
+    }
+
+    // ...
+    // ...
+
+    modifier onlyAuthorizedUser() {
+        require(
+            userType[msg.sender] == UserType.Doctor ||
+                userType[msg.sender] == UserType.Hospital ||
+                userType[msg.sender] == UserType.Pathologist ||
+                userType[msg.sender] == UserType.MedicalResearchLab ||
+                userType[msg.sender] == UserType.PharmacyCompany ||
+                userType[msg.sender] == UserType.MedicalInsurance ||
+                userType[msg.sender] == UserType.DataScientist,
+            "Unauthorized user"
+        );
+        _;
+    }
+
+    function transferData(
+        address _recipient,
+        uint256 _dataIndex
+    ) external onlyAuthorizedUser {
+        require(_recipient != address(0), "Invalid recipient address");
+
+        UserType senderUserType = userType[msg.sender];
+        UserType recipientUserType = userType[_recipient];
+
+        require(
+            senderUserType != recipientUserType,
+            "Invalid recipient user type"
+        );
+
+        if (senderUserType == UserType.Doctor) {
+            require(
+                doctors[msg.sender].isAdded,
+                "Sender Doctor does not exist"
+            );
+            require(
+                doctors[_recipient].isAdded,
+                "Recipient Doctor does not exist"
+            );
+            require(
+                _dataIndex < doctors[msg.sender].data.length,
+                "Invalid data index"
+            );
+
+            doctors[_recipient].data.push(doctors[msg.sender].data[_dataIndex]);
+        } else if (senderUserType == UserType.Hospital) {
+            require(
+                hospitals[msg.sender].isAdded,
+                "Sender Hospital does not exist"
+            );
+            require(
+                hospitals[_recipient].isAdded,
+                "Recipient Hospital does not exist"
+            );
+            require(
+                _dataIndex < hospitals[msg.sender].data.length,
+                "Invalid data index"
+            );
+
+            hospitals[_recipient].data.push(
+                hospitals[msg.sender].data[_dataIndex]
+            );
+        } else if (senderUserType == UserType.Pathologist) {
+            require(
+                pathologists[msg.sender].isAdded,
+                "Sender Pathologist does not exist"
+            );
+            require(
+                pathologists[_recipient].isAdded,
+                "Recipient Pathologist does not exist"
+            );
+            require(
+                _dataIndex < pathologists[msg.sender].data.length,
+                "Invalid data index"
+            );
+
+            pathologists[_recipient].data.push(
+                pathologists[msg.sender].data[_dataIndex]
+            );
+        } else if (senderUserType == UserType.MedicalResearchLab) {
+            require(
+                medicalResearchLabs[msg.sender].isAdded,
+                "Sender Medical Research Lab does not exist"
+            );
+            require(
+                medicalResearchLabs[_recipient].isAdded,
+                "Recipient Medical Research Lab does not exist"
+            );
+            require(
+                _dataIndex < medicalResearchLabs[msg.sender].data.length,
+                "Invalid data index"
+            );
+
+            medicalResearchLabs[_recipient].data.push(
+                medicalResearchLabs[msg.sender].data[_dataIndex]
+            );
+        } else if (senderUserType == UserType.PharmacyCompany) {
+            require(
+                pharmacyCompanies[msg.sender].isAdded,
+                "Sender Pharmacy Company does not exist"
+            );
+            require(
+                pharmacyCompanies[_recipient].isAdded,
+                "Recipient Pharmacy Company does not exist"
+            );
+            require(
+                _dataIndex < pharmacyCompanies[msg.sender].data.length,
+                "Invalid data index"
+            );
+
+            pharmacyCompanies[_recipient].data.push(
+                pharmacyCompanies[msg.sender].data[_dataIndex]
+            );
+        } else if (senderUserType == UserType.MedicalInsurance) {
+            require(
+                medicalInsurances[msg.sender].isAdded,
+                "Sender Medical Insurance does not exist"
+            );
+            require(
+                medicalInsurances[_recipient].isAdded,
+                "Recipient Medical Insurance does not exist"
+            );
+            require(
+                _dataIndex < medicalInsurances[msg.sender].data.length,
+                "Invalid data index"
+            );
+
+            medicalInsurances[_recipient].data.push(
+                medicalInsurances[msg.sender].data[_dataIndex]
+            );
+        } else if (senderUserType == UserType.DataScientist) {
+            require(
+                dataScientists[msg.sender].isAdded,
+                "Sender Data Scientist does not exist"
+            );
+            require(
+                dataScientists[_recipient].isAdded,
+                "Recipient Data Scientist does not exist"
+            );
+            require(
+                _dataIndex < dataScientists[msg.sender].data.length,
+                "Invalid data index"
+            );
+
+            dataScientists[_recipient].data.push(
+                dataScientists[msg.sender].data[_dataIndex]
+            );
+        }
+    }
+
+    // ...
+    function grantAccess(address _user) external onlyAuthorizedUser {
+        require(_user != address(0), "Invalid user address");
+        userType[_user] = UserType.DataScientist;
+    }
+
+    function revokeAccess(address _user) external onlyAuthorizedUser {
+        require(
+            userType[_user] == UserType.DataScientist,
+            "User is not a Data Scientist"
+        );
+        userType[_user] = UserType.Doctor;
+    }
+
+    // Data addition function
+    // ...
+
+    // Data addition function
+    function addData(string memory _data) external onlyAuthorizedUser {
+        require(bytes(_data).length > 0, "Data cannot be empty");
+        entities[msg.sender].data.push(_data);
     }
 
     // ...
