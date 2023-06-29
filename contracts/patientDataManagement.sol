@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
+pragma experimental ABIEncoderV2;
 
 contract MedicalData {
     struct Patient {
@@ -11,9 +12,6 @@ contract MedicalData {
         uint256 age;
         string bloodGroup;
         string location;
-        string parentName;
-        int256 parentIDNumber;
-        uint256 phoneNumber;
         string NIDInfo;
         bool isAdded;
         string[] data;
@@ -31,19 +29,6 @@ contract MedicalData {
         uint256 totalRating;
         string aboutDoctors;
         string chamberLocation;
-        bool isAdded;
-        string[] data;
-    }
-
-    struct Hospital {
-        address hospitalAddress;
-        string hospitalID;
-        string name;
-        string location;
-        uint256 contactNumber;
-        string hospitalSpecialty;
-        string serviceInformation;
-        string patientRating;
         bool isAdded;
         string[] data;
     }
@@ -84,37 +69,13 @@ contract MedicalData {
         string[] data;
     }
 
-    struct MedicalInsurance {
-        address medicalInsuranceAddress;
-        string insuranceID;
-        string name;
-        uint256 licenseID;
-        string insuranceType;
-        string companyReview;
-        bool isAdded;
-        string[] data;
-    }
-
-    struct DataScientist {
-        address dataSciencetistAddress;
-        string scientistID;
-        string name;
-        uint256 licenseNumber;
-        string about;
-        uint256 yearExperience;
-        bool isAdded;
-        string[] data;
-    }
-
     mapping(address => Patient) private patients;
     mapping(address => Doctor) private doctors;
-    mapping(address => Hospital) private hospitals;
+
     mapping(address => Pathologist) private pathologists;
     mapping(address => MedicalResearchLab) private medicalResearchLabs;
     mapping(address => PharmacyCompany) private pharmacyCompanies;
-    mapping(address => MedicalInsurance) private medicalInsurances;
 
-    mapping(address => DataScientist) private dataScientists;
     mapping(address => mapping(address => bool)) public accressList;
     address[] public allPatientsAddress;
     address[] public allDoctorAddress;
@@ -123,8 +84,6 @@ contract MedicalData {
     address[] public allmedicalResearchLabsAddress;
     address[] public allHospitalAddress;
     address[] public allparentsAddress;
-    address[] public allmedicalInsurancesAddress;
-    address[] public allDataScientistsAddress;
 
     // Setters and Getters for Patient struct
     function setPatient(
@@ -134,9 +93,6 @@ contract MedicalData {
         uint256 age,
         string memory bloodGroup,
         string memory location,
-        string memory parentName,
-        int256 parentIDNumber,
-        uint256 phoneNumber,
         string memory NIDInfo
     ) public {
         address user = msg.sender;
@@ -155,9 +111,6 @@ contract MedicalData {
         patient.location = location;
         patient.isAdded = true;
 
-        patient.parentName = parentName;
-        patient.parentIDNumber = parentIDNumber;
-        patient.phoneNumber = phoneNumber;
         patient.NIDInfo = NIDInfo;
 
         allPatientsAddress.push(user);
@@ -176,15 +129,6 @@ contract MedicalData {
     modifier onlyDoctor(address user) {
         require(doctors[user].isAdded, "Doctor does not exist");
 
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        _;
-    }
-
-    modifier onlyHospital(address user) {
-        require(hospitals[user].isAdded, "hospital  does not exist");
         require(
             msg.sender == user || accressList[user][msg.sender] == true,
             "user don't have accress in your data"
@@ -225,42 +169,15 @@ contract MedicalData {
         _;
     }
 
-    modifier onlyMedicalInsurance(address user) {
-        require(
-            medicalInsurances[user].isAdded,
-            "medicalInsurances does not exist"
-        );
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        _;
-    }
-
-    modifier onlyDataScientist(address user) {
-        require(dataScientists[user].isAdded, "dataScientists does not exist");
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        _;
-    }
-
-    function getDoctor(address _doctorAddress)
-        public
-        view
-        onlyDoctor(_doctorAddress)
-        returns (Doctor memory)
-    {
+    function getDoctor(
+        address _doctorAddress
+    ) public view onlyDoctor(_doctorAddress) returns (Doctor memory) {
         return doctors[_doctorAddress];
     }
 
-    function getPatient(address _patientAddress)
-        public
-        view
-        onlyPatient(_patientAddress)
-        returns (Patient memory)
-    {
+    function getPatient(
+        address _patientAddress
+    ) public view onlyPatient(_patientAddress) returns (Patient memory) {
         return patients[_patientAddress];
     }
 
@@ -299,33 +216,6 @@ contract MedicalData {
     }
 
     // Setters and Getters for Hospital struct
-    function setHospital(
-        address user,
-        string memory hospitalID,
-        string memory name,
-        string memory location,
-        uint256 contactNumber,
-        string memory hospitalSpecialty,
-        string memory serviceInformation,
-        string memory patientRating
-    ) public {
-        require(
-            hospitals[user].isAdded == false,
-            "you already create your profile"
-        );
-
-        Hospital storage hospital = hospitals[user];
-
-        hospital.hospitalID = hospitalID;
-        hospital.name = name;
-        hospital.location = location;
-        hospital.contactNumber = contactNumber;
-        hospital.hospitalSpecialty = hospitalSpecialty;
-        hospital.serviceInformation = serviceInformation;
-        hospital.patientRating = patientRating;
-        hospital.isAdded = true;
-        allHospitalAddress.push(user);
-    }
 
     // Setters and Getters for Pathologist struct
     function setPathologist(
@@ -412,29 +302,6 @@ contract MedicalData {
     // Setters and Getters for Parent struct
 
     // Setters and Getters for DataScientist struct
-    function setDataScientist(
-        address user,
-        string memory scientistID,
-        string memory name,
-        uint256 licenseNumber,
-        string memory about,
-        uint256 yearExperience
-    ) public {
-        require(
-            dataScientists[user].isAdded == false,
-            "you already create your profile"
-        );
-
-        DataScientist storage scientist = dataScientists[user];
-
-        scientist.scientistID = scientistID;
-        scientist.name = name;
-        scientist.licenseNumber = licenseNumber;
-        scientist.about = about;
-        scientist.yearExperience = yearExperience;
-        scientist.isAdded = true;
-        allDataScientistsAddress.push(user);
-    }
 
     function accressDataAnyone(address user) public {
         require(msg.sender != user, "you can't accress yourself ");
@@ -458,8 +325,6 @@ contract MedicalData {
             patients[msg.sender].data.push(data);
         } else if (keccak256(bytes(entityType)) == keccak256("Doctor")) {
             doctors[msg.sender].data.push(data);
-        } else if (keccak256(bytes(entityType)) == keccak256("Hospital")) {
-            hospitals[msg.sender].data.push(data);
         } else if (keccak256(bytes(entityType)) == keccak256("Pathologist")) {
             pathologists[msg.sender].data.push(data);
         } else if (
@@ -470,12 +335,6 @@ contract MedicalData {
             keccak256(bytes(entityType)) == keccak256("PharmacyCompany")
         ) {
             pharmacyCompanies[msg.sender].data.push(data);
-        } else if (
-            keccak256(bytes(entityType)) == keccak256("MedicalInsurance")
-        ) {
-            medicalInsurances[msg.sender].data.push(data);
-        } else if (keccak256(bytes(entityType)) == keccak256("DataScientist")) {
-            dataScientists[msg.sender].data.push(data);
         } else {
             revert("Invalid entity type");
         }
@@ -505,18 +364,6 @@ contract MedicalData {
 
                 for (uint256 i = 0; i < patientData.length; i++) {
                     doctorData.push(patientData[i]);
-                }
-            } else if (keccak256(bytes(entityType2)) == keccak256("Hospital")) {
-                require(
-                    hospitals[user2].hospitalAddress != address(0),
-                    "Hospital does not exist"
-                );
-
-                string[] storage patientData = patients[user1].data;
-                string[] storage hospitalData = hospitals[user2].data;
-
-                for (uint256 i = 0; i < patientData.length; i++) {
-                    hospitalData.push(patientData[i]);
                 }
             } else if (
                 keccak256(bytes(entityType2)) == keccak256("Pathologist")
@@ -561,51 +408,15 @@ contract MedicalData {
                 for (uint256 i = 0; i < patientData.length; i++) {
                     companyData.push(patientData[i]);
                 }
-            } else if (
-                keccak256(bytes(entityType2)) == keccak256("MedicalInsurance")
-            ) {
-                require(
-                    medicalInsurances[user2].medicalInsuranceAddress !=
-                        address(0),
-                    "Medical Insurance does not exist"
-                );
-
-                string[] storage patientData = patients[user1].data;
-                string[] storage insuranceData = medicalInsurances[user2].data;
-
-                for (uint256 i = 0; i < patientData.length; i++) {
-                    insuranceData.push(patientData[i]);
-                }
-            } else if (
-                keccak256(bytes(entityType2)) == keccak256("DataScientist")
-            ) {
-                require(
-                    dataScientists[user2].dataSciencetistAddress != address(0),
-                    "Data Scientist does not exist"
-                );
-
-                string[] storage patientData = patients[user1].data;
-                string[] storage scientistData = dataScientists[user2].data;
-
-                for (uint256 i = 0; i < patientData.length; i++) {
-                    scientistData.push(patientData[i]);
-                }
             } else {
                 revert("Unsupported entity type");
             }
         }
     }
 
-    function getHospital(address _hospitalAddress)
-        public
-        view
-        onlyHospital(_hospitalAddress)
-        returns (Hospital memory)
-    {
-        return hospitals[_hospitalAddress];
-    }
-
-    function getPathologist(address _pathologistAddress)
+    function getPathologist(
+        address _pathologistAddress
+    )
         public
         view
         onlyPathologist(_pathologistAddress)
@@ -614,30 +425,14 @@ contract MedicalData {
         return pathologists[_pathologistAddress];
     }
 
-    function getMedicalResearchLab(address _labAddress)
+    function getMedicalResearchLab(
+        address _labAddress
+    )
         public
         view
         onlyMedicalResearchLab(_labAddress)
         returns (MedicalResearchLab memory)
     {
         return medicalResearchLabs[_labAddress];
-    }
-
-    function getMedicalInsurance(address _insuranceAddress)
-        public
-        view
-        onlyMedicalInsurance(_insuranceAddress)
-        returns (MedicalInsurance memory)
-    {
-        return medicalInsurances[_insuranceAddress];
-    }
-
-    function getDataScientist(address _scientistAddress)
-        public
-        view
-        onlyDataScientist(_scientistAddress)
-        returns (DataScientist memory)
-    {
-        return dataScientists[_scientistAddress];
     }
 }

@@ -26,12 +26,7 @@ export const connectWalletBycontractData = async (providerOrSigner) => {
   const contractHealth = new ethers.Contract(healthAddess, healthABI, providerOrSigner)
   const contractPatient = new ethers.Contract(patientAddress, patientABI, providerOrSigner)
   return [contractHealth, contractPatient]
-  // console.log("ssssss",signer);
 
-
-
-  // console.log(contract2);
-  // setProviders(provider)
 
 }
 
