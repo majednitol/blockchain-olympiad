@@ -11,7 +11,6 @@ contract MedicalData {
         uint256 age;
         string bloodGroup;
         string location;
-        string parentID;
         string parentName;
         int256 parentIDNumber;
         uint256 phoneNumber;
@@ -135,7 +134,6 @@ contract MedicalData {
         uint256 age,
         string memory bloodGroup,
         string memory location,
-        string memory parentID,
         string memory parentName,
         int256 parentIDNumber,
         uint256 phoneNumber,
@@ -156,7 +154,7 @@ contract MedicalData {
         patient.bloodGroup = bloodGroup;
         patient.location = location;
         patient.isAdded = true;
-        patient.parentID = parentID;
+
         patient.parentName = parentName;
         patient.parentIDNumber = parentIDNumber;
         patient.phoneNumber = phoneNumber;
@@ -248,15 +246,21 @@ contract MedicalData {
         _;
     }
 
-    function getDoctor(
-        address _doctorAddress
-    ) public view onlyDoctor(_doctorAddress) returns (Doctor memory) {
+    function getDoctor(address _doctorAddress)
+        public
+        view
+        onlyDoctor(_doctorAddress)
+        returns (Doctor memory)
+    {
         return doctors[_doctorAddress];
     }
 
-    function getPatient(
-        address _patientAddress
-    ) public view onlyPatient(_patientAddress) returns (Patient memory) {
+    function getPatient(address _patientAddress)
+        public
+        view
+        onlyPatient(_patientAddress)
+        returns (Patient memory)
+    {
         return patients[_patientAddress];
     }
 
@@ -449,29 +453,159 @@ contract MedicalData {
     }
 
     // Add data to patient's data array
-    function addPatientData(address user, string memory data) public {
-        patients[user].data.push(data);
-    }
-
-    function transferDataToDoctor(address user1, address user2) public {
-        require(patients[user1].isAdded, "Patient does not exist");
-        require(doctors[user2].BMDCNumber != 0, "Doctor does not exist");
-
-        string[] memory patientData = patients[user1].data;
-        for (uint256 i = 0; i < patientData.length; i++) {
-            doctors[user2].data.push(patientData[i]);
+    function addData(string memory entityType, string memory data) public {
+        if (keccak256(bytes(entityType)) == keccak256("Patient")) {
+            patients[msg.sender].data.push(data);
+        } else if (keccak256(bytes(entityType)) == keccak256("Doctor")) {
+            doctors[msg.sender].data.push(data);
+        } else if (keccak256(bytes(entityType)) == keccak256("Hospital")) {
+            hospitals[msg.sender].data.push(data);
+        } else if (keccak256(bytes(entityType)) == keccak256("Pathologist")) {
+            pathologists[msg.sender].data.push(data);
+        } else if (
+            keccak256(bytes(entityType)) == keccak256("MedicalResearchLab")
+        ) {
+            medicalResearchLabs[msg.sender].data.push(data);
+        } else if (
+            keccak256(bytes(entityType)) == keccak256("PharmacyCompany")
+        ) {
+            pharmacyCompanies[msg.sender].data.push(data);
+        } else if (
+            keccak256(bytes(entityType)) == keccak256("MedicalInsurance")
+        ) {
+            medicalInsurances[msg.sender].data.push(data);
+        } else if (keccak256(bytes(entityType)) == keccak256("DataScientist")) {
+            dataScientists[msg.sender].data.push(data);
+        } else {
+            revert("Invalid entity type");
         }
     }
 
-    function getHospital(
-        address _hospitalAddress
-    ) public view onlyHospital(_hospitalAddress) returns (Hospital memory) {
+    function transferData(
+        string memory entityType1,
+        string memory entityType2,
+        address user1,
+        address user2
+    ) public {
+        if (keccak256(bytes(entityType1)) == keccak256("Patient")) {
+            require(patients[user1].isAdded, "Patient does not exist");
+            require(
+                patients[user1].data.length > 0,
+                "No data available to transfer"
+            );
+
+            if (keccak256(bytes(entityType2)) == keccak256("Doctor")) {
+                require(
+                    doctors[user2].BMDCNumber != 0,
+                    "Doctor does not exist"
+                );
+
+                string[] storage patientData = patients[user1].data;
+                string[] storage doctorData = doctors[user2].data;
+
+                for (uint256 i = 0; i < patientData.length; i++) {
+                    doctorData.push(patientData[i]);
+                }
+            } else if (keccak256(bytes(entityType2)) == keccak256("Hospital")) {
+                require(
+                    hospitals[user2].hospitalAddress != address(0),
+                    "Hospital does not exist"
+                );
+
+                string[] storage patientData = patients[user1].data;
+                string[] storage hospitalData = hospitals[user2].data;
+
+                for (uint256 i = 0; i < patientData.length; i++) {
+                    hospitalData.push(patientData[i]);
+                }
+            } else if (
+                keccak256(bytes(entityType2)) == keccak256("Pathologist")
+            ) {
+                require(
+                    pathologists[user2].pathologistAddress != address(0),
+                    "Pathologist does not exist"
+                );
+
+                string[] storage patientData = patients[user1].data;
+                string[] storage pathologistData = pathologists[user2].data;
+
+                for (uint256 i = 0; i < patientData.length; i++) {
+                    pathologistData.push(patientData[i]);
+                }
+            } else if (
+                keccak256(bytes(entityType2)) == keccak256("MedicalResearchLab")
+            ) {
+                require(
+                    medicalResearchLabs[user2].labAddress != address(0),
+                    "Medical Research Lab does not exist"
+                );
+
+                string[] storage patientData = patients[user1].data;
+                string[] storage labData = medicalResearchLabs[user2].data;
+
+                for (uint256 i = 0; i < patientData.length; i++) {
+                    labData.push(patientData[i]);
+                }
+            } else if (
+                keccak256(bytes(entityType2)) == keccak256("PharmacyCompany")
+            ) {
+                require(
+                    pharmacyCompanies[user2].pharmacyCompanyAddress !=
+                        address(0),
+                    "Pharmacy Company does not exist"
+                );
+
+                string[] storage patientData = patients[user1].data;
+                string[] storage companyData = pharmacyCompanies[user2].data;
+
+                for (uint256 i = 0; i < patientData.length; i++) {
+                    companyData.push(patientData[i]);
+                }
+            } else if (
+                keccak256(bytes(entityType2)) == keccak256("MedicalInsurance")
+            ) {
+                require(
+                    medicalInsurances[user2].medicalInsuranceAddress !=
+                        address(0),
+                    "Medical Insurance does not exist"
+                );
+
+                string[] storage patientData = patients[user1].data;
+                string[] storage insuranceData = medicalInsurances[user2].data;
+
+                for (uint256 i = 0; i < patientData.length; i++) {
+                    insuranceData.push(patientData[i]);
+                }
+            } else if (
+                keccak256(bytes(entityType2)) == keccak256("DataScientist")
+            ) {
+                require(
+                    dataScientists[user2].dataSciencetistAddress != address(0),
+                    "Data Scientist does not exist"
+                );
+
+                string[] storage patientData = patients[user1].data;
+                string[] storage scientistData = dataScientists[user2].data;
+
+                for (uint256 i = 0; i < patientData.length; i++) {
+                    scientistData.push(patientData[i]);
+                }
+            } else {
+                revert("Unsupported entity type");
+            }
+        }
+    }
+
+    function getHospital(address _hospitalAddress)
+        public
+        view
+        onlyHospital(_hospitalAddress)
+        returns (Hospital memory)
+    {
         return hospitals[_hospitalAddress];
     }
 
-    function getPathologist(
-        address _pathologistAddress
-    )
+    function getPathologist(address _pathologistAddress)
         public
         view
         onlyPathologist(_pathologistAddress)
@@ -480,9 +614,7 @@ contract MedicalData {
         return pathologists[_pathologistAddress];
     }
 
-    function getMedicalResearchLab(
-        address _labAddress
-    )
+    function getMedicalResearchLab(address _labAddress)
         public
         view
         onlyMedicalResearchLab(_labAddress)
@@ -491,9 +623,7 @@ contract MedicalData {
         return medicalResearchLabs[_labAddress];
     }
 
-    function getMedicalInsurance(
-        address _insuranceAddress
-    )
+    function getMedicalInsurance(address _insuranceAddress)
         public
         view
         onlyMedicalInsurance(_insuranceAddress)
@@ -502,9 +632,7 @@ contract MedicalData {
         return medicalInsurances[_insuranceAddress];
     }
 
-    function getDataScientist(
-        address _scientistAddress
-    )
+    function getDataScientist(address _scientistAddress)
         public
         view
         onlyDataScientist(_scientistAddress)
