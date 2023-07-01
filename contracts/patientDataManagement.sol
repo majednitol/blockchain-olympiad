@@ -12,6 +12,7 @@ contract MedicalData {
         uint256 age;
         string location;
         bool isAdded;
+        PatientPersonalData patientPersonalData;
     }
 
     struct PatientPersonalData {
@@ -41,8 +42,6 @@ contract MedicalData {
         uint256 BMDCNumber;
         string yearOfExperience;
         address[] allPatientsAddressSharedToDoctor;
-        string aboutDoctors;
-        string chamberLocation;
         bool isAdded;
     }
     mapping(address => PatientPersonalData) public patientData;
@@ -56,8 +55,6 @@ contract MedicalData {
         string specializationArea;
         string serviceArea;
         uint256 totalExperience;
-        uint256 totalRating;
-        string review;
         bool isAdded;
         address[] allPatientsAddressSharedTopathologist;
     }
@@ -84,14 +81,23 @@ contract MedicalData {
         address[] allPatientAddressSharedToPharmacyCompany;
     }
 
-    mapping(address => Patient) private patients;
-    mapping(address => Doctor) private doctors;
+    struct Access {
+        address user;
+        bool access;
+    }
+    mapping(address => string[]) value;
+    mapping(address => mapping(address => bool)) ownership;
+    mapping(address => Access[]) accessList;
+    mapping(address => mapping(address => bool)) previousData;
 
-    mapping(address => Pathologist) private pathologists;
-    mapping(address => MedicalResearchLab) private medicalResearchLabs;
-    mapping(address => PharmacyCompany) private pharmacyCompanies;
+    mapping(address => Patient) patients;
+    mapping(address => Doctor) doctors;
 
-    mapping(address => mapping(address => bool)) public accressList;
+    mapping(address => Pathologist) pathologists;
+    mapping(address => MedicalResearchLab) medicalResearchLabs;
+    mapping(address => PharmacyCompany) pharmacyCompanies;
+
+    string[] public TopMedichine;
 
     // Setters and Getters for Patient struct
     function setPatient(
@@ -119,72 +125,73 @@ contract MedicalData {
         patient.isAdded = true;
     }
 
-    modifier onlyPatient(address user) {
-        require(patients[user].isAdded, "Patient does not exist");
-
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        _;
-    }
-
-    modifier onlyDoctor(address user) {
-        require(doctors[user].isAdded, "Doctor does not exist");
-
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        _;
-    }
-
     function addLabReport(string memory report) external {
         MedicalResearchLabReports.push(report);
     }
 
-    modifier onlyPathologist(address user) {
-        require(pathologists[user].isAdded, "pathologists does not exist");
+    modifier onlyUser(address user) {
         require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
+            user == msg.sender || ownership[user][msg.sender],
+            "you don't have accress"
         );
         _;
     }
 
-    modifier onlyMedicalResearchLab(address user) {
-        require(
-            medicalResearchLabs[user].isAdded,
-            "Medical Research lab does not exist"
-        );
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        _;
+    function addImageURL(address _user, string memory url) external {
+        value[_user].push(url);
     }
 
-    modifier onlyPharmacyCompany(address user) {
-        require(
-            pharmacyCompanies[user].isAdded,
-            "Pharmacy Companies does not exist"
-        );
-        require(
-            msg.sender == user || accressList[user][msg.sender] == true,
-            "user don't have accress in your data"
-        );
-        _;
+    function allow(address user) external {
+        ownership[msg.sender][user] = true;
+
+        if (previousData[msg.sender][user]) {
+            for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
+                if (accessList[msg.sender][i].user == user) {
+                    accessList[msg.sender].push(Access(user, true));
+                }
+            }
+        } else {
+            accessList[msg.sender].push(Access(user, true));
+            previousData[msg.sender][user] = true;
+        }
+    }
+
+    function disallow(address user) public {
+        ownership[msg.sender][user] = false;
+        for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
+            if (accessList[msg.sender][i].user == user) {
+                accessList[msg.sender][i].access = false;
+            }
+        }
+    }
+
+    function displayImage(
+        address user
+    ) public view onlyUser(user) returns (string[] memory) {
+        return value[user];
     }
 
     function getDoctor(
         address _doctorAddress
-    ) public view onlyDoctor(_doctorAddress) returns (Doctor memory) {
+    ) public view returns (Doctor memory) {
+        require(doctors[_doctorAddress].isAdded, "Doctor does not exist");
+        require(
+            _doctorAddress == msg.sender ||
+                ownership[_doctorAddress][msg.sender],
+            "you don't have accress"
+        );
         return doctors[_doctorAddress];
     }
 
     function getPatient(
         address _patientAddress
-    ) public view onlyPatient(_patientAddress) returns (Patient memory) {
+    ) public view returns (Patient memory) {
+        require(patients[_patientAddress].isAdded, "Patient does not exist");
+        require(
+            _patientAddress == msg.sender ||
+                ownership[_patientAddress][msg.sender],
+            "you don't have accress"
+        );
         return patients[_patientAddress];
     }
 
@@ -195,9 +202,7 @@ contract MedicalData {
         string memory specialty,
         uint256 consultationFee,
         uint256 BMDCNumber,
-        string memory yearOfExperience,
-        string memory aboutDoctors,
-        string memory chamberLocation
+        string memory yearOfExperience
     ) public {
         address user = msg.sender;
         require(
@@ -215,8 +220,6 @@ contract MedicalData {
         doctor.BMDCNumber = BMDCNumber;
         doctor.yearOfExperience = yearOfExperience;
 
-        doctor.aboutDoctors = aboutDoctors;
-        doctor.chamberLocation = chamberLocation;
         doctor.isAdded = true;
     }
 
@@ -229,9 +232,7 @@ contract MedicalData {
         uint256 licenseNumber,
         string memory specializationArea,
         string memory serviceArea,
-        uint256 totalExperience,
-        uint256 totalRating,
-        string memory review
+        uint256 totalExperience
     ) public {
         address user = msg.sender;
         require(
@@ -248,8 +249,7 @@ contract MedicalData {
         pathologist.specializationArea = specializationArea;
         pathologist.serviceArea = serviceArea;
         pathologist.totalExperience = totalExperience;
-        pathologist.totalRating = totalRating;
-        pathologist.review = review;
+
         pathologist.isAdded = true;
     }
 
@@ -302,48 +302,6 @@ contract MedicalData {
         company.pharmacyRating = pharmacyRating;
         company.isAdded = true;
     }
-
-    // Setters and Getters for Parent struct
-
-    // Setters and Getters for DataScientist struct
-
-    function accressDataAnyone(address user) public {
-        require(msg.sender != user, "you can't accress yourself ");
-        require(
-            accressList[msg.sender][user] = true,
-            "user alredy have accress in your data"
-        );
-    }
-
-    function revokeDataAnyone(address user) public {
-        require(msg.sender != user, "you can't revoke yourself ");
-        require(
-            accressList[msg.sender][user] = false,
-            "user alredy revoked from  data accress"
-        );
-    }
-
-    // Add data to patient's data array
-    // function addData(string memory entityType, string memory data) public {
-    //     if (keccak256(bytes(entityType)) == keccak256("Patient")) {
-    //         patients[msg.sender].data.push(data);
-    //     } else if (keccak256(bytes(entityType)) == keccak256("Doctor")) {
-    //         doctors[msg.sender].data.push(data);
-    //     }  else if (keccak256(bytes(entityType)) == keccak256("Pathologist")) {
-    //         pathologists[msg.sender].data.push(data);
-    //     } else if (
-    //         keccak256(bytes(entityType)) == keccak256("MedicalResearchLab")
-    //     ) {
-    //         medicalResearchLabs[msg.sender].data.push(data);
-    //     } else if (
-    //         keccak256(bytes(entityType)) == keccak256("PharmacyCompany")
-    //     ) {
-    //         pharmacyCompanies[msg.sender].data.push(data);
-    //     }  else {
-    //         revert("Invalid entity type");
-    //     }
-    // }
-    string[] public TopMedichine;
 
     function transferData(
         string memory entityType1,
@@ -407,12 +365,12 @@ contract MedicalData {
 
     function getPathologist(
         address _pathologistAddress
-    )
-        public
-        view
-        onlyPathologist(_pathologistAddress)
-        returns (Pathologist memory)
-    {
+    ) public view onlyUser(_pathologistAddress) returns (Pathologist memory) {
+        require(
+            pathologists[_pathologistAddress].isAdded,
+            "pathologists does not exist"
+        );
+
         return pathologists[_pathologistAddress];
     }
 
@@ -421,20 +379,25 @@ contract MedicalData {
     )
         public
         view
-        onlyPathologist(_pharmacyCompanyAddress)
+        onlyUser(_pharmacyCompanyAddress)
         returns (PharmacyCompany memory)
     {
+        require(
+            pharmacyCompanies[_pharmacyCompanyAddress].isAdded,
+            "Pharmacy Companies does not exist"
+        );
+
         return pharmacyCompanies[_pharmacyCompanyAddress];
     }
 
     function getMedicalResearchLab(
         address _labAddress
-    )
-        public
-        view
-        onlyMedicalResearchLab(_labAddress)
-        returns (MedicalResearchLab memory)
-    {
+    ) public view onlyUser(_labAddress) returns (MedicalResearchLab memory) {
+        require(
+            medicalResearchLabs[_labAddress].isAdded,
+            "Medical Research lab does not exist"
+        );
+
         return medicalResearchLabs[_labAddress];
     }
 
@@ -459,17 +422,6 @@ contract MedicalData {
             healthAllergies,
             birthDefects
         );
-    }
-
-    function getPatientPersonalData(
-        address _patientAddress
-    )
-        public
-        view
-        onlyPatient(_patientAddress)
-        returns (PatientPersonalData memory)
-    {
-        return patientData[_patientAddress];
     }
 
     function addTopMedichine(string memory medichine) public {
