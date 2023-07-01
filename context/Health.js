@@ -106,9 +106,6 @@ const HealthProvider = ({ children }) => {
 
 
 
-
-
-
     const AddDoctor = async (doctorID,
         name,
         specialty,

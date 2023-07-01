@@ -129,45 +129,35 @@ contract MedicalData {
         MedicalResearchLabReports.push(report);
     }
 
-    modifier onlyUser(address user) {
-        require(
-            user == msg.sender || ownership[user][msg.sender],
-            "you don't have accress"
-        );
-        _;
-    }
-
     function addImageURL(address _user, string memory url) external {
         value[_user].push(url);
     }
 
-    function allow(address user) external {
-        ownership[msg.sender][user] = true;
+    // function allow(address user) external {
+    //     ownership[msg.sender][user] = true;
 
-        if (previousData[msg.sender][user]) {
-            for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
-                if (accessList[msg.sender][i].user == user) {
-                    accessList[msg.sender].push(Access(user, true));
-                }
-            }
-        } else {
-            accessList[msg.sender].push(Access(user, true));
-            previousData[msg.sender][user] = true;
-        }
-    }
+    //     if (previousData[msg.sender][user]) {
+    //         for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
+    //             if (accessList[msg.sender][i].user == user) {
+    //                 accessList[msg.sender].push(Access(user, true));
+    //             }
+    //         }
+    //     } else {
+    //         accessList[msg.sender].push(Access(user, true));
+    //         previousData[msg.sender][user] = true;
+    //     }
+    // }
 
-    function disallow(address user) public {
-        ownership[msg.sender][user] = false;
-        for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
-            if (accessList[msg.sender][i].user == user) {
-                accessList[msg.sender][i].access = false;
-            }
-        }
-    }
+    // function disallow(address user) public {
+    //     ownership[msg.sender][user] = false;
+    //     for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
+    //         if (accessList[msg.sender][i].user == user) {
+    //             accessList[msg.sender][i].access = false;
+    //         }
+    //     }
+    // }
 
-    function displayImage(
-        address user
-    ) public view onlyUser(user) returns (string[] memory) {
+    function displayImage(address user) public view returns (string[] memory) {
         return value[user];
     }
 
@@ -175,11 +165,11 @@ contract MedicalData {
         address _doctorAddress
     ) public view returns (Doctor memory) {
         require(doctors[_doctorAddress].isAdded, "Doctor does not exist");
-        require(
-            _doctorAddress == msg.sender ||
-                ownership[_doctorAddress][msg.sender],
-            "you don't have accress"
-        );
+        // require(
+        //     _doctorAddress == msg.sender ||
+        //         ownership[_doctorAddress][msg.sender],
+        //     "you don't have accress"
+        // );
         return doctors[_doctorAddress];
     }
 
@@ -187,11 +177,11 @@ contract MedicalData {
         address _patientAddress
     ) public view returns (Patient memory) {
         require(patients[_patientAddress].isAdded, "Patient does not exist");
-        require(
-            _patientAddress == msg.sender ||
-                ownership[_patientAddress][msg.sender],
-            "you don't have accress"
-        );
+        // require(
+        //     _patientAddress == msg.sender ||
+        //         ownership[_patientAddress][msg.sender],
+        //     "you don't have accress"
+        // );
         return patients[_patientAddress];
     }
 
@@ -365,7 +355,7 @@ contract MedicalData {
 
     function getPathologist(
         address _pathologistAddress
-    ) public view onlyUser(_pathologistAddress) returns (Pathologist memory) {
+    ) public view returns (Pathologist memory) {
         require(
             pathologists[_pathologistAddress].isAdded,
             "pathologists does not exist"
@@ -376,12 +366,7 @@ contract MedicalData {
 
     function getPharmacyCompany(
         address _pharmacyCompanyAddress
-    )
-        public
-        view
-        onlyUser(_pharmacyCompanyAddress)
-        returns (PharmacyCompany memory)
-    {
+    ) public view returns (PharmacyCompany memory) {
         require(
             pharmacyCompanies[_pharmacyCompanyAddress].isAdded,
             "Pharmacy Companies does not exist"
@@ -392,7 +377,7 @@ contract MedicalData {
 
     function getMedicalResearchLab(
         address _labAddress
-    ) public view onlyUser(_labAddress) returns (MedicalResearchLab memory) {
+    ) public view returns (MedicalResearchLab memory) {
         require(
             medicalResearchLabs[_labAddress].isAdded,
             "Medical Research lab does not exist"
