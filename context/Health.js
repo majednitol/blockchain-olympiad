@@ -36,7 +36,7 @@ const HealthProvider = ({ children }) => {
         // getPathologistAllData()
         // PharmacyCompanyAllData()
 
-        // AddNewPatient("2", "majed", "male", 30, "b", "dhaka", "bd")
+        // AddNewPatient("2", "majed", "male", 30, "dhaka")
     }, [])
 
     const fetchData = async () => {
@@ -149,10 +149,10 @@ const HealthProvider = ({ children }) => {
         name,
         gender,
         age,
-        bloodGroup,
+
         location,
 
-        NIDInfo
+
     ) => {   // works
         // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
 
@@ -165,7 +165,7 @@ const HealthProvider = ({ children }) => {
                 console.log('signer', signer);
                 const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
-                const addNewPatientData = await contract.setPatient(patientID, name, gender, BigInt(age * 1), bloodGroup, location, NIDInfo)
+                const addNewPatientData = await contract.setPatient(patientID, name, gender, BigInt(age * 1), location)
 
 
                 await addNewPatientData.wait()
