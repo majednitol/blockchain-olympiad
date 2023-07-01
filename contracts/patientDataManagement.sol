@@ -2,22 +2,19 @@
 
 pragma solidity ^0.8.0;
 pragma experimental ABIEncoderV2;
+
 contract MedicalData {
     struct Patient {
         address patientAddress;
         string patientID;
         string name;
-        string gender; 
+        string gender;
         uint256 age;
         string location;
-        
- 
-        
         bool isAdded;
-        
     }
 
-    struct PatientPersonalData{
+    struct PatientPersonalData {
         uint256 height;
         string Blood;
         string PreviousDiseases;
@@ -28,12 +25,11 @@ contract MedicalData {
         string BirthDefects;
     }
 
-    struct PathologistTest{
+    struct PathologistTest {
         string Allries;
         string Cancer;
         string HormoneProblem;
         uint256 DiabatiesLevel;
-
     }
 
     struct Doctor {
@@ -44,13 +40,11 @@ contract MedicalData {
         uint256 consultationFee;
         uint256 BMDCNumber;
         string yearOfExperience;
-
         string aboutDoctors;
         string chamberLocation;
         bool isAdded;
-        
     }
-mapping (address=>PatientPersonalData) public patientData;
+    mapping(address => PatientPersonalData) public patientData;
     string[] public MedicalResearchLabReports;
 
     struct Pathologist {
@@ -64,7 +58,6 @@ mapping (address=>PatientPersonalData) public patientData;
         uint256 totalRating;
         string review;
         bool isAdded;
-        
     }
 
     struct MedicalResearchLab {
@@ -75,7 +68,6 @@ mapping (address=>PatientPersonalData) public patientData;
         string researchArea;
         string labRating;
         bool isAdded;
-       
     }
 
     struct PharmacyCompany {
@@ -86,38 +78,29 @@ mapping (address=>PatientPersonalData) public patientData;
         string productInformation;
         string pharmacyRating;
         bool isAdded;
-       
     }
-
- 
 
     mapping(address => Patient) private patients;
     mapping(address => Doctor) private doctors;
-   
+
     mapping(address => Pathologist) private pathologists;
     mapping(address => MedicalResearchLab) private medicalResearchLabs;
     mapping(address => PharmacyCompany) private pharmacyCompanies;
-    
+
     mapping(address => mapping(address => bool)) public accressList;
     address[] public allPatientsAddressSharedToDoctor;
     address[] public allPatientAddressSharedToPharmacyCompany;
-   
+
     address[] public allPatientsAddressSharedTopathologist;
     address[] public allPatientsAddressSharedToMedicalResearchLab;
 
-
-
     // Setters and Getters for Patient struct
     function setPatient(
-        
         string memory patientID,
         string memory name,
         string memory gender,
         uint256 age,
-       
         string memory location
-       
-        
     ) public {
         address user = msg.sender;
         require(
@@ -132,14 +115,9 @@ mapping (address=>PatientPersonalData) public patientData;
         patient.name = name;
         patient.gender = gender;
         patient.age = age;
-        
+
         patient.location = location;
         patient.isAdded = true;
-
-       
-       
-
-        
     }
 
     modifier onlyPatient(address user) {
@@ -162,7 +140,7 @@ mapping (address=>PatientPersonalData) public patientData;
         _;
     }
 
-     function addLabReport(string memory report) external {
+    function addLabReport(string memory report) external {
         MedicalResearchLabReports.push(report);
     }
 
@@ -199,38 +177,26 @@ mapping (address=>PatientPersonalData) public patientData;
         _;
     }
 
-   
-
-   
-
-    function getDoctor(address _doctorAddress)
-        public
-        view
-        onlyDoctor(_doctorAddress)
-        returns (Doctor memory)
-    {
+    function getDoctor(
+        address _doctorAddress
+    ) public view onlyDoctor(_doctorAddress) returns (Doctor memory) {
         return doctors[_doctorAddress];
     }
 
-    function getPatient(address _patientAddress)
-        public
-        view
-        onlyPatient(_patientAddress)
-        returns (Patient memory)
-    {
+    function getPatient(
+        address _patientAddress
+    ) public view onlyPatient(_patientAddress) returns (Patient memory) {
         return patients[_patientAddress];
     }
 
     // Setters and Getters for Doctor struct
     function setDoctor(
-        
         string memory doctorID,
         string memory name,
         string memory specialty,
         uint256 consultationFee,
         uint256 BMDCNumber,
         string memory yearOfExperience,
-
         string memory aboutDoctors,
         string memory chamberLocation
     ) public {
@@ -241,7 +207,7 @@ mapping (address=>PatientPersonalData) public patientData;
         );
 
         Doctor storage doctor = doctors[user];
-        
+
         doctor.DoctorAddress = user;
         doctor.doctorID = doctorID;
         doctor.name = name;
@@ -249,20 +215,16 @@ mapping (address=>PatientPersonalData) public patientData;
         doctor.consultationFee = consultationFee;
         doctor.BMDCNumber = BMDCNumber;
         doctor.yearOfExperience = yearOfExperience;
-        
-       
+
         doctor.aboutDoctors = aboutDoctors;
         doctor.chamberLocation = chamberLocation;
         doctor.isAdded = true;
-        
     }
 
     // Setters and Getters for Hospital struct
 
-
     // Setters and Getters for Pathologist struct
     function setPathologist(
-        
         string memory pathologistID,
         string memory name,
         uint256 licenseNumber,
@@ -290,12 +252,10 @@ mapping (address=>PatientPersonalData) public patientData;
         pathologist.totalRating = totalRating;
         pathologist.review = review;
         pathologist.isAdded = true;
-        
     }
 
     // Setters and Getters for MedicalResearchLab struct
     function setMedicalResearchLab(
-        
         string memory labID,
         string memory name,
         uint256 licenseID,
@@ -317,12 +277,10 @@ mapping (address=>PatientPersonalData) public patientData;
         lab.researchArea = researchArea;
         lab.labRating = labRating;
         lab.isAdded = true;
-       
     }
 
     // Setters and Getters for PharmacyCompany struct
     function setPharmacyCompany(
-        
         string memory companyID,
         string memory name,
         uint256 licenseID,
@@ -344,14 +302,11 @@ mapping (address=>PatientPersonalData) public patientData;
         company.productInformation = productInformation;
         company.pharmacyRating = pharmacyRating;
         company.isAdded = true;
-
-        
     }
 
     // Setters and Getters for Parent struct
 
     // Setters and Getters for DataScientist struct
-
 
     function accressDataAnyone(address user) public {
         require(msg.sender != user, "you can't accress yourself ");
@@ -389,8 +344,7 @@ mapping (address=>PatientPersonalData) public patientData;
     //         revert("Invalid entity type");
     //     }
     // }
-string[] public TopMedichine ;  
-
+    string[] public TopMedichine;
 
     function transferData(
         string memory entityType1,
@@ -411,9 +365,8 @@ string[] public TopMedichine ;
                     "Doctor does not exist"
                 );
 
-      
-             allPatientsAddressSharedToDoctor.push(msg.sender);
-            }  else if (
+                allPatientsAddressSharedToDoctor.push(msg.sender);
+            } else if (
                 keccak256(bytes(entityType2)) == keccak256("Pathologist")
             ) {
                 require(
@@ -421,7 +374,7 @@ string[] public TopMedichine ;
                     "Pathologist does not exist"
                 );
 
-allPatientsAddressSharedTopathologist.push(msg.sender);
+                allPatientsAddressSharedTopathologist.push(msg.sender);
             } else if (
                 keccak256(bytes(entityType2)) == keccak256("MedicalResearchLab")
             ) {
@@ -430,7 +383,7 @@ allPatientsAddressSharedTopathologist.push(msg.sender);
                     "Medical Research Lab does not exist"
                 );
 
-              allPatientsAddressSharedToMedicalResearchLab.push(msg.sender);
+                allPatientsAddressSharedToMedicalResearchLab.push(msg.sender);
             } else if (
                 keccak256(bytes(entityType2)) == keccak256("PharmacyCompany")
             ) {
@@ -440,16 +393,16 @@ allPatientsAddressSharedTopathologist.push(msg.sender);
                     "Pharmacy Company does not exist"
                 );
 
-        allPatientAddressSharedToPharmacyCompany.push(msg.sender);
-            }   else {
+                allPatientAddressSharedToPharmacyCompany.push(msg.sender);
+            } else {
                 revert("Unsupported entity type");
             }
         }
     }
 
-
-
-    function getPathologist(address _pathologistAddress)
+    function getPathologist(
+        address _pathologistAddress
+    )
         public
         view
         onlyPathologist(_pathologistAddress)
@@ -457,7 +410,10 @@ allPatientsAddressSharedTopathologist.push(msg.sender);
     {
         return pathologists[_pathologistAddress];
     }
-     function getPharmacyCompany(address _pharmacyCompanyAddress)
+
+    function getPharmacyCompany(
+        address _pharmacyCompanyAddress
+    )
         public
         view
         onlyPathologist(_pharmacyCompanyAddress)
@@ -466,7 +422,9 @@ allPatientsAddressSharedTopathologist.push(msg.sender);
         return pharmacyCompanies[_pharmacyCompanyAddress];
     }
 
-    function getMedicalResearchLab(address _labAddress)
+    function getMedicalResearchLab(
+        address _labAddress
+    )
         public
         view
         onlyMedicalResearchLab(_labAddress)
@@ -474,9 +432,6 @@ allPatientsAddressSharedTopathologist.push(msg.sender);
     {
         return medicalResearchLabs[_labAddress];
     }
-
-    
-  
 
     function setPatientPersonalData(
         address user,
@@ -501,17 +456,18 @@ allPatientsAddressSharedTopathologist.push(msg.sender);
         );
     }
 
-
-       function getPatientPersonalData(address _patientAddress)
+    function getPatientPersonalData(
+        address _patientAddress
+    )
         public
         view
-         onlyPatient(_patientAddress)
+        onlyPatient(_patientAddress)
         returns (PatientPersonalData memory)
     {
         return patientData[_patientAddress];
     }
-        function addTopMedichine(string memory medichine) public {
+
+    function addTopMedichine(string memory medichine) public {
         TopMedichine.push(medichine);
     }
-
 }
