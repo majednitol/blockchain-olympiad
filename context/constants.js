@@ -1,7 +1,7 @@
-import health from './Helth.json';
-import patient from './Helth.json'
-export const healthAddess = "0xd24b53422cbb7cdea8d6b368b7f59ed017622b61"
-export const patientAddress = '0xd24b53422cbb7cdea8d6b368b7f59ed017622b61'
+import health from './MedicalData.json';
+import patient from './MedicalData.json'
+export const healthAddess = "0xC8100BC33B971Aa04801259Cb18c75D47AE3e042"
+export const patientAddress = '0xC8100BC33B971Aa04801259Cb18c75D47AE3e042'
 export const healthABI = health.abi
 export const patientABI = patient.abi
 
