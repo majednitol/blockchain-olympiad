@@ -40,6 +40,7 @@ contract MedicalData {
         uint256 consultationFee;
         uint256 BMDCNumber;
         string yearOfExperience;
+        address[] allPatientsAddressSharedToDoctor;
         string aboutDoctors;
         string chamberLocation;
         bool isAdded;
@@ -58,6 +59,7 @@ contract MedicalData {
         uint256 totalRating;
         string review;
         bool isAdded;
+        address[] allPatientsAddressSharedTopathologist;
     }
 
     struct MedicalResearchLab {
@@ -68,6 +70,7 @@ contract MedicalData {
         string researchArea;
         string labRating;
         bool isAdded;
+        address[] allPatientsAddressSharedToMedicalResearchLab;
     }
 
     struct PharmacyCompany {
@@ -78,6 +81,7 @@ contract MedicalData {
         string productInformation;
         string pharmacyRating;
         bool isAdded;
+        address[] allPatientAddressSharedToPharmacyCompany;
     }
 
     mapping(address => Patient) private patients;
@@ -88,11 +92,6 @@ contract MedicalData {
     mapping(address => PharmacyCompany) private pharmacyCompanies;
 
     mapping(address => mapping(address => bool)) public accressList;
-    address[] public allPatientsAddressSharedToDoctor;
-    address[] public allPatientAddressSharedToPharmacyCompany;
-
-    address[] public allPatientsAddressSharedTopathologist;
-    address[] public allPatientsAddressSharedToMedicalResearchLab;
 
     // Setters and Getters for Patient struct
     function setPatient(
@@ -349,11 +348,10 @@ contract MedicalData {
     function transferData(
         string memory entityType1,
         string memory entityType2,
-        address user1,
         address user2
     ) public {
         if (keccak256(bytes(entityType1)) == keccak256("Patient")) {
-            require(patients[user1].isAdded, "Patient does not exist");
+            require(patients[msg.sender].isAdded, "Patient does not exist");
             // require(
             //     patients[user1].data.length > 0,
             //     "No data available to transfer"
@@ -365,7 +363,9 @@ contract MedicalData {
                     "Doctor does not exist"
                 );
 
-                allPatientsAddressSharedToDoctor.push(msg.sender);
+                doctors[user2].allPatientsAddressSharedToDoctor.push(
+                    msg.sender
+                );
             } else if (
                 keccak256(bytes(entityType2)) == keccak256("Pathologist")
             ) {
@@ -374,7 +374,9 @@ contract MedicalData {
                     "Pathologist does not exist"
                 );
 
-                allPatientsAddressSharedTopathologist.push(msg.sender);
+                pathologists[user2].allPatientsAddressSharedTopathologist.push(
+                    msg.sender
+                );
             } else if (
                 keccak256(bytes(entityType2)) == keccak256("MedicalResearchLab")
             ) {
@@ -382,8 +384,9 @@ contract MedicalData {
                     medicalResearchLabs[user2].labAddress != address(0),
                     "Medical Research Lab does not exist"
                 );
-
-                allPatientsAddressSharedToMedicalResearchLab.push(msg.sender);
+                medicalResearchLabs[user2]
+                    .allPatientsAddressSharedToMedicalResearchLab
+                    .push(msg.sender);
             } else if (
                 keccak256(bytes(entityType2)) == keccak256("PharmacyCompany")
             ) {
@@ -393,7 +396,9 @@ contract MedicalData {
                     "Pharmacy Company does not exist"
                 );
 
-                allPatientAddressSharedToPharmacyCompany.push(msg.sender);
+                pharmacyCompanies[user2]
+                    .allPatientAddressSharedToPharmacyCompany
+                    .push(msg.sender);
             } else {
                 revert("Unsupported entity type");
             }
