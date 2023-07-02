@@ -12,15 +12,11 @@ const HealthProvider = ({ children }) => {
     const [userName, setUserName] = useState('')
     const [patientData, setPatientData] = useState('')
     const [doctorData, setDoctorData] = useState('')
-    const [pharmaciest, setPharmaciest] = useState('')
-    const [FoodIndusty, setFoodIndusty] = useState('')
-    const [DataAnalyst, setDataAnalyst] = useState('')
-    const [Hospital, setHospital] = useState('')
+
+
     const [PharmacyCompany, setPharmacyCompany] = useState('')
-    const [Pharmacy, setPharmacy] = useState('')
-    const [PatientCredential, setPatientCredential] = useState('')
-    const [PatientParient, setPatientParient] = useState('')
-    const [contractData, setContractData] = useState('')
+
+
 
 
     const router = useRouter()
@@ -111,11 +107,8 @@ const HealthProvider = ({ children }) => {
         specialty,
         consultationFee,
         BMDCNumber,
-        yearOfExperience,
-        joiningDate,
-        totalRating,
-        aboutDoctors,
-        chamberLocation) => {   // works
+        yearOfExperience
+    ) => {   // works
         // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
 
         try {
@@ -127,7 +120,7 @@ const HealthProvider = ({ children }) => {
                 console.log('signer', signer);
                 const contract = new ethers.Contract(healthAddess, healthABI, signer)
 
-                const addNewDoctorData = await contract.setDoctor(doctorID, name, specialty, BigInt(consultationFee * 1), BigInt(BMDCNumber * 1), yearOfExperience, BigInt(joiningDate * 1), BigInt(joiningDate * 1), totalRating, aboutDoctors, chamberLocation)
+                const addNewDoctorData = await contract.setDoctor(BigInt(doctorID * 1), name, specialty, BigInt(consultationFee * 1), BigInt(BMDCNumber * 1), BigInt(yearOfExperience * 1))
 
 
                 await addNewDoctorData.wait()
@@ -147,7 +140,7 @@ const HealthProvider = ({ children }) => {
         gender,
         age,
 
-        location,
+        location
 
 
     ) => {   // works
@@ -180,12 +173,6 @@ const HealthProvider = ({ children }) => {
         }
 
     }
-
-
-
-
-
-
 
     const AddNewPharmacyCompany = async (companyID,
         name,
@@ -441,7 +428,7 @@ const HealthProvider = ({ children }) => {
 
     }
     return (
-        <HealthContext.Provider value={{ account, }}>
+        <HealthContext.Provider value={{ account, AddNewPatient }}>
             {children}
         </HealthContext.Provider>
     )

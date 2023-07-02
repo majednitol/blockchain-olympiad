@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
-pragma experimental ABIEncoderV2;
 
 contract MedicalData {
     struct Patient {
         address patientAddress;
-        string patientID;
+        uint patientID;
         string name;
         string gender;
         uint256 age;
@@ -35,7 +34,7 @@ contract MedicalData {
 
     struct Doctor {
         address DoctorAddress;
-        string doctorID;
+        uint doctorID;
         string name;
         string specialty;
         uint256 consultationFee;
@@ -49,19 +48,19 @@ contract MedicalData {
 
     struct Pathologist {
         address pathologistAddress;
-        string pathologistID;
+        uint pathologistID;
         string name;
         uint256 licenseNumber;
         string specializationArea;
         string serviceArea;
-        uint256 totalExperience;
+        string totalExperience;
         bool isAdded;
         address[] allPatientsAddressSharedTopathologist;
     }
 
     struct MedicalResearchLab {
         address labAddress;
-        string labID;
+        uint labID;
         string name;
         uint256 licenseID;
         string researchArea;
@@ -72,7 +71,7 @@ contract MedicalData {
 
     struct PharmacyCompany {
         address pharmacyCompanyAddress;
-        string companyID;
+        uint companyID;
         string name;
         uint256 licenseID;
         string productInformation;
@@ -101,7 +100,7 @@ contract MedicalData {
 
     // Setters and Getters for Patient struct
     function setPatient(
-        string memory patientID,
+        uint patientID,
         string memory name,
         string memory gender,
         uint256 age,
@@ -187,7 +186,7 @@ contract MedicalData {
 
     // Setters and Getters for Doctor struct
     function setDoctor(
-        string memory doctorID,
+        uint doctorID,
         string memory name,
         string memory specialty,
         uint256 consultationFee,
@@ -217,12 +216,12 @@ contract MedicalData {
 
     // Setters and Getters for Pathologist struct
     function setPathologist(
-        string memory pathologistID,
+        uint pathologistID,
         string memory name,
         uint256 licenseNumber,
         string memory specializationArea,
         string memory serviceArea,
-        uint256 totalExperience
+        string memory totalExperience
     ) public {
         address user = msg.sender;
         require(
@@ -245,7 +244,7 @@ contract MedicalData {
 
     // Setters and Getters for MedicalResearchLab struct
     function setMedicalResearchLab(
-        string memory labID,
+        uint labID,
         string memory name,
         uint256 licenseID,
         string memory researchArea,
@@ -270,7 +269,7 @@ contract MedicalData {
 
     // Setters and Getters for PharmacyCompany struct
     function setPharmacyCompany(
-        string memory companyID,
+        uint companyID,
         string memory name,
         uint256 licenseID,
         string memory productInformation,

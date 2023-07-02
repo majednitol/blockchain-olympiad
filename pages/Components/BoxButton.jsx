@@ -1,10 +1,11 @@
 import React from 'react'
+import Styles from './BoxButton.module.css';
 
-const BoxButton = ({ name, setShow }) => {
+const BoxButton = ({ name }) => {
     return (
-        <button onClick={() => setShow(true)} className='w-64 px-5 text-2xl bg-indigo-600 rounded-md h-36'>
+        <div className={Styles.box}>
             {name}
-        </button>
+        </div>
     )
 }
 

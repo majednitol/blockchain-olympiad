@@ -9,6 +9,7 @@ const index = () => {
   const { account } = useContext(HealthContext)
   return (
     <div>
+      {account}
       <MainComponent />
     </div>
   )
