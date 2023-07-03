@@ -4,6 +4,8 @@ import { healthABI, healthAddess, patientABI, patientAddress } from './constants
 import { useRouter } from 'next/router';
 import { connectWallet, connectWalletBycontractData } from '@/Utils/apiFreature';
 
+
+
 export const HealthContext = React.createContext()
 const HealthProvider = ({ children }) => {
 
@@ -12,7 +14,9 @@ const HealthProvider = ({ children }) => {
     const [userName, setUserName] = useState('')
     const [patientData, setPatientData] = useState('')
     const [doctorData, setDoctorData] = useState('')
-
+    const [MedicalResearchLab, setMedicalResearchLab] = useState('')
+    const [contractData, setContractData] = useState('')
+    const [PathologistData, setPathologistData] = useState('')
 
     const [PharmacyCompany, setPharmacyCompany] = useState('')
 
@@ -26,11 +30,16 @@ const HealthProvider = ({ children }) => {
         // connectWallet();
         fetchData()
         //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
+        // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
+        // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
+
         // doctorAllData()
-        patientAllData()
+        // patientAllData()
         // getMedicalResearchLabAData()
         // getPathologistAllData()
         // PharmacyCompanyAllData()
+        // AddNewPharmacyCompany(2, 'mjed', 44, 'xyz', 4)
+        // AddMedicalResearchLab(2, 'ma', 44, 'xyz', 3)
 
         // AddNewPatient("2", "majed", "male", 30, "dhaka")
     }, [])
@@ -60,8 +69,10 @@ const HealthProvider = ({ children }) => {
         const connectedAccount = await connectWallet()
         const patientData = await contractData[1].getPatient(connectedAccount)
         setPatientData(patientData)
-        console.log("patientData ", patientData);
+        // console.log("patientData ", patientData);
     }
+
+
     const doctorAllData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
@@ -70,12 +81,11 @@ const HealthProvider = ({ children }) => {
         console.log("doctorData", doctorData);
     }
 
-
     const getMedicalResearchLabAData = async () => {
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
         const MedicalResearchLabAData = await contractData[0].getMedicalResearchLab(connectedAccount)
-        setDataAnalyst(MedicalResearchLabAData)
+        setMedicalResearchLab(MedicalResearchLabAData)
         console.log(MedicalResearchLabAData);
     }
 
@@ -87,7 +97,7 @@ const HealthProvider = ({ children }) => {
         const connectedAccount = await connectWallet()
         const pathologistAllData = await contractData[1].getPathologist(
             connectedAccount)
-        setPatientParient(pathologistAllData)
+        setPathologistData(pathologistAllData)
         console.log(pathologistAllData);
     }
 
@@ -191,7 +201,7 @@ const HealthProvider = ({ children }) => {
                 console.log('signer', signer);
                 const contract = new ethers.Contract(healthAddess, healthABI, signer)
 
-                const addNewPharmacyData = await contract.addPharmacy(companyID, name, BigInt(licenseID * 1), productInformation, pharmacyRating)
+                const addNewPharmacyData = await contract.setPharmacyCompany(BigInt(companyID * 1), name, BigInt(licenseID * 1), productInformation, BigInt(pharmacyRating * 1))
 
 
                 await addNewPharmacyData.wait()
@@ -216,10 +226,9 @@ const HealthProvider = ({ children }) => {
         name,
         licenseNumber,
         specializationArea,
-        serviceArea,
+
         totalExperience,
-        totalRating,
-        review
+
     ) => {   // works
         // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
 
@@ -234,7 +243,7 @@ const HealthProvider = ({ children }) => {
 
                 const pathologist = await contract.setPathologist(pathologistID,
                     name,
-                    BigInt(licenseNumber * 1), specializationArea, serviceArea, BigInt(totalExperience * 1), BigInt(totalRating * 1), review)
+                    BigInt(licenseNumber * 1), specializationArea, BigInt(totalExperience * 1))
 
 
                 await pathologist.wait()
@@ -294,101 +303,101 @@ const HealthProvider = ({ children }) => {
 
 
 
-    const accressDataAnyOne = async (
-        userAddress
+    // const accressDataAnyOne = async (
+    //     userAddress
 
-    ) => {   // works
-        // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+    // ) => {   // works
+    //     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
 
-        try {
-            if (window.ethereum) {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-
-                const signer = provider.getSigner()
-                console.log('signer', signer);
-                const contract = new ethers.Contract(patientAddress, patientABI, signer)
-
-                const AccressDataAnyOne = await contract.accressDataAnyone(userAddress
-                )
+    //     try {
+    //         if (window.ethereum) {
+    //             const provider = new ethers.providers.Web3Provider(window.ethereum);
 
 
-                await AccressDataAnyOne.wait()
+    //             const signer = provider.getSigner()
+    //             console.log('signer', signer);
+    //             const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
-                window.location.reload()
-
-            } else {
-                console.error("Metamask is not installed");
-            }
-        } catch (error) {
-            console.log("error account crate time", error);
-        }
-
-    }
-
-    const revokeData = async (
-        userAddress
-
-    ) => {   // works
-        // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
-
-        try {
-            if (window.ethereum) {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
+    //             const AccressDataAnyOne = await contract.accressDataAnyone(userAddress
+    //             )
 
 
-                const signer = provider.getSigner()
-                console.log('signer', signer);
-                const contract = new ethers.Contract(patientAddress, patientABI, signer)
+    //             await AccressDataAnyOne.wait()
 
-                const revokeAccressAnyOne = await contract.revokeDataAnyone(userAddress
-                )
+    //             window.location.reload()
 
+    //         } else {
+    //             console.error("Metamask is not installed");
+    //         }
+    //     } catch (error) {
+    //         console.log("error account crate time", error);
+    //     }
 
-                await revokeAccressAnyOne.wait()
+    // }
 
-                window.location.reload()
+    // const revokeData = async (
+    //     userAddress
 
-            } else {
-                console.error("Metamask is not installed");
-            }
-        } catch (error) {
-            console.log("error account crate time", error);
-        }
+    // ) => {   // works
+    //     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
 
-    }
-
-    const AddData = async (
-        entityType, data
-
-    ) => {   // works
-        // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
-
-        try {
-            if (window.ethereum) {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
+    //     try {
+    //         if (window.ethereum) {
+    //             const provider = new ethers.providers.Web3Provider(window.ethereum);
 
 
-                const signer = provider.getSigner()
-                console.log('signer', signer);
-                const contract = new ethers.Contract(patientAddress, patientABI, signer)
+    //             const signer = provider.getSigner()
+    //             console.log('signer', signer);
+    //             const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
-                const adddata = await contract.addData(entityType, data
-                )
+    //             const revokeAccressAnyOne = await contract.revokeDataAnyone(userAddress
+    //             )
 
 
-                await adddata.wait()
+    //             await revokeAccressAnyOne.wait()
 
-                window.location.reload()
+    //             window.location.reload()
 
-            } else {
-                console.error("Metamask is not installed");
-            }
-        } catch (error) {
-            console.log("error account crate time", error);
-        }
+    //         } else {
+    //             console.error("Metamask is not installed");
+    //         }
+    //     } catch (error) {
+    //         console.log("error account crate time", error);
+    //     }
 
-    }
+    // }
+
+    // const AddData = async (
+    //     entityType, data
+
+    // ) => {   // works
+    //     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+
+    //     try {
+    //         if (window.ethereum) {
+    //             const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+
+    //             const signer = provider.getSigner()
+    //             console.log('signer', signer);
+    //             const contract = new ethers.Contract(patientAddress, patientABI, signer)
+
+    //             const adddata = await contract.addData(entityType, data
+    //             )
+
+
+    //             await adddata.wait()
+
+    //             window.location.reload()
+
+    //         } else {
+    //             console.error("Metamask is not installed");
+    //         }
+    //     } catch (error) {
+    //         console.log("error account crate time", error);
+    //     }
+
+    // }
 
     const transferData = async (
         entityType1,
@@ -428,7 +437,7 @@ const HealthProvider = ({ children }) => {
 
     }
     return (
-        <HealthContext.Provider value={{ account, AddNewPatient }}>
+        <HealthContext.Provider value={{ account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, PathologistData }}>
             {children}
         </HealthContext.Provider>
     )

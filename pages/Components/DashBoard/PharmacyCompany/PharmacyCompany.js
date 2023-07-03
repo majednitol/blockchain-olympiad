@@ -1,10 +1,12 @@
 import React from 'react'
-import PharmacyCompanyPersonalData from './PharmacyCompanyPersonalData'
+import SetPharmacyCompanyPersonalData from './SetPharmacyCompanyPersonalData'
+import GetPharmacyCompanyPersonalData from './GetPharmacyCompanyPersonalData'
 
 const PharmacyCompany = () => {
     return (
         <div>
-            <PharmacyCompanyPersonalData />
+            {/* <SetPharmacyCompanyPersonalData /> */}
+            <GetPharmacyCompanyPersonalData />
         </div>
     )
 }

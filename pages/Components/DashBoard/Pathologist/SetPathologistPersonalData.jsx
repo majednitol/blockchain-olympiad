@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import BoxButton from '../../BoxButton';
 
 
-const PathologistPersonalData = () => {
+const SetPathologistPersonalData = () => {
     const [name, setName] = useState('');
     const [pathologistID, setpathologistID] = useState('');
     const [specializationArea, setspecializationArea] = useState('');
@@ -167,4 +167,4 @@ const PathologistPersonalData = () => {
     )
 }
 
-export default PathologistPersonalData
+export default SetPathologistPersonalData

@@ -1,10 +1,15 @@
 import React from 'react'
-import MediResearchLabPersonalData from './MediResearchLabPersonalData'
+import SetMediResearchLabPersonalData from './SetMediResearchLabPersonalData'
+import GetPathologistPersonalData from '../Pathologist/GetPathologistPersonalData'
+import GetMediResearchLabPersonalData from './GetMediResearchLabPersonalData'
 
 const MedicalResearchLab = () => {
     return (
         <div>
-            <MediResearchLabPersonalData />
+            {/* <SetMediResearchLabPersonalData />
+             */}
+            {/* <GetPathologistPersonalData /> */}
+            <GetMediResearchLabPersonalData />
         </div>
     )
 }

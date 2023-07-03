@@ -1,7 +1,7 @@
 import React from 'react'
 import Patient from './Patient/Patient'
 
-import DoctorPersonalData from './Doctor/DoctorPersonalData'
+import DoctorPersonalData from './Doctor/SetDoctorPersonalData'
 import Doctor from './Doctor/Doctor'
 import MedicalResearchLab from './MedicalResearchLab/MedicalResearchLab'
 import Pathologist from './Pathologist/Pathologist'
@@ -12,8 +12,8 @@ const MainComponent = () => {
         <div>
             {/* <Patient /> */}
             {/* <Doctor /> */}
-            {/* <MedicalResearchLab /> */}
-            <PharmacyCompany />
+            <MedicalResearchLab />
+            {/* <PharmacyCompany /> */}
             {/* <Pathologist /> */}
         </div>
     )

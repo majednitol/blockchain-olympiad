@@ -11,6 +11,7 @@ contract MedicalData {
         uint256 age;
         string location;
         bool isAdded;
+        string userType;
         PatientPersonalData patientPersonalData;
     }
 
@@ -34,50 +35,53 @@ contract MedicalData {
 
     struct Doctor {
         address DoctorAddress;
-        uint doctorID;
+        uint256 doctorID;
         string name;
         string specialty;
         uint256 consultationFee;
         uint256 BMDCNumber;
-        string yearOfExperience;
+        uint256 yearOfExperience;
         address[] allPatientsAddressSharedToDoctor;
         bool isAdded;
+        string userType;
     }
     mapping(address => PatientPersonalData) public patientData;
     string[] public MedicalResearchLabReports;
 
     struct Pathologist {
         address pathologistAddress;
-        uint pathologistID;
+        uint256 pathologistID;
         string name;
         uint256 licenseNumber;
         string specializationArea;
-        string serviceArea;
-        string totalExperience;
+        uint256 totalExperience;
         bool isAdded;
         address[] allPatientsAddressSharedTopathologist;
+        string userType;
     }
 
     struct MedicalResearchLab {
         address labAddress;
-        uint labID;
+        uint256 labID;
         string name;
         uint256 licenseID;
         string researchArea;
-        string labRating;
+        uint256 labRating;
         bool isAdded;
         address[] allPatientsAddressSharedToMedicalResearchLab;
+        string userType;
     }
 
     struct PharmacyCompany {
         address pharmacyCompanyAddress;
-        uint companyID;
+        uint256 companyID;
         string name;
         uint256 licenseID;
         string productInformation;
-        string pharmacyRating;
+        uint256 pharmacyRating;
         bool isAdded;
         address[] allPatientAddressSharedToPharmacyCompany;
+        string userType;
     }
 
     struct Access {
@@ -88,7 +92,7 @@ contract MedicalData {
     mapping(address => mapping(address => bool)) ownership;
     mapping(address => Access[]) accessList;
     mapping(address => mapping(address => bool)) previousData;
-
+    mapping(address => string) private accounts;
     mapping(address => Patient) patients;
     mapping(address => Doctor) doctors;
 
@@ -119,9 +123,10 @@ contract MedicalData {
         patient.name = name;
         patient.gender = gender;
         patient.age = age;
-
+        accounts[user] = "Patient";
         patient.location = location;
         patient.isAdded = true;
+        patient.userType = "Patient";
     }
 
     function addLabReport(string memory report) external {
@@ -186,12 +191,12 @@ contract MedicalData {
 
     // Setters and Getters for Doctor struct
     function setDoctor(
-        uint doctorID,
+        uint256 doctorID,
         string memory name,
         string memory specialty,
         uint256 consultationFee,
         uint256 BMDCNumber,
-        string memory yearOfExperience
+        uint256 yearOfExperience
     ) public {
         address user = msg.sender;
         require(
@@ -208,20 +213,20 @@ contract MedicalData {
         doctor.consultationFee = consultationFee;
         doctor.BMDCNumber = BMDCNumber;
         doctor.yearOfExperience = yearOfExperience;
-
+        doctor.userType = "Doctor";
         doctor.isAdded = true;
+        accounts[user] = "Doctor";
     }
 
     // Setters and Getters for Hospital struct
 
     // Setters and Getters for Pathologist struct
     function setPathologist(
-        uint pathologistID,
+        uint256 pathologistID,
         string memory name,
         uint256 licenseNumber,
         string memory specializationArea,
-        string memory serviceArea,
-        string memory totalExperience
+        uint256 totalExperience
     ) public {
         address user = msg.sender;
         require(
@@ -236,19 +241,20 @@ contract MedicalData {
         pathologist.name = name;
         pathologist.licenseNumber = licenseNumber;
         pathologist.specializationArea = specializationArea;
-        pathologist.serviceArea = serviceArea;
-        pathologist.totalExperience = totalExperience;
 
+        pathologist.totalExperience = totalExperience;
+        accounts[user] = "Pathologist";
         pathologist.isAdded = true;
+        pathologist.userType = "Pathologist";
     }
 
     // Setters and Getters for MedicalResearchLab struct
     function setMedicalResearchLab(
-        uint labID,
+        uint256 labID,
         string memory name,
         uint256 licenseID,
         string memory researchArea,
-        string memory labRating
+        uint256 labRating
     ) public {
         address user = msg.sender;
         require(
@@ -265,15 +271,17 @@ contract MedicalData {
         lab.researchArea = researchArea;
         lab.labRating = labRating;
         lab.isAdded = true;
+        accounts[user] = "MedicalResearchLab";
+        lab.userType = "MedicalResearchLab";
     }
 
     // Setters and Getters for PharmacyCompany struct
     function setPharmacyCompany(
-        uint companyID,
+        uint256 companyID,
         string memory name,
         uint256 licenseID,
         string memory productInformation,
-        string memory pharmacyRating
+        uint256 pharmacyRating
     ) public {
         address user = msg.sender;
         require(
@@ -290,6 +298,8 @@ contract MedicalData {
         company.productInformation = productInformation;
         company.pharmacyRating = pharmacyRating;
         company.isAdded = true;
+        accounts[user] = "PharmacyCompany";
+        company.userType = "PharmacyCompany";
     }
 
     function transferData(

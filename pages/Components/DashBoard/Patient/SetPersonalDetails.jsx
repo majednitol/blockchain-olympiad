@@ -1,66 +1,67 @@
 
-
-
-
-
-
-
 import React, { useState } from 'react'
 import BoxButton from '../../BoxButton';
 
-const MediResearchLabPersonalData = () => {
+const SetPatientPersonalDetails = () => {
     const [name, setName] = useState('');
-    const [labID, setlabID] = useState('');
-    const [researchArea, setresearchArea] = useState('');
-
-    const [licenseID, setlicenseID] = useState('');
-    const [labRating, setlabRating] = useState('');
+    const [patientID, setpatientID] = useState('');
+    const [gender, setgender] = useState('');
+    const [age, setage] = useState('');
+    const [location, setlocation] = useState('');
     const [errors, setErrors] = useState({});
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         if (name === 'name') {
             setName(value);
-        } else if (name === 'labID') {
-            setlabID(value);
-        } else if (name === 'licenseID') {
-            setlicenseID(value);
-        } else if (name === 'researchArea') {
-            setresearchArea(value);
-        }
-        else if (name === 'labRating') {
-            setlabRating(value);
+        } else if (name === 'patientID') {
+            setpatientID(value);
+        } else if (name === 'gender') {
+            setgender(value);
+        } else if (name === 'age') {
+            setage(value);
+        } else if (name === 'location') {
+            setlocation(value);
         }
     };
 
     const validateForm = () => {
         const newErrors = {};
 
-        if (!labID) {
-            newErrors.labID = 'Please enter your labID';
+        if (!patientID) {
+            newErrors.patientID = 'Please enter your patientID';
         } else {
-            newErrors.labID = " "
+            newErrors.patientID = " "
         }
         if (!name) {
             newErrors.name = 'Please enter your name';
         } else {
             newErrors.name = " "
         }
-        if (!researchArea) {
-            newErrors.researchArea = 'Please enter your researchArea';
+        if (!gender) {
+            newErrors.gender = 'Please enter your gender';
         } else {
-            newErrors.researchArea = " "
+            newErrors.gender = " "
         }
 
-        if (!labRating) {
-            newErrors.labRating = 'Please enter your labRating';
+        if (!location) {
+            newErrors.location = 'Please enter your location';
         } else {
-            newErrors.labRating = " "
+            newErrors.location = " "
         }
 
-        if (!licenseID) {
-            newErrors.licenseID = 'Please enter your licenseID';
+        if (!patientID) {
+            newErrors.patientID = 'Please enter your patientID';
         } else {
-            newErrors.licenseID = " "
+            newErrors.patientID = " "
+        }
+
+
+
+        if (!age) {
+            newErrors.age = 'Please enter your age';
+        }
+        else {
+            newErrors.age = " "
         }
 
         setErrors(newErrors);
@@ -71,7 +72,7 @@ const MediResearchLabPersonalData = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (validateForm() || (name !== " " && labID !== "" && researchArea !== " " && licenseID !== " " && labRating !== " ")) {
+        if (validateForm() || (name !== " " && age !== " " && patientID !== "" && location !== " " && gender !== " ")) {
             // Perform form submission
 
             console.log('Form submitted');
@@ -81,12 +82,11 @@ const MediResearchLabPersonalData = () => {
         }
     };
 
-
     return (
         <div>
 
             <button type="" class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
-                <BoxButton name="Medical ResearchLab Personal Data" />
+                <BoxButton name="majed" />
             </button>
 
 
@@ -101,15 +101,15 @@ const MediResearchLabPersonalData = () => {
                         <div class="modal-body">
                             <form onSubmit={handleSubmit}>
                                 <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">labID :</label>
+                                    <label for="recipient-name" class="col-form-label">patientID :</label>
                                     <input type="number" class="form-control"
-                                        id="labID"
-                                        name="labID"
-                                        placeholder='Enter your labID'
-                                        value={labID}
+                                        id="patientID"
+                                        name="patientID"
+                                        placeholder='Enter your patientID'
+                                        value={patientID}
                                         onChange={handleInputChange}
                                     />
-                                    {errors.labID && <span>{errors.labID}</span>}
+                                    {errors.patientID && <span>{errors.patientID}</span>}
                                 </div>
                                 <div class="mb-3">
                                     <label for="recipient-name" class="col-form-label">name :</label>
@@ -122,33 +122,32 @@ const MediResearchLabPersonalData = () => {
                                     />
                                     {errors.name && <span>{errors.name}</span>}
                                 </div> <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">licenseID :</label>
-                                    <input type="number" class="form-control" id="licenseID"
-                                        name="licenseID"
-                                        value={licenseID}
-                                        placeholder='Enter your licenseID'
+                                    <label for="recipient-name" class="col-form-label">gender :</label>
+                                    <input type="text" class="form-control" id="gender"
+                                        name="gender"
+                                        value={gender}
+                                        placeholder='Enter your gender'
                                         onChange={handleInputChange}
                                     />
-                                    {errors.licenseID && <span>{errors.licenseID}</span>}
-                                </div>  <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">researchArea :</label>
-                                    <input type="text" class="form-control" id="researchArea"
-                                        name="researchArea"
-                                        value={researchArea}
+                                    {errors.gender && <span>{errors.gender}</span>}
+                                </div> <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">age :</label>
+                                    <input type="number" class="form-control" id="age"
+                                        name="age"
+                                        value={age}
+                                        placeholder='Enter your Gender'
                                         onChange={handleInputChange}
-                                        placeholder='Enter your researchArea'
                                     />
-                                    {errors.researchArea && <span>{errors.researchArea}</span>}
-                                </div>
-                                <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">labRating :</label>
-                                    <input type="number" class="form-control" id="researchArea"
-                                        name="researchArea"
-                                        value={labRating}
+                                    {errors.age && <span>{errors.age}</span>}
+                                </div> <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">location :</label>
+                                    <input type="text" class="form-control" id="location"
+                                        name="location"
+                                        value={location}
                                         onChange={handleInputChange}
-                                        placeholder='Enter your labRating'
+                                        placeholder='Enter your Age'
                                     />
-                                    {errors.labRating && <span>{errors.labRating}</span>}
+                                    {errors.location && <span>{errors.location}</span>}
                                 </div>
                                 <div class="modal-footer">
                                     <button type="btn btn-dark" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
@@ -168,4 +167,4 @@ const MediResearchLabPersonalData = () => {
     )
 }
 
-export default MediResearchLabPersonalData
+export default SetPatientPersonalDetails

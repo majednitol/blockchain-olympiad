@@ -1,10 +1,12 @@
 import React from 'react'
-import PathologistPersonalData from './PathologistPersonalData'
+import SetPathologistPersonalData from './SetPathologistPersonalData'
+import GetPathologistPersonalData from './GetPathologistPersonalData'
 
 const Pathologist = () => {
     return (
         <div>
-            <PathologistPersonalData />
+            {/* <SetPathologistPersonalData /> */}
+            <GetPathologistPersonalData />
         </div>
     )
 }
