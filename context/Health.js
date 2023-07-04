@@ -19,6 +19,7 @@ const HealthProvider = ({ children }) => {
     const [PathologistData, setPathologistData] = useState('')
 
     const [PharmacyCompany, setPharmacyCompany] = useState('')
+    const [signer, setSigner] = useState('')
 
 
 
@@ -29,6 +30,7 @@ const HealthProvider = ({ children }) => {
 
         // connectWallet();
         fetchData()
+        getSigner()
         //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
         // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
         // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
@@ -52,7 +54,7 @@ const HealthProvider = ({ children }) => {
 
 
             const contractData = await connectWalletBycontractData(provider)
-            console.log("oooo", contractData[0]);
+            console.log("oooo", contractData[1]);
             setContractData(contractData)
             setAccount(connectedAccount)
 
@@ -171,6 +173,35 @@ const HealthProvider = ({ children }) => {
                 await addNewPatientData.wait()
 
                 window.location.reload()
+
+
+
+
+            } else {
+                console.error("Metamask is not installed");
+            }
+        } catch (error) {
+            console.log("error account crate time", error);
+        }
+
+    }
+
+
+    const getSigner = async (
+
+
+    ) => {   // works
+        // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+
+        try {
+            if (window.ethereum) {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+
+                const signer = provider.getSigner()
+                const contract = new ethers.Contract(healthAddess, healthABI, signer)
+                console.log('signer', signer);
+                setSigner(contract)
 
 
 
@@ -437,7 +468,7 @@ const HealthProvider = ({ children }) => {
 
     }
     return (
-        <HealthContext.Provider value={{ account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, PathologistData }}>
+        <HealthContext.Provider value={{ account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, PathologistData, signer }}>
             {children}
         </HealthContext.Provider>
     )

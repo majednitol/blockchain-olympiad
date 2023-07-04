@@ -1,18 +1,19 @@
 import React from 'react'
-import Patient from './Patient/Patient'
+
 
 import DoctorPersonalData from './Doctor/SetDoctorPersonalData'
 import Doctor from './Doctor/Doctor'
 import MedicalResearchLab from './MedicalResearchLab/MedicalResearchLab'
 import Pathologist from './Pathologist/Pathologist'
 import PharmacyCompany from './PharmacyCompany/PharmacyCompany'
+import Patient from './Patient/Patient'
 
 const MainComponent = () => {
     return (
         <div>
-            {/* <Patient /> */}
+            <Patient />
             {/* <Doctor /> */}
-            <MedicalResearchLab />
+            {/* <MedicalResearchLab /> */}
             {/* <PharmacyCompany /> */}
             {/* <Pathologist /> */}
         </div>

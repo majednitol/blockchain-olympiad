@@ -3,8 +3,8 @@
 
 .modal {
     font-size: 12px;
-    background-color: indigo;
-    height: 600px;
+    /* background-color: indigo; */
+    height: 650px;
   }
   .modal > .header {
     width: 100%;

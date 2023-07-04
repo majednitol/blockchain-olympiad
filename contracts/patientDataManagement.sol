@@ -5,13 +5,14 @@ pragma solidity ^0.8.0;
 contract MedicalData {
     struct Patient {
         address patientAddress;
-        uint patientID;
+        uint256 patientID;
         string name;
         string gender;
         uint256 age;
         string location;
         bool isAdded;
         string userType;
+        string[] imgUrl;
         PatientPersonalData patientPersonalData;
     }
 
@@ -84,14 +85,8 @@ contract MedicalData {
         string userType;
     }
 
-    struct Access {
-        address user;
-        bool access;
-    }
     mapping(address => string[]) value;
-    mapping(address => mapping(address => bool)) ownership;
-    mapping(address => Access[]) accessList;
-    mapping(address => mapping(address => bool)) previousData;
+
     mapping(address => string) private accounts;
     mapping(address => Patient) patients;
     mapping(address => Doctor) doctors;
@@ -104,7 +99,7 @@ contract MedicalData {
 
     // Setters and Getters for Patient struct
     function setPatient(
-        uint patientID,
+        uint256 patientID,
         string memory name,
         string memory gender,
         uint256 age,
@@ -133,8 +128,9 @@ contract MedicalData {
         MedicalResearchLabReports.push(report);
     }
 
-    function addImageURL(address _user, string memory url) external {
-        value[_user].push(url);
+    function add(address _user, string memory url) external {
+        require(patients[_user].isAdded, "Patient does not exist");
+        patients[_user].imgUrl.push(url);
     }
 
     // function allow(address user) external {
@@ -161,8 +157,8 @@ contract MedicalData {
     //     }
     // }
 
-    function displayImage(address user) public view returns (string[] memory) {
-        return value[user];
+    function displayImage() public view returns (string[] memory) {
+        return patients[msg.sender].imgUrl;
     }
 
     function getDoctor(
@@ -302,19 +298,21 @@ contract MedicalData {
         company.userType = "PharmacyCompany";
     }
 
-    function transferData(
-        string memory entityType1,
-        string memory entityType2,
-        address user2
-    ) public {
-        if (keccak256(bytes(entityType1)) == keccak256("Patient")) {
+    function transferData(address user2) public {
+        if (
+            keccak256(abi.encodePacked(accounts[user2])) ==
+            keccak256(abi.encodePacked("Patient"))
+        ) {
             require(patients[msg.sender].isAdded, "Patient does not exist");
             // require(
             //     patients[user1].data.length > 0,
             //     "No data available to transfer"
             // );
 
-            if (keccak256(bytes(entityType2)) == keccak256("Doctor")) {
+            if (
+                keccak256(abi.encodePacked(accounts[user2])) ==
+                keccak256(abi.encodePacked("Doctor"))
+            ) {
                 require(
                     doctors[user2].BMDCNumber != 0,
                     "Doctor does not exist"
@@ -324,7 +322,8 @@ contract MedicalData {
                     msg.sender
                 );
             } else if (
-                keccak256(bytes(entityType2)) == keccak256("Pathologist")
+                keccak256(abi.encodePacked(accounts[user2])) ==
+                keccak256(abi.encodePacked("Pathologist"))
             ) {
                 require(
                     pathologists[user2].pathologistAddress != address(0),
@@ -335,7 +334,8 @@ contract MedicalData {
                     msg.sender
                 );
             } else if (
-                keccak256(bytes(entityType2)) == keccak256("MedicalResearchLab")
+                keccak256(abi.encodePacked(accounts[user2])) ==
+                keccak256(abi.encodePacked("MedicalResearchLab"))
             ) {
                 require(
                     medicalResearchLabs[user2].labAddress != address(0),
@@ -345,7 +345,8 @@ contract MedicalData {
                     .allPatientsAddressSharedToMedicalResearchLab
                     .push(msg.sender);
             } else if (
-                keccak256(bytes(entityType2)) == keccak256("PharmacyCompany")
+                keccak256(abi.encodePacked(accounts[user2])) ==
+                keccak256(abi.encodePacked("PharmacyCompany"))
             ) {
                 require(
                     pharmacyCompanies[user2].pharmacyCompanyAddress !=
