@@ -85,9 +85,7 @@ contract MedicalData {
         string userType;
     }
 
-    mapping(address => string[]) value;
-
-    mapping(address => string) private accounts;
+    mapping(address => uint256) public accounts;
     mapping(address => Patient) patients;
     mapping(address => Doctor) doctors;
 
@@ -118,10 +116,18 @@ contract MedicalData {
         patient.name = name;
         patient.gender = gender;
         patient.age = age;
-        accounts[user] = "Patient";
+
         patient.location = location;
         patient.isAdded = true;
         patient.userType = "Patient";
+    }
+
+    enum EntityType {
+        Unknown,
+        Doctor,
+        Pathologist,
+        MedicalResearchLab,
+        PharmacyCompany
     }
 
     function addLabReport(string memory report) external {
@@ -211,7 +217,7 @@ contract MedicalData {
         doctor.yearOfExperience = yearOfExperience;
         doctor.userType = "Doctor";
         doctor.isAdded = true;
-        accounts[user] = "Doctor";
+        accounts[user] = 1;
     }
 
     // Setters and Getters for Hospital struct
@@ -239,7 +245,7 @@ contract MedicalData {
         pathologist.specializationArea = specializationArea;
 
         pathologist.totalExperience = totalExperience;
-        accounts[user] = "Pathologist";
+        accounts[user] = 2;
         pathologist.isAdded = true;
         pathologist.userType = "Pathologist";
     }
@@ -267,7 +273,7 @@ contract MedicalData {
         lab.researchArea = researchArea;
         lab.labRating = labRating;
         lab.isAdded = true;
-        accounts[user] = "MedicalResearchLab";
+        accounts[user] = 3;
         lab.userType = "MedicalResearchLab";
     }
 
@@ -294,67 +300,47 @@ contract MedicalData {
         company.productInformation = productInformation;
         company.pharmacyRating = pharmacyRating;
         company.isAdded = true;
-        accounts[user] = "PharmacyCompany";
+        accounts[user] = 4;
         company.userType = "PharmacyCompany";
     }
 
-    function transferData(address user2) public {
-        if (
-            keccak256(abi.encodePacked(accounts[user2])) ==
-            keccak256(abi.encodePacked("Patient"))
-        ) {
+    function transferData(address useraddress) public {
+        uint256 user0 = accounts[useraddress];
+        // require(user0 != uint256(EntityType.Unknown),"Patient does not exist");
+        if (user0 == uint256(EntityType.Unknown)) {
             require(patients[msg.sender].isAdded, "Patient does not exist");
-            // require(
-            //     patients[user1].data.length > 0,
-            //     "No data available to transfer"
-            // );
 
-            if (
-                keccak256(abi.encodePacked(accounts[user2])) ==
-                keccak256(abi.encodePacked("Doctor"))
-            ) {
+            if (user0 == uint256(EntityType.Doctor)) {
                 require(
-                    doctors[user2].BMDCNumber != 0,
+                    doctors[useraddress].BMDCNumber != 0,
                     "Doctor does not exist"
                 );
-
-                doctors[user2].allPatientsAddressSharedToDoctor.push(
+                doctors[useraddress].allPatientsAddressSharedToDoctor.push(
                     msg.sender
                 );
-            } else if (
-                keccak256(abi.encodePacked(accounts[user2])) ==
-                keccak256(abi.encodePacked("Pathologist"))
-            ) {
+            } else if (user0 == uint256(EntityType.Pathologist)) {
                 require(
-                    pathologists[user2].pathologistAddress != address(0),
+                    pathologists[useraddress].pathologistAddress != address(0),
                     "Pathologist does not exist"
                 );
-
-                pathologists[user2].allPatientsAddressSharedTopathologist.push(
-                    msg.sender
-                );
-            } else if (
-                keccak256(abi.encodePacked(accounts[user2])) ==
-                keccak256(abi.encodePacked("MedicalResearchLab"))
-            ) {
+                pathologists[useraddress]
+                    .allPatientsAddressSharedTopathologist
+                    .push(msg.sender);
+            } else if (user0 == uint256(EntityType.MedicalResearchLab)) {
                 require(
-                    medicalResearchLabs[user2].labAddress != address(0),
+                    medicalResearchLabs[useraddress].labAddress != address(0),
                     "Medical Research Lab does not exist"
                 );
-                medicalResearchLabs[user2]
+                medicalResearchLabs[useraddress]
                     .allPatientsAddressSharedToMedicalResearchLab
                     .push(msg.sender);
-            } else if (
-                keccak256(abi.encodePacked(accounts[user2])) ==
-                keccak256(abi.encodePacked("PharmacyCompany"))
-            ) {
+            } else if (user0 == uint256(EntityType.PharmacyCompany)) {
                 require(
-                    pharmacyCompanies[user2].pharmacyCompanyAddress !=
+                    pharmacyCompanies[useraddress].pharmacyCompanyAddress !=
                         address(0),
                     "Pharmacy Company does not exist"
                 );
-
-                pharmacyCompanies[user2]
+                pharmacyCompanies[useraddress]
                     .allPatientAddressSharedToPharmacyCompany
                     .push(msg.sender);
             } else {
