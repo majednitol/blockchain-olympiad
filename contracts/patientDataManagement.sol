@@ -116,7 +116,7 @@ contract MedicalData {
         patient.name = name;
         patient.gender = gender;
         patient.age = age;
-
+        accounts[user] = 5;
         patient.location = location;
         patient.isAdded = true;
         patient.userType = "Patient";
@@ -127,7 +127,8 @@ contract MedicalData {
         Doctor,
         Pathologist,
         MedicalResearchLab,
-        PharmacyCompany
+        PharmacyCompany,
+        Patient
     }
 
     function addLabReport(string memory report) external {
@@ -310,7 +311,10 @@ contract MedicalData {
         if (user0 == uint256(EntityType.Unknown)) {
             require(patients[msg.sender].isAdded, "Patient does not exist");
 
-            if (user0 == uint256(EntityType.Doctor)) {
+            if (
+                user0 == uint256(EntityType.Doctor) &&
+                5 == uint256(EntityType.Patient)
+            ) {
                 require(
                     doctors[useraddress].BMDCNumber != 0,
                     "Doctor does not exist"
@@ -318,7 +322,10 @@ contract MedicalData {
                 doctors[useraddress].allPatientsAddressSharedToDoctor.push(
                     msg.sender
                 );
-            } else if (user0 == uint256(EntityType.Pathologist)) {
+            } else if (
+                user0 == uint256(EntityType.Pathologist) &&
+                5 == uint256(EntityType.Patient)
+            ) {
                 require(
                     pathologists[useraddress].pathologistAddress != address(0),
                     "Pathologist does not exist"
@@ -326,7 +333,10 @@ contract MedicalData {
                 pathologists[useraddress]
                     .allPatientsAddressSharedTopathologist
                     .push(msg.sender);
-            } else if (user0 == uint256(EntityType.MedicalResearchLab)) {
+            } else if (
+                user0 == uint256(EntityType.MedicalResearchLab) &&
+                5 == uint256(EntityType.Patient)
+            ) {
                 require(
                     medicalResearchLabs[useraddress].labAddress != address(0),
                     "Medical Research Lab does not exist"
@@ -334,7 +344,10 @@ contract MedicalData {
                 medicalResearchLabs[useraddress]
                     .allPatientsAddressSharedToMedicalResearchLab
                     .push(msg.sender);
-            } else if (user0 == uint256(EntityType.PharmacyCompany)) {
+            } else if (
+                user0 == uint256(EntityType.PharmacyCompany) &&
+                5 == uint256(EntityType.Patient)
+            ) {
                 require(
                     pharmacyCompanies[useraddress].pharmacyCompanyAddress !=
                         address(0),
