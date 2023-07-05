@@ -20,6 +20,8 @@ const HealthProvider = ({ children }) => {
 
     const [PharmacyCompany, setPharmacyCompany] = useState('')
     const [signer, setSigner] = useState('')
+    const [TopMedichine, setTopMedichine] = useState('')
+    const [MedicalResearchLabReport, setMedicalResearchLabReport] = useState('')
 
 
 
@@ -89,6 +91,22 @@ const HealthProvider = ({ children }) => {
         const MedicalResearchLabAData = await contractData[0].getMedicalResearchLab(connectedAccount)
         setMedicalResearchLab(MedicalResearchLabAData)
         console.log(MedicalResearchLabAData);
+    }
+
+    const ViewTopMedichine = async () => {
+        const contractData = await connectWalletBycontractData(provider)
+        const connectedAccount = await connectWallet()
+        const ViewTopMedichine = await contractData[0].TopMedichine()
+        setTopMedichine(ViewTopMedichine)
+        console.log(ViewTopMedichine);
+    }
+
+    const MedicalResearchLabReports = async () => {
+        const contractData = await connectWalletBycontractData(provider)
+        const connectedAccount = await connectWallet()
+        const ViewMedicalResearchLabReports = await contractData[0].MedicalResearchLabReports()
+        setMedicalResearchLabReport(ViewMedicalResearchLabReports)
+        console.log(ViewMedicalResearchLabReports);
     }
 
 
@@ -187,10 +205,7 @@ const HealthProvider = ({ children }) => {
     }
 
 
-    const getSigner = async (
-
-
-    ) => {   // works
+    const getSigner = async () => {   // works
         // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
 
         try {
@@ -292,6 +307,117 @@ const HealthProvider = ({ children }) => {
         }
 
     }
+
+    const addTopMedichine = async (
+        medichine
+
+    ) => {   // works
+        // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+
+        try {
+            if (window.ethereum) {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+
+                const signer = provider.getSigner()
+                console.log('signer', signer);
+                const contract = new ethers.Contract(healthAddess, healthABI, signer)
+
+                const addingTopMedicine = await contract.addTopMedichine(medichine)
+
+
+                await addingTopMedicine.wait()
+
+                window.location.reload()
+
+            } else {
+                console.error("Metamask is not installed");
+            }
+        } catch (error) {
+            console.log("error account crate time", error);
+        }
+
+    }
+
+
+
+    MedicalResearchLabReports
+
+    const addLabReport = async (
+        report
+
+    ) => {   // works
+        // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+
+        try {
+            if (window.ethereum) {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+
+                const signer = provider.getSigner()
+                console.log('signer', signer);
+                const contract = new ethers.Contract(healthAddess, healthABI, signer)
+
+                const addingLabReport = await contract.addLabReport(report)
+
+
+                await addingLabReport.wait()
+
+                window.location.reload()
+
+            } else {
+                console.error("Metamask is not installed");
+            }
+        } catch (error) {
+            console.log("error account crate time", error);
+        }
+
+    }
+
+    const setPatientPersonalData = async (
+
+        height, blood,
+        previousDiseases,
+        medicineDrugs,
+        badHabits,
+        chronicDiseases,
+        healthAllergies,
+        birthDefects
+
+    ) => {   // works
+        // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+
+        try {
+            if (window.ethereum) {
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+
+                const signer = provider.getSigner()
+                console.log('signer', signer);
+                const contract = new ethers.Contract(healthAddess, healthABI, signer)
+
+                const addPatientPersonalData = await contract.setPatientPersonalData(height, blood,
+                    previousDiseases,
+                    medicineDrugs,
+                    badHabits,
+                    chronicDiseases,
+                    healthAllergies,
+                    birthDefects)
+
+
+                await addPatientPersonalData.wait()
+
+                window.location.reload()
+
+            } else {
+                console.error("Metamask is not installed");
+            }
+        } catch (error) {
+            console.log("error account crate time", error);
+        }
+
+    }
+
 
 
     const AddMedicalResearchLab = async (labID,
