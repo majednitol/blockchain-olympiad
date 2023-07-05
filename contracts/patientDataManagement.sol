@@ -46,8 +46,7 @@ contract MedicalData {
         bool isAdded;
         string userType;
     }
-    mapping(address => PatientPersonalData) public patientData;
-    string[] public MedicalResearchLabReports;
+    mapping(address => PatientPersonalData) private patientData;
 
     struct Pathologist {
         address pathologistAddress;
@@ -70,6 +69,7 @@ contract MedicalData {
         uint256 labRating;
         bool isAdded;
         address[] allPatientsAddressSharedToMedicalResearchLab;
+        string[] MedicalResearchLabReports;
         string userType;
     }
 
@@ -83,6 +83,7 @@ contract MedicalData {
         bool isAdded;
         address[] allPatientAddressSharedToPharmacyCompany;
         string userType;
+        string[] TopMedichine;
     }
 
     mapping(address => uint256) public accounts;
@@ -92,8 +93,6 @@ contract MedicalData {
     mapping(address => Pathologist) pathologists;
     mapping(address => MedicalResearchLab) medicalResearchLabs;
     mapping(address => PharmacyCompany) pharmacyCompanies;
-
-    string[] public TopMedichine;
 
     // Setters and Getters for Patient struct
     function setPatient(
@@ -132,7 +131,7 @@ contract MedicalData {
     }
 
     function addLabReport(string memory report) external {
-        MedicalResearchLabReports.push(report);
+        medicalResearchLabs[msg.sender].MedicalResearchLabReports.push(report);
     }
 
     function add(address _user, string memory url) external {
@@ -307,7 +306,7 @@ contract MedicalData {
 
     function transferData(address useraddress) public {
         uint256 user0 = accounts[useraddress];
-        // require(user0 != uint256(EntityType.Unknown),"Patient does not exist");
+
         if (user0 == uint256(EntityType.Unknown)) {
             require(patients[msg.sender].isAdded, "Patient does not exist");
 
@@ -386,17 +385,18 @@ contract MedicalData {
 
     function getMedicalResearchLab(
         address _labAddress
-    ) public view returns (MedicalResearchLab memory) {
+    ) public view returns (address[] memory) {
         require(
             medicalResearchLabs[_labAddress].isAdded,
             "Medical Research lab does not exist"
         );
 
-        return medicalResearchLabs[_labAddress];
+        return
+            medicalResearchLabs[_labAddress]
+                .allPatientsAddressSharedToMedicalResearchLab;
     }
 
     function setPatientPersonalData(
-        address user,
         uint256 height,
         string memory blood,
         string memory previousDiseases,
@@ -406,7 +406,7 @@ contract MedicalData {
         string memory healthAllergies,
         string memory birthDefects
     ) external {
-        patientData[user] = PatientPersonalData(
+        patientData[msg.sender] = PatientPersonalData(
             height,
             blood,
             previousDiseases,
@@ -419,6 +419,12 @@ contract MedicalData {
     }
 
     function addTopMedichine(string memory medichine) public {
-        TopMedichine.push(medichine);
+        pharmacyCompanies[msg.sender].TopMedichine.push(medichine);
+    }
+
+    function addaddress(address user) public {
+        medicalResearchLabs[user]
+            .allPatientsAddressSharedToMedicalResearchLab
+            .push(msg.sender);
     }
 }
