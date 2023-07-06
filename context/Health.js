@@ -22,6 +22,7 @@ const HealthProvider = ({ children }) => {
     const [signer, setSigner] = useState('')
     const [TopMedichine, setTopMedichine] = useState('')
     const [MedicalResearchLabReport, setMedicalResearchLabReport] = useState('')
+    const [ConnectedAccountUser, setConnectedAccountUser] = useState(0)
 
 
 
@@ -33,6 +34,7 @@ const HealthProvider = ({ children }) => {
         // connectWallet();
         fetchData()
         getSigner()
+        ConnectedEntity()
         //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
         // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
         // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
@@ -128,6 +130,14 @@ const HealthProvider = ({ children }) => {
             connectedAccount)
         setPharmacyCompany(PharmacyCompanyData)
         console.log(PharmacyCompanyData);
+    }
+    const ConnectedEntity = async () => {
+        const contractData = await connectWalletBycontractData(provider)
+        const connectedAccount = await connectWallet()
+        const ConnectedAccountUserType = await contractData[1].ConnectedAccountType(
+            connectedAccount)
+        setConnectedAccountUser(String(ConnectedAccountUserType))
+        console.log("ConnectedAccountUserType", String(ConnectedAccountUserType));
     }
 
 
@@ -594,7 +604,7 @@ const HealthProvider = ({ children }) => {
 
     }
     return (
-        <HealthContext.Provider value={{ account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, PathologistData, signer }}>
+        <HealthContext.Provider value={{ account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, PathologistData, signer, ConnectedAccountUser }}>
             {children}
         </HealthContext.Provider>
     )

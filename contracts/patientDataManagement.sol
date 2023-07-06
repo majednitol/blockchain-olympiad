@@ -356,8 +356,28 @@ contract MedicalData {
                     .allPatientAddressSharedToPharmacyCompany
                     .push(msg.sender);
             } else {
-                revert("Unsupported entity type");
+                revert("Don't have any kinds of account");
             }
+        }
+    }
+
+    function ConnectedAccountType(
+        address useraddress
+    ) public view returns (uint) {
+        uint256 user0 = accounts[useraddress];
+
+        if (user0 == uint256(EntityType.Doctor)) {
+            return user0;
+        } else if (user0 == uint256(EntityType.Patient)) {
+            return user0;
+        } else if (user0 == uint256(EntityType.Pathologist)) {
+            return user0;
+        } else if (user0 == uint256(EntityType.MedicalResearchLab)) {
+            return user0;
+        } else if (user0 == uint256(EntityType.PharmacyCompany)) {
+            return user0;
+        } else {
+            revert("No account have any entity type");
         }
     }
 
