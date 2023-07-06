@@ -76,6 +76,7 @@ const SetPatientPersonalDetails = () => {
             // Perform form submission
 
             console.log('Form submitted');
+            AddNewPatient(patientID, name, gender, age, location)
         }
         else {
             console.log("please fill up all feild");

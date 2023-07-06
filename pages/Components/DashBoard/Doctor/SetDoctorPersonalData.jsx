@@ -85,6 +85,7 @@ const SetDoctorPersonalData = () => {
             // Perform form submission
 
             console.log('Form submitted');
+            AddDoctor(doctorID, name, specialty, consultationFee, BMDCNumber, yearOfExperience)
         }
         else {
             console.log("please fill up all feild");

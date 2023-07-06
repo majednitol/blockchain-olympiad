@@ -132,12 +132,16 @@ const HealthProvider = ({ children }) => {
         console.log(PharmacyCompanyData);
     }
     const ConnectedEntity = async () => {
-        const contractData = await connectWalletBycontractData(provider)
-        const connectedAccount = await connectWallet()
-        const ConnectedAccountUserType = await contractData[1].ConnectedAccountType(
-            connectedAccount)
-        setConnectedAccountUser(String(ConnectedAccountUserType))
-        console.log("ConnectedAccountUserType", String(ConnectedAccountUserType));
+        try {
+            const contractData = await connectWalletBycontractData(provider)
+            const connectedAccount = await connectWallet()
+            const ConnectedAccountUserType = await contractData[1].ConnectedAccountType(
+                connectedAccount)
+            setConnectedAccountUser(String(ConnectedAccountUserType))
+            console.log("ConnectedAccountUserType", String(ConnectedAccountUserType));
+        } catch (error) {
+            console.log("no account have in address");
+        }
     }
 
 

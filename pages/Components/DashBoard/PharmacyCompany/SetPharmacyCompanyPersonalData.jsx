@@ -77,6 +77,7 @@ const PharmacyCompanyPersonalData = () => {
             // Perform form submission
 
             console.log('Form submitted');
+            ddNewPharmacyCompany(companyID, name, licenseID, productInformation, pharmacyRating)
         }
         else {
             console.log("please fill up all feild");

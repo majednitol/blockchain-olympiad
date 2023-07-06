@@ -75,6 +75,7 @@ const SetMediResearchLabPersonalData = () => {
             // Perform form submission
 
             console.log('Form submitted');
+            AddMedicalResearchLab(labID, name, licenseID, researchArea, labRating)
         }
         else {
             console.log("please fill up all feild");

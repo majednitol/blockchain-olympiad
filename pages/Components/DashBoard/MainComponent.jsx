@@ -8,6 +8,7 @@ import Pathologist from './Pathologist/Pathologist'
 import PharmacyCompany from './PharmacyCompany/PharmacyCompany'
 import Patient from './Patient/Patient'
 import { HealthContext } from '@/context/Health'
+import SignUp from './SignUp'
 
 const MainComponent = () => {
     const { account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, Pathologist, ConnectedAccountUser } = useContext(HealthContext)
@@ -36,7 +37,7 @@ const MainComponent = () => {
 
         }
         else {
-            console.log("no accout have to connect");
+            return (<SignUp />)
         }
     }
     return (

@@ -74,6 +74,7 @@ const SetPathologistPersonalData = () => {
             // Perform form submission
 
             console.log('Form submitted');
+            AddNewpathologist(pathologistID, name, licenseNumber, specializationArea, totalExperience)
         }
         else {
             console.log("please fill up all feild");
