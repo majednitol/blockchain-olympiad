@@ -1,9 +1,9 @@
 import React from 'react'
 import Styles from './BoxButton.module.css';
 
-const BoxButton = ({ name, handleFunction }) => {
+const BoxButton = ({ name }) => {
     return (
-        <div className={Styles.box} onClick={() => { handleFunction() }}>
+        <div className={Styles.box} >
             {name}
         </div>
     )

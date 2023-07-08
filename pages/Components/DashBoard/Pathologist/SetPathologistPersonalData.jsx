@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import BoxButton from '../../BoxButton';
+import { HealthContext } from '@/context/Health';
 
 
 const SetPathologistPersonalData = () => {
+    const { account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, Pathologist, ConnectedAccountUser } = useContext(HealthContext)
     const [name, setName] = useState('');
     const [pathologistID, setpathologistID] = useState('');
     const [specializationArea, setspecializationArea] = useState('');
@@ -86,7 +88,7 @@ const SetPathologistPersonalData = () => {
         <div>
 
             <button type="" class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
-                <BoxButton name="DoctorPersonalData" />
+                <BoxButton name="pathologist Personal Data" handleFunction={() => { }} />
             </button>
 
 
@@ -152,7 +154,10 @@ const SetPathologistPersonalData = () => {
                                 </div>
                                 <div class="modal-footer">
                                     <button type="btn btn-dark" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit btn btn-primary" onClick={() => { handleSubmit }} class="btn btn-primary">Submit</button>
+                                    <button type="submit btn btn-primary" onClick={() => {
+                                        handleSubmit
+                                        window.location.reload()
+                                    }} class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
 

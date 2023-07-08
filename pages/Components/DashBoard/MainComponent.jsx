@@ -43,6 +43,7 @@ const MainComponent = () => {
     return (
         <div>
             {accountType()}
+
         </div>
     )
 }

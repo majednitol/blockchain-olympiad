@@ -5,7 +5,7 @@ import GetPharmacyCompanyPersonalData from './GetPharmacyCompanyPersonalData'
 const PharmacyCompany = () => {
     return (
         <div>
-            {/* <SetPharmacyCompanyPersonalData /> */}
+            <SetPharmacyCompanyPersonalData />
             <GetPharmacyCompanyPersonalData />
         </div>
     )

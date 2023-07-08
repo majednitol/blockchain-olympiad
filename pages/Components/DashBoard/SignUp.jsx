@@ -8,11 +8,12 @@ import PharmacyCompanyPersonalData from './PharmacyCompany/SetPharmacyCompanyPer
 const SignUp = () => {
     return (
         <div>
+            <SetPathologistPersonalData />
+            <PharmacyCompanyPersonalData />
             <SetPatientPersonalDetails />
             <SetDoctorPersonalData />
             <SetMediResearchLabPersonalData />
-            <SetPathologistPersonalData />
-            <PharmacyCompanyPersonalData />
+
 
         </div>
     )

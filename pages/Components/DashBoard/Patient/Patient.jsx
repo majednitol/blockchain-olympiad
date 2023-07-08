@@ -6,8 +6,8 @@ import Prescription from './Prescription'
 const Patient = () => {
     return (
         <div>
-            {/* <SetPatientPersonalDetails /> */}
-            {/* <GetPersonalDetails /> */}
+            <SetPatientPersonalDetails />
+            <GetPersonalDetails />
             <Prescription />
         </div>
     )

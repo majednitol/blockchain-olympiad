@@ -1,8 +1,10 @@
 
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import BoxButton from '../../BoxButton';
+import { HealthContext } from '@/context/Health';
 
 const SetPatientPersonalDetails = () => {
+    const { account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, Pathologist, ConnectedAccountUser } = useContext(HealthContext)
     const [name, setName] = useState('');
     const [patientID, setpatientID] = useState('');
     const [gender, setgender] = useState('');
@@ -83,11 +85,12 @@ const SetPatientPersonalDetails = () => {
         }
     };
 
+
     return (
         <div>
 
             <button type="" class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">
-                <BoxButton name="majed" />
+                <BoxButton name="Patient" handleFunction={() => { }} />
             </button>
 
 
@@ -152,7 +155,11 @@ const SetPatientPersonalDetails = () => {
                                 </div>
                                 <div class="modal-footer">
                                     <button type="btn btn-dark" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit btn btn-primary" onClick={() => { handleSubmit }} class="btn btn-primary">Submit</button>
+                                    <button type="submit btn btn-primary" onClick={() => {
+                                        handleSubmit()
+
+
+                                    }} class="btn btn-primary">Submit</button>
                                 </div>
                             </form>
 

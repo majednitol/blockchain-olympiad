@@ -5,7 +5,7 @@ import GetPathologistPersonalData from './GetPathologistPersonalData'
 const Pathologist = () => {
     return (
         <div>
-            {/* <SetPathologistPersonalData /> */}
+            <SetPathologistPersonalData />
             <GetPathologistPersonalData />
         </div>
     )

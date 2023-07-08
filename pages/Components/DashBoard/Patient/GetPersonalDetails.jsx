@@ -25,7 +25,7 @@ const GetPersonalDetails = () => {
                             <div class="modal-body">
                                 Account: {patientData[0]}
                                 <hr />
-                                PatientId: {patientData[1]}
+                                PatientId: {String(patientData[1])}
                                 <hr />
                                 Patient Name: {patientData[2]}
                                 <hr />
@@ -33,7 +33,7 @@ const GetPersonalDetails = () => {
                                 <hr />
                                 Patient Age: {String(patientData[4])}
                                 <hr />
-                                Patient Location: {String(patientData[5])}
+                                Patient Location: {patientData[5]}
                                 <div class="modal-footer">
                                     <button type="btn btn-dark" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
                                     {/* <button type="submit btn btn-primary" onClick={() => { handleSubmit }} class="btn btn-primary">Submit</button> */}
