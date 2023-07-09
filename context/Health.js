@@ -588,11 +588,11 @@ const HealthProvider = ({ children }) => {
                 console.log('signer', signer);
                 const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
-                const transferDataUser = await contract.transferDataByPatient(receiptAddress
+                const transferDatabyPatient = await contract.transferDataByPatient(receiptAddress
                 )
 
 
-                await transferDataUser.wait()
+                await transferDatabyPatient.wait()
 
                 window.location.reload()
 

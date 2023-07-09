@@ -3,7 +3,7 @@ import SetDoctorPersonalData from './SetDoctorPersonalData'
 import GetDoctorPersonalData from './GetDoctorPersonalData'
 import FileUpload from '../../File/FileUpload'
 
-const Doctor = () => {
+const DoctorComponent = () => {
     return (
         <div>
             <SetDoctorPersonalData />
@@ -13,4 +13,4 @@ const Doctor = () => {
     )
 }
 
-export default Doctor
+export default DoctorComponent

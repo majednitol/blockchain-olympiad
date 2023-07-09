@@ -2,7 +2,7 @@ import React from 'react'
 import SetPharmacyCompanyPersonalData from './SetPharmacyCompanyPersonalData'
 import GetPharmacyCompanyPersonalData from './GetPharmacyCompanyPersonalData'
 
-const PharmacyCompany = () => {
+const PharmacyCompanyComponent = () => {
     return (
         <div>
             <SetPharmacyCompanyPersonalData />
@@ -11,4 +11,4 @@ const PharmacyCompany = () => {
     )
 }
 
-export default PharmacyCompany
+export default PharmacyCompanyComponent

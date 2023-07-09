@@ -3,7 +3,7 @@ import SetMediResearchLabPersonalData from './SetMediResearchLabPersonalData'
 import GetPathologistPersonalData from '../Pathologist/GetPathologistPersonalData'
 import GetMediResearchLabPersonalData from './GetMediResearchLabPersonalData'
 
-const MedicalResearchLab = () => {
+const MedicalResearchLabComponent = () => {
     return (
         <div>
             {/* <SetMediResearchLabPersonalData />
@@ -14,4 +14,4 @@ const MedicalResearchLab = () => {
     )
 }
 
-export default MedicalResearchLab
+export default MedicalResearchLabComponent

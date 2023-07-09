@@ -2,7 +2,7 @@ import React from 'react'
 import SetPathologistPersonalData from './SetPathologistPersonalData'
 import GetPathologistPersonalData from './GetPathologistPersonalData'
 
-const Pathologist = () => {
+const PathologistComponent = () => {
     return (
         <div>
             <SetPathologistPersonalData />
@@ -11,4 +11,4 @@ const Pathologist = () => {
     )
 }
 
-export default Pathologist
+export default PathologistComponent

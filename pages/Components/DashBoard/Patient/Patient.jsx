@@ -4,7 +4,7 @@ import GetPersonalDetails from './GetPersonalDetails'
 import Prescription from './Prescription'
 import DisplayFile from '../../File/DisplayFile'
 
-const Patient = () => {
+const PatientComponent = () => {
     return (
         <div>
             <SetPatientPersonalDetails />
@@ -15,4 +15,4 @@ const Patient = () => {
     )
 }
 
-export default Patient
+export default PatientComponent

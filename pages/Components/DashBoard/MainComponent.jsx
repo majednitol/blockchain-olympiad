@@ -1,39 +1,38 @@
 import React, { useContext } from 'react'
 
 
-import DoctorPersonalData from './Doctor/SetDoctorPersonalData'
-import Doctor from './Doctor/Doctor'
-import MedicalResearchLab from './MedicalResearchLab/MedicalResearchLab'
-import Pathologist from './Pathologist/Pathologist'
-import PharmacyCompany from './PharmacyCompany/PharmacyCompany'
-import Patient from './Patient/Patient'
 import { HealthContext } from '@/context/Health'
 import SignUp from './SignUp'
+import DoctorComponent from './Doctor/Doctor'
+import PathologistComponent from './Pathologist/Pathologist'
+import MedicalResearchLabComponent from './MedicalResearchLab/MedicalResearchLab'
+import PharmacyCompanyComponent from './PharmacyCompany/PharmacyCompany'
+import PatientComponent from './Patient/Patient'
 
 const MainComponent = () => {
-    const { account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, Pathologist, ConnectedAccountUser } = useContext(HealthContext)
+    const { account, AddNewPatient, transferDataByPatient, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, Pathologist, ConnectedAccountUser } = useContext(HealthContext)
 
 
     const accountType = () => {
         if (ConnectedAccountUser == "1") {
             console.log(ConnectedAccountUser);
-            return (<Doctor />)
+            return (<DoctorComponent />)
         }
         else if (ConnectedAccountUser == "2") {
             console.log(ConnectedAccountUser);
-            return (<Pathologist />)
+            return (<PathologistComponent />)
         }
         else if (ConnectedAccountUser == "3") {
             console.log(ConnectedAccountUser);
-            return (<MedicalResearchLab />)
+            return (<MedicalResearchLabComponent />)
 
         } else if (ConnectedAccountUser == "4") {
             console.log(ConnectedAccountUser);
-            return (<PharmacyCompany />)
+            return (<PharmacyCompanyComponent />)
 
         } else if (ConnectedAccountUser == "5") {
             console.log("ConnectedAccountUserType", ConnectedAccountUser);
-            return (<Patient />)
+            return (<PatientComponent />)
 
         }
         else {
