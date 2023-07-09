@@ -40,7 +40,7 @@ const HealthProvider = ({ children }) => {
         // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
 
         // doctorAllData()
-        // patientAllData()
+        patientAllData()
         // getMedicalResearchLabAData()
         // getPathologistAllData()
         // PharmacyCompanyAllData()
@@ -71,11 +71,12 @@ const HealthProvider = ({ children }) => {
 
 
     const patientAllData = async () => {
+
         const contractData = await connectWalletBycontractData(provider)
         const connectedAccount = await connectWallet()
         const patientData = await contractData[1].getPatient(connectedAccount)
         setPatientData(patientData)
-        // console.log("patientData ", patientData);
+        console.log("patientData ", patientData);
     }
 
 

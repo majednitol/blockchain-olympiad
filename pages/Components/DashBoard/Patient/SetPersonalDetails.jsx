@@ -155,8 +155,8 @@ const SetPatientPersonalDetails = () => {
                                 </div>
                                 <div class="modal-footer">
                                     <button type="btn btn-dark" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit btn btn-primary" onClick={() => {
-                                        handleSubmit()
+                                    <button type="submit btn btn-primary" onClick={(e) => {
+                                        handleSubmit(e)
 
 
                                     }} class="btn btn-primary">Submit</button>

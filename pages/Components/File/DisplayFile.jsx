@@ -12,7 +12,7 @@ const DisplayFile = () => {
 
         try {
             console.log("jjjjjj", contractData);
-            dataArray = await contractData[1].displayImage()
+            dataArray = await patientData[8]
 
             console.log("data image", dataArray);
         } catch (error) {
@@ -26,12 +26,13 @@ const DisplayFile = () => {
             // console.log(str_array);
             const images = str_array.map((item, i) => {
                 return (
-                    <a href={item} key={i} target="_blank" rel="noreferrer">
-                        <img src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`} alt="" className={Styles.image - list} />
+                    <a href={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`} key={i} target="_blank" >
+                        <img src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`} alt="img" />
+
                     </a>
                 )
             })
-            console.log("images", images);
+
             setData(images)
 
         }

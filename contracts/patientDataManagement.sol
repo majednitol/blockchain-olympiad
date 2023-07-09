@@ -163,9 +163,9 @@ contract MedicalData {
     //     }
     // }
 
-    function displayImage() public view returns (string[] memory) {
-        return patients[msg.sender].imgUrl;
-    }
+    // function displayImage() public view returns (string[] memory) {
+    //     return patients[msg.sender].imgUrl;
+    // }
 
     function getDoctor(
         address _doctorAddress
@@ -304,10 +304,10 @@ contract MedicalData {
         company.userType = "PharmacyCompany";
     }
 
-    function transferData(address useraddress) public {
+    function transferDataByPatient(address useraddress) public {
         uint256 user0 = accounts[useraddress];
 
-        if (user0 == uint256(EntityType.Unknown)) {
+        if (5 == uint256(EntityType.Patient)) {
             require(patients[msg.sender].isAdded, "Patient does not exist");
 
             if (
@@ -405,15 +405,13 @@ contract MedicalData {
 
     function getMedicalResearchLab(
         address _labAddress
-    ) public view returns (address[] memory) {
+    ) public view returns (MedicalResearchLab memory) {
         require(
             medicalResearchLabs[_labAddress].isAdded,
             "Medical Research lab does not exist"
         );
 
-        return
-            medicalResearchLabs[_labAddress]
-                .allPatientsAddressSharedToMedicalResearchLab;
+        return medicalResearchLabs[_labAddress];
     }
 
     function setPatientPersonalData(
@@ -442,9 +440,9 @@ contract MedicalData {
         pharmacyCompanies[msg.sender].TopMedichine.push(medichine);
     }
 
-    function addaddress(address user) public {
-        medicalResearchLabs[user]
-            .allPatientsAddressSharedToMedicalResearchLab
-            .push(msg.sender);
-    }
+    // function addaddress(address user) public {
+    //     medicalResearchLabs[user]
+    //         .allPatientsAddressSharedToMedicalResearchLab
+    //         .push(msg.sender);
+    // }
 }
