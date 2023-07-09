@@ -40,7 +40,7 @@ const HealthProvider = ({ children }) => {
         // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
 
         // doctorAllData()
-        patientAllData()
+        // patientAllData()
         // getMedicalResearchLabAData()
         // getPathologistAllData()
         // PharmacyCompanyAllData()
