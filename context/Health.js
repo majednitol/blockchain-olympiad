@@ -571,11 +571,10 @@ const HealthProvider = ({ children }) => {
 
     // }
 
-    const transferData = async (
-        entityType1,
-        entityType2,
-        user1,
-        user2
+    const transferDataByPatient = async (
+
+
+        receiptAddress
 
     ) => {   // works
         // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
@@ -589,10 +588,7 @@ const HealthProvider = ({ children }) => {
                 console.log('signer', signer);
                 const contract = new ethers.Contract(patientAddress, patientABI, signer)
 
-                const transferDataUser = await contract.transferData(entityType1,
-                    entityType2,
-                    user1,
-                    user2
+                const transferDataUser = await contract.transferDataByPatient(receiptAddress
                 )
 
 
@@ -609,7 +605,7 @@ const HealthProvider = ({ children }) => {
 
     }
     return (
-        <HealthContext.Provider value={{ account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, PathologistData, signer, ConnectedAccountUser }}>
+        <HealthContext.Provider value={{ account, AddNewPatient, transferDataByPatient, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, PathologistData, signer, ConnectedAccountUser }}>
             {children}
         </HealthContext.Provider>
     )
