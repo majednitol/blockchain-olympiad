@@ -30,6 +30,8 @@ const DisplayFile = () => {
                         <img src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`} alt="img" />
 
                     </a>
+
+
                 )
             })
 
