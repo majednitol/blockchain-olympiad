@@ -14,7 +14,6 @@ const DisplayFile = () => {
             console.log("jjjjjj", contractData);
             dataArray = await patientData[8]
 
-
             console.log("data image", dataArray);
         } catch (error) {
             alert(error)
