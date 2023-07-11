@@ -41,6 +41,7 @@ contract MedicalData {
         string[] imgUrl;
         string userType;
     }
+
     mapping(address => PatientPersonalData) private patientData;
 
     struct Pathologist {
@@ -147,33 +148,6 @@ contract MedicalData {
         }
     }
 
-    // function allow(address user) external {
-    //     ownership[msg.sender][user] = true;
-
-    //     if (previousData[msg.sender][user]) {
-    //         for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
-    //             if (accessList[msg.sender][i].user == user) {
-    //                 accessList[msg.sender].push(Access(user, true));
-    //             }
-    //         }
-    //     } else {
-    //         accessList[msg.sender].push(Access(user, true));
-    //         previousData[msg.sender][user] = true;
-    //     }
-    // }
-
-    // function disallow(address user) public {
-    //     ownership[msg.sender][user] = false;
-    //     for (uint256 i = 0; i < accessList[msg.sender].length; i++) {
-    //         if (accessList[msg.sender][i].user == user) {
-    //             accessList[msg.sender][i].access = false;
-    //         }
-    //     }
-    // }
-
-    // function displayImage() public view returns (string[] memory) {
-    //     return patients[msg.sender].imgUrl;
-    // }
 
     function getDoctor(address _doctorAddress)
     public
@@ -181,11 +155,7 @@ contract MedicalData {
     returns (Doctor memory)
     {
         require(doctors[_doctorAddress].isAdded, "Doctor does not exist");
-        // require(
-        //     _doctorAddress == msg.sender ||
-        //         ownership[_doctorAddress][msg.sender],
-        //     "you don't have accress"
-        // );
+
         return doctors[_doctorAddress];
     }
 
@@ -195,11 +165,6 @@ contract MedicalData {
     returns (Patient memory)
     {
         require(patients[_patientAddress].isAdded, "Patient does not exist");
-        // require(
-        //     _patientAddress == msg.sender ||
-        //         ownership[_patientAddress][msg.sender],
-        //     "you don't have accress"
-        // );
         return patients[_patientAddress];
     }
 
