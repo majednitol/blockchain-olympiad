@@ -36,7 +36,7 @@ const HealthProvider = ({ children }) => {
     // connectWallet();
     fetchData();
     getSigner();
-    ConnectedEntity();
+    ConnectedEntityType();
 
     // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
     // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
