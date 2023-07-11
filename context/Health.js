@@ -38,20 +38,20 @@ const HealthProvider = ({ children }) => {
     fetchData();
     getSigner();
     ConnectedEntity();
-    //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
+
     // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
     // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
     //transferDataByPatient('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7')
     // doctorAllData()
     patientAllData();
-    // getMedicalResearchLabAData()
+    //getMedicalResearchLabAData();
     //getPathologistAllData()
 
     //PharmacyCompanyAllData()
     // AddNewPharmacyCompany(2, 'mjed', 44, 'xyz', 4)
     // AddMedicalResearchLab(2, 'ma', 44, 'xyz', 3)
 
-    // AddNewPatient("2", "majed", "male", 30, "dhaka")
+    //AddNewPatient("2", "majed", "male", 30, "dhaka");
   }, []);
 
   const fetchData = async () => {

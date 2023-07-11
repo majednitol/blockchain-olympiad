@@ -148,6 +148,21 @@ contract MedicalData {
         }
     }
 
+    function setPathologistTest(
+        string memory allergies,
+        string memory cancer,
+        string memory hormoneProblem,
+        uint256 diabetesLevel
+    ) public {
+        PathologistTest memory test = PathologistTest({
+            Allergies: allergies,
+            Cancer: cancer,
+            HormoneProblem: hormoneProblem,
+            DiabetesLevel: diabetesLevel
+        });
+
+        pathologistTests[msg.sender] = test;
+    }
 
     function getDoctor(address _doctorAddress)
     public
