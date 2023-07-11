@@ -136,7 +136,7 @@ contract MedicalData {
     }
 
     function add(address _user, string memory url) external {
-        if(accounts[msg.sender] == uint256(EntityType.Doctor)){
+        if (accounts[msg.sender] == uint256(EntityType.Doctor)) {
             require(doctors[msg.sender].isAdded, "Doctor  does not exist");
             doctors[msg.sender].imgUrl.push(url);
             patients[_user].imgUrl.push(url);
@@ -373,7 +373,7 @@ contract MedicalData {
         uint256 user0 = accounts[useraddress];
 
         if (1 == uint256(EntityType.Doctor)) {
-            require(patients[msg.sender].isAdded, "Doctor does not exist");
+            require(doctors[msg.sender].isAdded, "Doctor does not exist");
 
             if (
                 user0 == uint256(EntityType.Pathologist) &&
@@ -396,7 +396,7 @@ contract MedicalData {
         uint256 user0 = accounts[useraddress];
 
         if (2 == uint256(EntityType.Pathologist)) {
-            require(patients[msg.sender].isAdded, "Pathologist does not exist");
+            require(pathologists[msg.sender].isAdded, "Pathologist does not exist");
 
             if (
                 user0 == uint256(EntityType.Doctor) &&
