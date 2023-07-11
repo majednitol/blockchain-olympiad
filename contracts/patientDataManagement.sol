@@ -143,7 +143,7 @@ contract MedicalData {
 
         }
         else if (accounts[msg.sender] == uint256(EntityType.Patient)){
-            require(patients[_user].isAdded, "Patient does not exist");
+            require(patients[msg.sender].isAdded, "Patient does not exist");
             patients[_user].imgUrl.push(url);
         }
     }
