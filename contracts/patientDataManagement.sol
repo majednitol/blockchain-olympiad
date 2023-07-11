@@ -44,6 +44,7 @@ contract MedicalData {
         uint256 yearOfExperience;
         address[] allPatientsAddressSharedToDoctor;
         bool isAdded;
+        string[] imgUrl;
         string userType;
     }
     mapping(address => PatientPersonalData) private patientData;
@@ -135,10 +136,17 @@ contract MedicalData {
     }
 
     function add(address _user, string memory url) external {
-        require(patients[_user].isAdded, "Patient does not exist");
-        patients[_user].imgUrl.push(url);
-    }
+        if(accounts[msg.sender] == uint256(EntityType.Doctor)){
+            require(patients[_user].isAdded, "Doctor  does not exist");
+            doctors[_user].imgUrl.push(url);
+            patients[_user].imgUrl.push(url);
 
+        }
+        else if (accounts[msg.sender] == uint256(EntityType.Patient)){
+            require(patients[_user].isAdded, "Patient does not exist");
+            patients[_user].imgUrl.push(url);
+        }
+    }
     // function allow(address user) external {
     //     ownership[msg.sender][user] = true;
 
@@ -330,8 +338,8 @@ contract MedicalData {
                     "Pathologist does not exist"
                 );
                 pathologists[useraddress]
-                    .allPatientsAddressSharedTopathologist
-                    .push(msg.sender);
+                .allPatientsAddressSharedTopathologist
+                .push(msg.sender);
             } else if (
                 user0 == uint256(EntityType.MedicalResearchLab) &&
                 5 == uint256(EntityType.Patient)
@@ -341,21 +349,44 @@ contract MedicalData {
                     "Medical Research Lab does not exist"
                 );
                 medicalResearchLabs[useraddress]
-                    .allPatientsAddressSharedToMedicalResearchLab
-                    .push(msg.sender);
+                .allPatientsAddressSharedToMedicalResearchLab
+                .push(msg.sender);
             } else if (
                 user0 == uint256(EntityType.PharmacyCompany) &&
                 5 == uint256(EntityType.Patient)
             ) {
                 require(
                     pharmacyCompanies[useraddress].pharmacyCompanyAddress !=
-                        address(0),
+                    address(0),
                     "Pharmacy Company does not exist"
                 );
                 pharmacyCompanies[useraddress]
-                    .allPatientAddressSharedToPharmacyCompany
-                    .push(msg.sender);
+                .allPatientAddressSharedToPharmacyCompany
+                .push(msg.sender);
             } else {
+                revert("Don't have any kinds of account");
+            }
+        }
+    }
+
+    function transferDataByDoctor(address useraddress) public {
+        uint256 user0 = accounts[useraddress];
+
+        if (1 == uint256(EntityType.Doctor)) {
+            require(patients[msg.sender].isAdded, "Doctor does not exist");
+
+            if (
+                user0 == uint256(EntityType.Pathologist) &&
+                1 == uint256(EntityType.Doctor)
+            ) {
+                require(
+                    pathologists[useraddress].pathologistAddress != address(0),
+                    "Pathologist does not exist"
+                );
+                pathologists[useraddress]
+                .allPatientsAddressSharedTopathologist
+                .push(msg.sender);
+            }  else {
                 revert("Don't have any kinds of account");
             }
         }
