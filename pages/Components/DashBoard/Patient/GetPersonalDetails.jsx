@@ -38,7 +38,7 @@ const GetPersonalDetails = () => {
                                     <button type="btn btn-dark" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
                                     {/* <button type="submit btn btn-primary" onClick={() => { handleSubmit }} class="btn btn-primary">Submit</button> */}
 
-
+                                    {console.log("patientdata", patientData)}
                                 </div>
                             </div>
 

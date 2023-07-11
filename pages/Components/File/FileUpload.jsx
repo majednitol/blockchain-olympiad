@@ -4,8 +4,30 @@ import axios from 'axios';
 // import './FileUpload.css';
 import Styles from './FileUpload.module.css';
 import { HealthContext } from '@/context/Health';
-const FileUpload = () => {
-    const { account, AddNewPatient, transferData, AddMedicalResearchLab, AddNewpathologist, AddNewPharmacyCompany, AddDoctor, PharmacyCompanyAllData, getPathologistAllData, getMedicalResearchLabAData, doctorAllData, patientAllData, fetchData, userName, doctorData, patientData, PharmacyCompany, MedicalResearchLab, contractData, Pathologist, signer } = useContext(HealthContext)
+const FileUpload = ({userAccount}) => {
+    const {
+        account,
+        AddNewPatient,
+        transferData,
+        AddMedicalResearchLab,
+        AddNewpathologist,
+        AddNewPharmacyCompany,
+        AddDoctor,
+        PharmacyCompanyAllData,
+        getPathologistAllData,
+        getMedicalResearchLabAData,
+        doctorAllData,
+        patientAllData,
+        fetchData,
+        userName,
+        doctorData,
+        patientData,
+        PharmacyCompany,
+        MedicalResearchLab,
+        contractData,
+        Pathologist,
+        signer
+    } = useContext(HealthContext)
     const [file, setFile] = useState(null)
     const [filename, setFilename] = useState("No image selected")
     const handleSubmit = async (e) => {
@@ -26,10 +48,10 @@ const FileUpload = () => {
                     },
                 })
 
-                console.log("kkkkk", resFile);
+
 
                 const imgHash = `ipfs://${resFile.data.IpfsHash}`
-                signer.add(account, imgHash)
+                signer.add(userAccount, imgHash)
                 alert("Successfully Image Uploaded")
                 setFilename("No image selected")
                 setFile(null)

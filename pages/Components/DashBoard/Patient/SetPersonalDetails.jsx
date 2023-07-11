@@ -133,33 +133,36 @@ const SetPatientPersonalDetails = () => {
                                         placeholder='Enter your gender'
                                         onChange={handleInputChange}
                                     />
-                                    {errors.gender && <span>{errors.gender}</span>}
-                                </div> <div class="mb-3">
+                                {errors.gender && <span>{errors.gender}</span>}
+                            </div>
+                                <div class="mb-3">
                                     <label for="recipient-name" class="col-form-label">age :</label>
                                     <input type="number" class="form-control" id="age"
-                                        name="age"
-                                        value={age}
-                                        placeholder='Enter your Gender'
-                                        onChange={handleInputChange}
+                                           name="age"
+                                           value={age}
+                                           placeholder='Enter your Gender'
+                                           onChange={handleInputChange}
                                     />
                                     {errors.age && <span>{errors.age}</span>}
-                                </div> <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">location :</label>
+                                </div>
+                                <div className="mb-3">
+                                    <label>location :</label>
                                     <input type="text" class="form-control" id="location"
-                                        name="location"
-                                        value={location}
-                                        onChange={handleInputChange}
-                                        placeholder='Enter your Age'
+                                           name="location"
+                                           value={location}
+                                           onChange={handleInputChange}
+                                           placeholder='Enter your Age'
                                     />
                                     {errors.location && <span>{errors.location}</span>}
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="btn btn-dark" className="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                                <div className="modal-footer">
+
                                     <button type="submit btn btn-primary" onClick={(e) => {
                                         handleSubmit(e)
 
 
-                                    }} class="btn btn-primary">Submit</button>
+                                    }} className="btn btn-primary">Submit
+                                    </button>
                                 </div>
                             </form>
 
