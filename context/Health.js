@@ -534,6 +534,45 @@ const HealthProvider = ({ children }) => {
       console.log("error account crate time", error);
     }
   };
+
+  const setPathologistTest = async (
+    allergies,
+    cancer,
+    hormoneProblem,
+    diabetesLevel
+  ) => {
+    // works
+    // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+
+    try {
+      if (window.ethereum) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+        const signer = provider.getSigner();
+        console.log("signer", signer);
+        const contract = new ethers.Contract(
+          patientAddress,
+          patientABI,
+          signer
+        );
+
+        const addPathologistTest = await contract.setPathologistTest(
+          allergies,
+          cancer,
+          hormoneProblem,
+          diabetesLevel
+        );
+
+        await addPathologistTest.wait();
+
+        window.location.reload();
+      } else {
+        console.error("Metamask is not installed");
+      }
+    } catch (error) {
+      console.log("error account crate time", error);
+    }
+  };
   return (
     <HealthContext.Provider
       value={{
@@ -567,6 +606,7 @@ const HealthProvider = ({ children }) => {
         setPatientPersonalData,
         transferDataByDoctor,
         transferDataByPathologist,
+        setPathologistTest,
       }}
     >
       {children}
