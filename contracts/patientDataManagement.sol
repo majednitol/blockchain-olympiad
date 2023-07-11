@@ -137,14 +137,14 @@ contract MedicalData {
 
     function add(address _user, string memory url) external {
         if(accounts[msg.sender] == uint256(EntityType.Doctor)){
-            require(patients[_user].isAdded, "Doctor  does not exist");
-            doctors[_user].imgUrl.push(url);
+            require(doctors[msg.sender].isAdded, "Doctor  does not exist");
+            doctors[msg.sender].imgUrl.push(url);
             patients[_user].imgUrl.push(url);
 
         }
-        else if (accounts[msg.sender] == uint256(EntityType.Patient)){
-            require(patients[_user].isAdded, "Patient does not exist");
-            patients[_user].imgUrl.push(url);
+        else if (accounts[msg.sender] == uint256(EntityType.Patient)) {
+            require(patients[msg.sender].isAdded, "Patient does not exist");
+            patients[msg.sender].imgUrl.push(url);
         }
     }
     // function allow(address user) external {
