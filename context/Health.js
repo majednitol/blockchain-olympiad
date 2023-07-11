@@ -21,6 +21,7 @@ const HealthProvider = ({children}) => {
   const [MedicalResearchLab, setMedicalResearchLab] = useState("");
   const [contractData, setContractData] = useState("");
   const [PathologistData, setPathologistData] = useState("");
+    const [PathologistSharedData, setPathologistSharedData] = useState("");
 
   const [PharmacyCompany, setPharmacyCompany] = useState("");
   const [signer, setSigner] = useState("");
@@ -34,22 +35,23 @@ const HealthProvider = ({children}) => {
   );
   useEffect(() => {
     // connectWallet();
-    fetchData();
-    getSigner();
-    ConnectedEntity();
-    //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
-    // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
-    // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
+      fetchData();
+      getSigner();
+      ConnectedEntity();
+      //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
+      // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
+      // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
+//transferDataByPatient('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7')
+      // doctorAllData()
+      //patientAllData();
+      // getMedicalResearchLabAData()
+      getPathologistAllData()
+      getPathologistAllSharedData()
+      //PharmacyCompanyAllData()
+      // AddNewPharmacyCompany(2, 'mjed', 44, 'xyz', 4)
+      // AddMedicalResearchLab(2, 'ma', 44, 'xyz', 3)
 
-    // doctorAllData()
-    patientAllData();
-    // getMedicalResearchLabAData()
-    // getPathologistAllData()
-    // PharmacyCompanyAllData()
-    // AddNewPharmacyCompany(2, 'mjed', 44, 'xyz', 4)
-    // AddMedicalResearchLab(2, 'ma', 44, 'xyz', 3)
-
-    // AddNewPatient("2", "majed", "male", 30, "dhaka")
+      // AddNewPatient("2", "majed", "male", 30, "dhaka")
   }, []);
 
   const fetchData = async () => {
@@ -120,7 +122,8 @@ const HealthProvider = ({children}) => {
     console.log(pathologistAllData);
   };
 
-  const PharmacyCompanyAllData = async () => {
+
+    const PharmacyCompanyAllData = async () => {
     const contractData = await connectWalletBycontractData(provider);
     const connectedAccount = await connectWallet();
     const PharmacyCompanyData = await contractData[1].getPharmacyCompany(
