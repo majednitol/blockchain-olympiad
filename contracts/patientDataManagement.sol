@@ -35,8 +35,8 @@ contract MedicalData {
         uint256 consultationFee;
         uint256 BMDCNumber;
         uint256 yearOfExperience;
-        address[] allPatientsAddressSharedToDoctor;
-        address[] allPathologistAddressSharedToDoctor;
+        address[] PatientToDoctor; //data share of all patient
+        address[] PathologiestToDoctor; // data share of all patient
         bool isAdded;
         string[] imgUrl;
         string userType;
@@ -52,12 +52,13 @@ contract MedicalData {
         string specializationArea;
         uint256 totalExperience;
         bool isAdded;
-        address[] allPatientsAddressSharedTopathologist;
+        address[] PatientToPathologiest;//allPatientsAddressSharedTopathologist
         string userType;
+        PathologistTest pathologistTest;
     }
 
     struct PathologistTest {
-        string Allries;
+        string Allergies;
         string Cancer;
         string HormoneProblem;
         uint256 DiabatiesLevel;
@@ -71,8 +72,8 @@ contract MedicalData {
         string researchArea;
         uint256 labRating;
         bool isAdded;
-        address[] allPatientsAddressSharedToMedicalResearchLab;
-        string[] MedicalResearchLabReports;
+        address[] PatientToMedRcLab; // allPatientsAddressSharedToMedicalResearchLab
+        string[] PatientLabReport; // MedicalResearchLabReports
         string userType;
     }
 
@@ -84,7 +85,7 @@ contract MedicalData {
         string productInformation;
         uint256 pharmacyRating;
         bool isAdded;
-        address[] allPatientAddressSharedToPharmacyCompany;
+        address[] PatientToPharmacy; // allPatientAddressSharedToPharmacyCompany
         string userType;
         string[] TopMedichine;
     }
@@ -93,9 +94,10 @@ contract MedicalData {
     mapping(address => Patient) patients;
     mapping(address => Doctor) doctors;
 
-    mapping(address => Pathologist) pathologists;
+    mapping(address => Pathologist) pathologists;  //pathologistTests
     mapping(address => MedicalResearchLab) medicalResearchLabs;
     mapping(address => PharmacyCompany) pharmacyCompanies;
+    mapping(address => PathologistTest) public pathologistTests; // Problem 1
 
     // Setters and Getters for Patient struct
     function setPatient(
@@ -134,16 +136,16 @@ contract MedicalData {
     }
 
     function addLabReport(string memory report) external {
-        medicalResearchLabs[msg.sender].MedicalResearchLabReports.push(report);
+        medicalResearchLabs[msg.sender].PatientLabReport.push(report); // problem 2
     }
 
-    function add(address _user, string memory url) external {
+    function addPrescription(address _user, string memory url) external {  //Docto or Patient addPrescription
         if (accounts[msg.sender] == uint256(EntityType.Doctor)) {
-            require(doctors[msg.sender].isAdded, "Doctor  does not exist");
+            require(doctors[msg.sender].isAdded, "Doctor doesn't exist");
             doctors[msg.sender].imgUrl.push(url);
             patients[_user].imgUrl.push(url);
         } else if (accounts[msg.sender] == uint256(EntityType.Patient)) {
-            require(patients[msg.sender].isAdded, "Patient does not exist");
+            require(patients[msg.sender].isAdded, "Patient doesn't exist");
             patients[msg.sender].imgUrl.push(url);
         }
     }
@@ -158,10 +160,10 @@ contract MedicalData {
             Allergies: allergies,
             Cancer: cancer,
             HormoneProblem: hormoneProblem,
-            DiabetesLevel: diabetesLevel
+            DiabatiesLevel: diabetesLevel
         });
 
-        pathologistTests[msg.sender] = test;
+        pathologistTests[msg.sender] = test;  // problem fix
     }
 
     function getDoctor(address _doctorAddress)
@@ -169,7 +171,7 @@ contract MedicalData {
     view
     returns (Doctor memory)
     {
-        require(doctors[_doctorAddress].isAdded, "Doctor does not exist");
+        require(doctors[_doctorAddress].isAdded, "Doctor doesn't exist");
 
         return doctors[_doctorAddress];
     }
@@ -195,7 +197,7 @@ contract MedicalData {
         address user = msg.sender;
         require(
             doctors[user].isAdded == false,
-            "you already create your profile"
+            "You already create your profile"
         );
 
         Doctor storage doctor = doctors[user];
@@ -212,8 +214,6 @@ contract MedicalData {
         accounts[user] = 1;
     }
 
-    // Setters and Getters for Hospital struct
-
     // Setters and Getters for Pathologist struct
     function setPathologist(
         uint256 pathologistID,
@@ -225,17 +225,15 @@ contract MedicalData {
         address user = msg.sender;
         require(
             pathologists[user].isAdded == false,
-            "you already create your profile"
+            "You already create your profile"
         );
 
         Pathologist storage pathologist = pathologists[user];
-
         pathologist.pathologistAddress = user;
         pathologist.pathologistID = pathologistID;
         pathologist.name = name;
         pathologist.licenseNumber = licenseNumber;
         pathologist.specializationArea = specializationArea;
-
         pathologist.totalExperience = totalExperience;
         accounts[user] = 2;
         pathologist.isAdded = true;
@@ -253,7 +251,7 @@ contract MedicalData {
         address user = msg.sender;
         require(
             medicalResearchLabs[user].isAdded == false,
-            "you already create your profile"
+            "You already create your profile"
         );
 
         MedicalResearchLab storage lab = medicalResearchLabs[user];
@@ -266,7 +264,7 @@ contract MedicalData {
         lab.labRating = labRating;
         lab.isAdded = true;
         accounts[user] = 3;
-        lab.userType = "MedicalResearchLab";
+        lab.userType = "Medical Research Lab";
     }
 
     // Setters and Getters for PharmacyCompany struct
@@ -280,7 +278,7 @@ contract MedicalData {
         address user = msg.sender;
         require(
             pharmacyCompanies[user].isAdded == false,
-            "you already create your profile"
+            "You already create your profile"
         );
 
         PharmacyCompany storage company = pharmacyCompanies[user];
@@ -293,14 +291,14 @@ contract MedicalData {
         company.pharmacyRating = pharmacyRating;
         company.isAdded = true;
         accounts[user] = 4;
-        company.userType = "PharmacyCompany";
+        company.userType = "Pharmacy Company";
     }
 
     function transferDataByPatient(address useraddress) public {
         uint256 user0 = accounts[useraddress];
 
         if (5 == uint256(EntityType.Patient)) {
-            require(patients[msg.sender].isAdded, "Patient does not exist");
+            require(patients[msg.sender].isAdded, "Patient doesn't exist");
 
             if (
                 user0 == uint256(EntityType.Doctor) &&
@@ -308,9 +306,9 @@ contract MedicalData {
             ) {
                 require(
                     doctors[useraddress].BMDCNumber != 0,
-                    "Doctor does not exist"
+                    "Doctor doesn't exist"
                 );
-                doctors[useraddress].allPatientsAddressSharedToDoctor.push(
+                doctors[useraddress].PatientToDoctor.push(
                     msg.sender
                 );
             } else if (
@@ -319,10 +317,10 @@ contract MedicalData {
             ) {
                 require(
                     medicalResearchLabs[useraddress].labAddress != address(0),
-                    "Medical Research Lab does not exist"
+                    "Medical Research Lab doesn't exist"
                 );
                 medicalResearchLabs[useraddress]
-                .allPatientsAddressSharedToMedicalResearchLab
+                .PatientToMedRcLab
                 .push(msg.sender);
             } else if (
                 user0 == uint256(EntityType.PharmacyCompany) &&
@@ -331,13 +329,13 @@ contract MedicalData {
                 require(
                     pharmacyCompanies[useraddress].pharmacyCompanyAddress !=
                     address(0),
-                    "Pharmacy Company does not exist"
+                    "Pharmacy Company doesn't exist"
                 );
                 pharmacyCompanies[useraddress]
-                .allPatientAddressSharedToPharmacyCompany
+                .PatientToPharmacy
                 .push(msg.sender);
             } else {
-                revert("Don't have any kinds of account");
+                revert("You don't have any type of Account");
             }
         }
     }
@@ -346,7 +344,7 @@ contract MedicalData {
         uint256 user0 = accounts[useraddress];
 
         if (1 == uint256(EntityType.Doctor)) {
-            require(doctors[msg.sender].isAdded, "Doctor does not exist");
+            require(doctors[msg.sender].isAdded, "Doctor doesn't exist");
 
             if (
                 user0 == uint256(EntityType.Pathologist) &&
@@ -357,7 +355,7 @@ contract MedicalData {
                     "Pathologist does not exist"
                 );
                 pathologists[useraddress]
-                .allPatientsAddressSharedTopathologist
+                .PatientToPathologiest
                 .push(msg.sender);
             } else {
                 revert("Don't have any kinds of account");
@@ -371,7 +369,7 @@ contract MedicalData {
         if (2 == uint256(EntityType.Pathologist)) {
             require(
                 pathologists[msg.sender].isAdded,
-                "Pathologist does not exist"
+                "Pathologist doesn't exist"
             );
 
             if (
@@ -380,13 +378,13 @@ contract MedicalData {
             ) {
                 require(
                     doctors[useraddress].BMDCNumber != 0,
-                    "Doctor does not exist"
+                    "Doctor doesn't exist"
                 );
-                doctors[useraddress].allPathologistAddressSharedToDoctor.push(
+                doctors[useraddress].PathologiestToDoctor.push(
                     msg.sender
                 );
             } else {
-                revert("Don't have any kinds of account");
+                revert("You don't have any type of Account");
             }
         }
     }
@@ -409,7 +407,7 @@ contract MedicalData {
         } else if (user0 == uint256(EntityType.PharmacyCompany)) {
             return user0;
         } else {
-            revert("No account have any entity type");
+            revert("No account");
         }
     }
 
@@ -420,7 +418,7 @@ contract MedicalData {
     {
         require(
             pathologists[_pathologistAddress].isAdded,
-            "pathologists does not exist"
+            "Pathologists doesn't exist"
         );
 
         return pathologists[_pathologistAddress];
@@ -433,7 +431,7 @@ contract MedicalData {
     {
         require(
             pharmacyCompanies[_pharmacyCompanyAddress].isAdded,
-            "Pharmacy Companies does not exist"
+            "Pharmacy Companies doesn't exist"
         );
 
         return pharmacyCompanies[_pharmacyCompanyAddress];
@@ -446,7 +444,7 @@ contract MedicalData {
     {
         require(
             medicalResearchLabs[_labAddress].isAdded,
-            "Medical Research lab does not exist"
+            "Medical Research Lab doesn't exist"
         );
 
         return medicalResearchLabs[_labAddress];
