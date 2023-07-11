@@ -66,8 +66,8 @@ const DisplayFile = () => {
 
     return (
         <div>
-            \
-            <div className={Styles.imagelist}>{data}</div>
+
+        <div className={Styles.imagelist}>{data}</div>
             <button className={Styles.button} onClick={getData}>
                 Get data
             </button>
