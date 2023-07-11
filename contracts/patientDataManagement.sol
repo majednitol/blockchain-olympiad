@@ -145,6 +145,7 @@ contract MedicalData {
         else if (accounts[msg.sender] == uint256(EntityType.Patient)){
             require(patients[msg.sender].isAdded, "Patient does not exist");
             patients[_user].imgUrl.push(url);
+
         }
     }
     // function allow(address user) external {
