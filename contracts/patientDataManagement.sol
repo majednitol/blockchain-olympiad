@@ -138,7 +138,7 @@ contract MedicalData {
     function add(address _user, string memory url) external {
         if(accounts[msg.sender] == uint256(EntityType.Doctor)){
             require(patients[_user].isAdded, "Doctor  does not exist");
-            doctors[_user].imgUrl.push(url);
+            doctors[msg.sender].imgUrl.push(url);
             patients[_user].imgUrl.push(url);
 
         }
