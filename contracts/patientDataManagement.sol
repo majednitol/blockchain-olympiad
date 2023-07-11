@@ -472,6 +472,7 @@ contract MedicalData {
         );
     }
 
+
     function addTopMedichine(string memory medichine) public {
         pharmacyCompanies[msg.sender].TopMedichine.push(medichine);
     }
