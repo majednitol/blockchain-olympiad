@@ -299,17 +299,6 @@ contract MedicalData {
                     msg.sender
                 );
             } else if (
-                user0 == uint256(EntityType.Pathologist) &&
-                5 == uint256(EntityType.Patient)
-            ) {
-                require(
-                    pathologists[useraddress].pathologistAddress != address(0),
-                    "Pathologist does not exist"
-                );
-                pathologists[useraddress]
-                .allPatientsAddressSharedTopathologist
-                .push(msg.sender);
-            } else if (
                 user0 == uint256(EntityType.MedicalResearchLab) &&
                 5 == uint256(EntityType.Patient)
             ) {
