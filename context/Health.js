@@ -15,13 +15,12 @@ import {
 export const HealthContext = React.createContext();
 const HealthProvider = ({ children }) => {
   const [account, setAccount] = useState("");
-  const [userName, setUserName] = useState("");
+
   const [patientData, setPatientData] = useState("");
   const [doctorData, setDoctorData] = useState("");
   const [MedicalResearchLab, setMedicalResearchLab] = useState("");
   const [contractData, setContractData] = useState("");
   const [PathologistData, setPathologistData] = useState("");
-  const [PathologistSharedData, setPathologistSharedData] = useState("");
 
   const [PharmacyCompany, setPharmacyCompany] = useState("");
   const [signer, setSigner] = useState("");
@@ -638,7 +637,7 @@ const HealthProvider = ({ children }) => {
         doctorAllData,
         patientAllData,
         fetchData,
-        userName,
+
         doctorData,
         patientData,
         PharmacyCompany,
