@@ -1,19 +1,19 @@
-import {ethers} from "ethers";
-import React, {useEffect, useState} from "react";
+import { ethers } from "ethers";
+import React, { useEffect, useState } from "react";
 import {
   healthABI,
   healthAddess,
   patientABI,
   patientAddress,
 } from "./constants";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import {
   connectWallet,
   connectWalletBycontractData,
 } from "@/Utils/apiFreature";
 
 export const HealthContext = React.createContext();
-const HealthProvider = ({children}) => {
+const HealthProvider = ({ children }) => {
   const [account, setAccount] = useState("");
   const [userName, setUserName] = useState("");
   const [patientData, setPatientData] = useState("");
@@ -21,7 +21,7 @@ const HealthProvider = ({children}) => {
   const [MedicalResearchLab, setMedicalResearchLab] = useState("");
   const [contractData, setContractData] = useState("");
   const [PathologistData, setPathologistData] = useState("");
-    const [PathologistSharedData, setPathologistSharedData] = useState("");
+  const [PathologistSharedData, setPathologistSharedData] = useState("");
 
   const [PharmacyCompany, setPharmacyCompany] = useState("");
   const [signer, setSigner] = useState("");
@@ -31,27 +31,27 @@ const HealthProvider = ({children}) => {
 
   const router = useRouter();
   const provider = new ethers.providers.JsonRpcProvider(
-      `https://eth-sepolia.g.alchemy.com/v2/nGjYP7xrrjnCnxraBgpbLxaXxgYylt0z`
+    `https://eth-sepolia.g.alchemy.com/v2/nGjYP7xrrjnCnxraBgpbLxaXxgYylt0z`
   );
   useEffect(() => {
     // connectWallet();
-      fetchData();
-      getSigner();
-      ConnectedEntity();
-      //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
-      // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
-      // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
-//transferDataByPatient('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7')
-      // doctorAllData()
-      //patientAllData();
-      // getMedicalResearchLabAData()
-      getPathologistAllData()
-      getPathologistAllSharedData()
-      //PharmacyCompanyAllData()
-      // AddNewPharmacyCompany(2, 'mjed', 44, 'xyz', 4)
-      // AddMedicalResearchLab(2, 'ma', 44, 'xyz', 3)
+    fetchData();
+    getSigner();
+    ConnectedEntity();
+    //AddDoctor('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7', "majed", 54)
+    // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
+    // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
+    //transferDataByPatient('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7')
+    // doctorAllData()
+    patientAllData();
+    // getMedicalResearchLabAData()
+    //getPathologistAllData()
 
-      // AddNewPatient("2", "majed", "male", 30, "dhaka")
+    //PharmacyCompanyAllData()
+    // AddNewPharmacyCompany(2, 'mjed', 44, 'xyz', 4)
+    // AddMedicalResearchLab(2, 'ma', 44, 'xyz', 3)
+
+    // AddNewPatient("2", "majed", "male", 30, "dhaka")
   }, []);
 
   const fetchData = async () => {
@@ -89,7 +89,7 @@ const HealthProvider = ({children}) => {
     const contractData = await connectWalletBycontractData(provider);
     const connectedAccount = await connectWallet();
     const MedicalResearchLabAData = await contractData[0].getMedicalResearchLab(
-        connectedAccount
+      connectedAccount
     );
     setMedicalResearchLab(MedicalResearchLabAData);
     console.log(MedicalResearchLabAData);
@@ -107,7 +107,7 @@ const HealthProvider = ({children}) => {
     const contractData = await connectWalletBycontractData(provider);
     const connectedAccount = await connectWallet();
     const ViewMedicalResearchLabReports =
-        await contractData[0].MedicalResearchLabReports();
+      await contractData[0].MedicalResearchLabReports();
     setMedicalResearchLabReport(ViewMedicalResearchLabReports);
     console.log(ViewMedicalResearchLabReports);
   };
@@ -116,18 +116,17 @@ const HealthProvider = ({children}) => {
     const contractData = await connectWalletBycontractData(provider);
     const connectedAccount = await connectWallet();
     const pathologistAllData = await contractData[1].getPathologist(
-        connectedAccount
+      connectedAccount
     );
     setPathologistData(pathologistAllData);
     console.log(pathologistAllData);
   };
 
-
-    const PharmacyCompanyAllData = async () => {
+  const PharmacyCompanyAllData = async () => {
     const contractData = await connectWalletBycontractData(provider);
     const connectedAccount = await connectWallet();
     const PharmacyCompanyData = await contractData[1].getPharmacyCompany(
-        connectedAccount
+      connectedAccount
     );
     setPharmacyCompany(PharmacyCompanyData);
     console.log(PharmacyCompanyData);
@@ -137,7 +136,7 @@ const HealthProvider = ({children}) => {
       const contractData = await connectWalletBycontractData(provider);
       const connectedAccount = await connectWallet();
       const ConnectedAccountUserType =
-          await contractData[1].ConnectedAccountType(connectedAccount);
+        await contractData[1].ConnectedAccountType(connectedAccount);
       setConnectedAccountUser(String(ConnectedAccountUserType));
       console.log("ConnectedAccountUserType", String(ConnectedAccountUserType));
     } catch (error) {
@@ -146,12 +145,12 @@ const HealthProvider = ({children}) => {
   };
 
   const AddDoctor = async (
-      doctorID,
-      name,
-      specialty,
-      consultationFee,
-      BMDCNumber,
-      yearOfExperience
+    doctorID,
+    name,
+    specialty,
+    consultationFee,
+    BMDCNumber,
+    yearOfExperience
   ) => {
     // works
     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
@@ -165,12 +164,12 @@ const HealthProvider = ({children}) => {
         const contract = new ethers.Contract(healthAddess, healthABI, signer);
 
         const addNewDoctorData = await contract.setDoctor(
-            BigInt(doctorID * 1),
-            name,
-            specialty,
-            BigInt(consultationFee * 1),
-            BigInt(BMDCNumber * 1),
-            BigInt(yearOfExperience * 1)
+          BigInt(doctorID * 1),
+          name,
+          specialty,
+          BigInt(consultationFee * 1),
+          BigInt(BMDCNumber * 1),
+          BigInt(yearOfExperience * 1)
         );
 
         await addNewDoctorData.wait();
@@ -184,13 +183,7 @@ const HealthProvider = ({children}) => {
     }
   };
 
-  const AddNewPatient = async (
-      patientID,
-      name,
-      gender,
-      age,
-      location
-  ) => {
+  const AddNewPatient = async (patientID, name, gender, age, location) => {
     // works
     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
 
@@ -201,17 +194,17 @@ const HealthProvider = ({children}) => {
         const signer = provider.getSigner();
         console.log("signer", signer);
         const contract = new ethers.Contract(
-            patientAddress,
-            patientABI,
-            signer
+          patientAddress,
+          patientABI,
+          signer
         );
 
         const addNewPatientData = await contract.setPatient(
-            patientID,
-            name,
-            gender,
-            BigInt(age * 1),
-            location
+          patientID,
+          name,
+          gender,
+          BigInt(age * 1),
+          location
         );
 
         await addNewPatientData.wait();
@@ -246,11 +239,11 @@ const HealthProvider = ({children}) => {
   };
 
   const AddNewPharmacyCompany = async (
-      companyID,
-      name,
-      licenseID,
-      productInformation,
-      pharmacyRating
+    companyID,
+    name,
+    licenseID,
+    productInformation,
+    pharmacyRating
   ) => {
     // works
     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
@@ -264,11 +257,11 @@ const HealthProvider = ({children}) => {
         const contract = new ethers.Contract(healthAddess, healthABI, signer);
 
         const addNewPharmacyData = await contract.setPharmacyCompany(
-            BigInt(companyID * 1),
-            name,
-            BigInt(licenseID * 1),
-            productInformation,
-            BigInt(pharmacyRating * 1)
+          BigInt(companyID * 1),
+          name,
+          BigInt(licenseID * 1),
+          productInformation,
+          BigInt(pharmacyRating * 1)
         );
 
         await addNewPharmacyData.wait();
@@ -283,11 +276,11 @@ const HealthProvider = ({children}) => {
   };
 
   const AddNewpathologist = async (
-      pathologistID,
-      name,
-      licenseNumber,
-      specializationArea,
-      totalExperience
+    pathologistID,
+    name,
+    licenseNumber,
+    specializationArea,
+    totalExperience
   ) => {
     // works
     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
@@ -301,11 +294,11 @@ const HealthProvider = ({children}) => {
         const contract = new ethers.Contract(healthAddess, healthABI, signer);
 
         const pathologist = await contract.setPathologist(
-            pathologistID,
-            name,
-            BigInt(licenseNumber * 1),
-            specializationArea,
-            BigInt(totalExperience * 1)
+          pathologistID,
+          name,
+          BigInt(licenseNumber * 1),
+          specializationArea,
+          BigInt(totalExperience * 1)
         );
 
         await pathologist.wait();
@@ -372,14 +365,14 @@ const HealthProvider = ({children}) => {
   };
 
   const setPatientPersonalData = async (
-      height,
-      blood,
-      previousDiseases,
-      medicineDrugs,
-      badHabits,
-      chronicDiseases,
-      healthAllergies,
-      birthDefects
+    height,
+    blood,
+    previousDiseases,
+    medicineDrugs,
+    badHabits,
+    chronicDiseases,
+    healthAllergies,
+    birthDefects
   ) => {
     // works
     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
@@ -393,14 +386,14 @@ const HealthProvider = ({children}) => {
         const contract = new ethers.Contract(healthAddess, healthABI, signer);
 
         const addPatientPersonalData = await contract.setPatientPersonalData(
-            height,
-            blood,
-            previousDiseases,
-            medicineDrugs,
-            badHabits,
-            chronicDiseases,
-            healthAllergies,
-            birthDefects
+          height,
+          blood,
+          previousDiseases,
+          medicineDrugs,
+          badHabits,
+          chronicDiseases,
+          healthAllergies,
+          birthDefects
         );
 
         await addPatientPersonalData.wait();
@@ -415,11 +408,11 @@ const HealthProvider = ({children}) => {
   };
 
   const AddMedicalResearchLab = async (
-      labID,
-      name,
-      licenseID,
-      researchArea,
-      labRating
+    labID,
+    name,
+    licenseID,
+    researchArea,
+    labRating
   ) => {
     // works
     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
@@ -433,11 +426,11 @@ const HealthProvider = ({children}) => {
         const contract = new ethers.Contract(healthAddess, healthABI, signer);
 
         const MedicalResearchLabData = await contract.setMedicalResearchLab(
-            labID,
-            name,
-            BigInt(licenseID * 1),
-            researchArea,
-            labRating
+          labID,
+          name,
+          BigInt(licenseID * 1),
+          researchArea,
+          labRating
         );
 
         await MedicalResearchLabData.wait();
@@ -551,13 +544,13 @@ const HealthProvider = ({children}) => {
         const signer = provider.getSigner();
         console.log("signer", signer);
         const contract = new ethers.Contract(
-            patientAddress,
-            patientABI,
-            signer
+          patientAddress,
+          patientABI,
+          signer
         );
 
         const transferDatabyDoctor = await contract.transferDataByDoctor(
-            receiptAddress
+          receiptAddress
         );
 
         await transferDatabyDoctor.wait();
@@ -581,14 +574,13 @@ const HealthProvider = ({children}) => {
         const signer = provider.getSigner();
         console.log("signer", signer);
         const contract = new ethers.Contract(
-            patientAddress,
-            patientABI,
-            signer
+          patientAddress,
+          patientABI,
+          signer
         );
 
-        const transferDatabyPathologist = await contract.transferDataByPathologist(
-            receiptAddress
-        );
+        const transferDatabyPathologist =
+          await contract.transferDataByPathologist(receiptAddress);
 
         await transferDatabyPathologist.wait();
 
@@ -611,13 +603,13 @@ const HealthProvider = ({children}) => {
         const signer = provider.getSigner();
         console.log("signer", signer);
         const contract = new ethers.Contract(
-            patientAddress,
-            patientABI,
-            signer
+          patientAddress,
+          patientABI,
+          signer
         );
 
         const transferDatabyPatient = await contract.transferDataByPatient(
-            receiptAddress
+          receiptAddress
         );
 
         await transferDatabyPatient.wait();
@@ -631,34 +623,34 @@ const HealthProvider = ({children}) => {
     }
   };
   return (
-      <HealthContext.Provider
-          value={{
-            account,
-            AddNewPatient,
-            transferDataByPatient,
-            AddMedicalResearchLab,
-            AddNewpathologist,
-            AddNewPharmacyCompany,
-            AddDoctor,
-            PharmacyCompanyAllData,
-            getPathologistAllData,
-            getMedicalResearchLabAData,
-            doctorAllData,
-            patientAllData,
-            fetchData,
-            userName,
-            doctorData,
-            patientData,
-            PharmacyCompany,
-            MedicalResearchLab,
-            contractData,
-            PathologistData,
-            signer,
-            ConnectedAccountUser,
-          }}
-      >
-        {children}
-      </HealthContext.Provider>
+    <HealthContext.Provider
+      value={{
+        account,
+        AddNewPatient,
+        transferDataByPatient,
+        AddMedicalResearchLab,
+        AddNewpathologist,
+        AddNewPharmacyCompany,
+        AddDoctor,
+        PharmacyCompanyAllData,
+        getPathologistAllData,
+        getMedicalResearchLabAData,
+        doctorAllData,
+        patientAllData,
+        fetchData,
+        userName,
+        doctorData,
+        patientData,
+        PharmacyCompany,
+        MedicalResearchLab,
+        contractData,
+        PathologistData,
+        signer,
+        ConnectedAccountUser,
+      }}
+    >
+      {children}
+    </HealthContext.Provider>
   );
 };
 
