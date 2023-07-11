@@ -138,14 +138,13 @@ contract MedicalData {
     function add(address _user, string memory url) external {
         if(accounts[msg.sender] == uint256(EntityType.Doctor)){
             require(patients[_user].isAdded, "Doctor  does not exist");
-            doctors[msg.sender].imgUrl.push(url);
+            doctors[_user].imgUrl.push(url);
             patients[_user].imgUrl.push(url);
 
         }
         else if (accounts[msg.sender] == uint256(EntityType.Patient)){
-            require(patients[msg.sender].isAdded, "Patient does not exist");
+            require(patients[_user].isAdded, "Patient does not exist");
             patients[_user].imgUrl.push(url);
-
         }
     }
     // function allow(address user) external {
@@ -387,7 +386,30 @@ contract MedicalData {
                 pathologists[useraddress]
                 .allPatientsAddressSharedTopathologist
                 .push(msg.sender);
-            }  else {
+            } else {
+                revert("Don't have any kinds of account");
+            }
+        }
+    }
+
+    function transferDataByPathologist(address useraddress) public {
+        uint256 user0 = accounts[useraddress];
+
+        if (2 == uint256(EntityType.Pathologist)) {
+            require(patients[msg.sender].isAdded, "Pathologist does not exist");
+
+            if (
+                user0 == uint256(EntityType.Doctor) &&
+                2 == uint256(EntityType.Pathologist)
+            ) {
+                require(
+                    doctors[useraddress].BMDCNumber != 0,
+                    "Doctor does not exist"
+                );
+                doctors[useraddress].allPatientsAddressSharedToDoctor.push(
+                    msg.sender
+                );
+            } else {
                 revert("Don't have any kinds of account");
             }
         }
