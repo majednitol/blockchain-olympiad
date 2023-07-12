@@ -1,18 +1,25 @@
+import React, { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
+import { ChatAppContext, HealthContext } from "@/context/Health";
+import MainComponent from "./Components/DashBoard/MainComponent";
+import SetPatientPersonalDetails from "./Components/DashBoard/Patient/SetPersonalDetails";
 
-import React, { useContext } from 'react'
-import { ChatAppContext, HealthContext } from '@/context/Health'
-import MainComponent from './Components/DashBoard/MainComponent'
+const Home = () => {
+  const router = useRouter();
+  const { account, ConnectedAccountUser } = useContext(HealthContext);
 
-
-
-const index = () => {
-  const { account } = useContext(HealthContext)
+  useEffect(() => {
+    alert(ConnectedAccountUser);
+    if (ConnectedAccountUser != 0) {
+      router.push("/dashboard");
+    }
+  }, [ConnectedAccountUser]);
   return (
     <div>
-      {account}
-      <MainComponent />
+      {/* <MainComponent /> */}
+      <SetPatientPersonalDetails />
     </div>
-  )
-}
+  );
+};
 
-export default index
+export default Home;
