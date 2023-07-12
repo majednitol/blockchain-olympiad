@@ -16,6 +16,8 @@ string  chronicDiseases,
 string  healthAllergies,
 string  birthDefects
     )
+    7. show doctor list who are treatment from patient array
+    8. show patient personal  data from patient array
 
 
 
@@ -33,7 +35,7 @@ string  birthDefects
  3.   transferDataByDoctor(address useraddress)
 
    4. addPrescription(address _user, string . url)
-5.already created DisplyFile component 
+5. show patient list who are treatmented from  doctor
 #####Pathologist
 1.setPathologistTest(
         string  allergies,
@@ -82,4 +84,5 @@ string  birthDefects
 
 
   ##NB:
-  
+Patient pathologist ছাড়া সবাইকে ডাটা শেয়ার করব । ডাক্তার  pathologist কে শেয়ার করবে ar patient er prescription add korbe.. আর pathologist শুধু ডাক্তারকে শেয়ার করবে । 
+শেয়ার কৃত  ডাটা গুলা দেখানোর জন্য কিছু component বানাতে হবে ...
