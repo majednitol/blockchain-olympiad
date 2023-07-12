@@ -39,7 +39,7 @@ contract MedicalData {
         address[] PatientToDoctor; //data share of all patient
         address[] PathologiestToDoctor; // data share of all patient
         bool isAdded;
-        string[] imgUrl;
+        address[] TreatedPatient;
         string userType;
     }
 
@@ -144,7 +144,8 @@ contract MedicalData {
         //Docto or Patient addPrescription
         if (accounts[msg.sender] == uint256(EntityType.Doctor)) {
             require(doctors[msg.sender].isAdded, "Doctor doesn't exist");
-            doctors[msg.sender].imgUrl.push(url);
+            // doctors[msg.sender].imgUrl.push(url);
+            doctors[msg.sender].TreatedPatient.push(_user);
             patients[_user].imgUrl.push(url);
             patients[_user].personalDoctor.push(msg.sender);
         } else if (accounts[msg.sender] == uint256(EntityType.Patient)) {
