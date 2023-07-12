@@ -69,18 +69,18 @@ const HealthProvider = ({ children }) => {
     }
   };
 
-  const getPatientAllData = async () => {
+  const getPatientAllData = async (patientAddress) => {
     const contractData = await connectWalletBycontractData(provider);
-    const connectedAccount = await connectWallet();
-    const patientData = await contractData[1].getPatient(connectedAccount);
+    // const connectedAccount = await connectWallet();
+    const patientData = await contractData[1].getPatient(patientAddress);
     setPatientData(patientData);
     console.log("patientData ", patientData);
   };
 
-  const getDoctorAllData = async () => {
+  const getDoctorAllData = async (doctorAddress) => {
     const contractData = await connectWalletBycontractData(provider);
-    const connectedAccount = await connectWallet();
-    const doctorData = await contractData[0].getDoctor(connectedAccount);
+    // const connectedAccount = await connectWallet();
+    const doctorData = await contractData[0].getDoctor(doctorAddress);
     setDoctorData(doctorData);
     console.log("doctorData", doctorData);
   };
@@ -112,11 +112,11 @@ const HealthProvider = ({ children }) => {
     console.log(ViewMedicalResearchLabReports);
   };
 
-  const getPathologistAllData = async () => {
+  const getPathologistAllData = async (pathologistAddress) => {
     const contractData = await connectWalletBycontractData(provider);
-    const connectedAccount = await connectWallet();
+    // const connectedAccount = await connectWallet();
     const pathologistAllData = await contractData[1].getPathologist(
-      connectedAccount
+      pathologistAddress
     );
     setPathologistData(pathologistAllData);
     console.log(pathologistAllData);
@@ -607,6 +607,7 @@ const HealthProvider = ({ children }) => {
         transferDataByDoctor,
         transferDataByPathologist,
         setPathologistTest,
+        ViewTopMedichine
       }}
     >
       {children}

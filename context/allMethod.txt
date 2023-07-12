@@ -1,79 +1,81 @@
 #####Patient
-1.setPatient(
-        uint patientID,string  name,string  gender,uint256 age,string  location
+1.AddNewPatient(
+        int patientID,string  name,string  gender,int age,string  location
     )
-2.getPatient(address _patientAddress)
+2.getPatientAllData(address _patientAddress)
 3.transferDataByPatient(address useraddress)
-4.addPrescription(address _user, string memory url)
-
-setPatientPersonalData(
-        uint256 height,
-        string memory blood,
-        string memory previousDiseases,
-        string memory medicineDrugs,
-        string memory badHabits,
-        string memory chronicDiseases,
-        string memory healthAllergies,
-        string memory birthDefects
+4.addPrescription(address _user, string  url)   ## already create a component
+5.already created DisplyFile component 
+6.setPatientPersonalData(
+int height,
+string  blood,
+string  previousDiseases,
+string  medicineDrugs,
+string  badHabits,
+string  chronicDiseases,
+string  healthAllergies,
+string  birthDefects
     )
 
 
 
 
 #####Doctor
-getDoctor(address _doctorAddress)
-setDoctor(
-        uint256 doctorID,
-        string memory name,
-        string memory specialty,
-        uint256 consultationFee,
-        uint256 BMDCNumber,
-        uint256 yearOfExperience
+1.getDoctorAllData(address _doctorAddress)
+2.AddDoctor(
+        int doctorID,
+        string  name,
+        string  specialty,
+        int consultationFee,
+        int BMDCNumber,
+        int yearOfExperience
     )
-    transferDataByDoctor(address useraddress)
+ 3.   transferDataByDoctor(address useraddress)
 
-    addPrescription(address _user, string memory url)
-
+   4. addPrescription(address _user, string . url)
+5.already created DisplyFile component 
 #####Pathologist
-setPathologistTest(
-        string memory allergies,
-        string memory cancer,
-        string memory hormoneProblem,
-        uint256 diabetesLevel
+1.setPathologistTest(
+        string  allergies,
+        string  cancer,
+        string  hormoneProblem,
+        int diabetesLevel
     )
 
-    setPathologist(
-            uint256 pathologistID,
-            string memory name,
-            uint256 licenseNumber,
-            string memory specializationArea,
-            uint256 totalExperience
+
+
+   2. AddNewpathologist(
+            int pathologistID,
+            string  name,
+            int licenseNumber,
+            string  specializationArea,
+            int totalExperience
         )
-transferDataByPathologist(address useraddress)
-getPathologist(address _pathologistAddress)
+3.transferDataByPathologist(address useraddress)
+4.getPathologistAllData(address _pathologistAddress)
 ####MedicalResearchLab
-1.addLabReport(string memory report)
-setMedicalResearchLab(
-        uint256 labID,
-        string memory name,
-        uint256 licenseID,
-        string memory researchArea,
-        uint256 labRating
+1.addLabReport(string  report)
+2.AddMedicalResearchLab(
+        int labID,
+        string  name,
+        int licenseID,
+        string  researchArea,
+        int labRating
     )
 
-getMedicalResearchLab(address _labAddress)
+3.getMedicalResearchLabAData()
 #####PharmacyCompany
-setPharmacyCompany(
-        uint256 companyID,
-        string memory name,
-        uint256 licenseID,
-        string memory productInformation,
-        uint256 pharmacyRating
+1.AddNewPharmacyCompany(
+        int companyID,
+        string  name,
+        int licenseID,
+        string  productInformation,
+        int pharmacyRating
     )
-    getPharmacyCompany(address _pharmacyCompanyAddress)
+ 2.   getPharmacyCompanyAllData()
 
-addTopMedichine(string memory medichine)
+3.addTopMedichine(string  medichine)
     ########others
 
 
-    ConnectedAccountType(address useraddress)
+  1.  ConnectedEntityType(address useraddress)
