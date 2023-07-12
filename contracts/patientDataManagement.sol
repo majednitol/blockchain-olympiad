@@ -14,6 +14,7 @@ contract MedicalData {
         string userType;
         string[] imgUrl;
         PatientPersonalData patientPersonalData;
+        address[] personalDoctor;
     }
 
     struct PatientPersonalData {
@@ -52,7 +53,7 @@ contract MedicalData {
         string specializationArea;
         uint256 totalExperience;
         bool isAdded;
-        address[] PatientToPathologiest;//allPatientsAddressSharedTopathologist
+        address[] PatientToPathologiest; //allPatientsAddressSharedTopathologist
         string userType;
         PathologistTest pathologistTest;
     }
@@ -94,7 +95,7 @@ contract MedicalData {
     mapping(address => Patient) patients;
     mapping(address => Doctor) doctors;
 
-    mapping(address => Pathologist) pathologists;  //pathologistTests
+    mapping(address => Pathologist) pathologists; //pathologistTests
     mapping(address => MedicalResearchLab) medicalResearchLabs;
     mapping(address => PharmacyCompany) pharmacyCompanies;
     mapping(address => PathologistTest) public pathologistTests; // Problem 1
@@ -139,11 +140,13 @@ contract MedicalData {
         medicalResearchLabs[msg.sender].PatientLabReport.push(report); // problem 2
     }
 
-    function addPrescription(address _user, string memory url) external {  //Docto or Patient addPrescription
+    function addPrescription(address _user, string memory url) external {
+        //Docto or Patient addPrescription
         if (accounts[msg.sender] == uint256(EntityType.Doctor)) {
             require(doctors[msg.sender].isAdded, "Doctor doesn't exist");
             doctors[msg.sender].imgUrl.push(url);
             patients[_user].imgUrl.push(url);
+            patients[_user].personalDoctor.push(msg.sender);
         } else if (accounts[msg.sender] == uint256(EntityType.Patient)) {
             require(patients[msg.sender].isAdded, "Patient doesn't exist");
             patients[msg.sender].imgUrl.push(url);
@@ -163,24 +166,20 @@ contract MedicalData {
             DiabatiesLevel: diabetesLevel
         });
 
-        pathologistTests[msg.sender] = test;  // problem fix
+        pathologistTests[msg.sender] = test; // problem fix
     }
 
-    function getDoctor(address _doctorAddress)
-    public
-    view
-    returns (Doctor memory)
-    {
+    function getDoctor(
+        address _doctorAddress
+    ) public view returns (Doctor memory) {
         require(doctors[_doctorAddress].isAdded, "Doctor doesn't exist");
 
         return doctors[_doctorAddress];
     }
 
-    function getPatient(address _patientAddress)
-    public
-    view
-    returns (Patient memory)
-    {
+    function getPatient(
+        address _patientAddress
+    ) public view returns (Patient memory) {
         require(patients[_patientAddress].isAdded, "Patient does not exist");
         return patients[_patientAddress];
     }
@@ -308,9 +307,7 @@ contract MedicalData {
                     doctors[useraddress].BMDCNumber != 0,
                     "Doctor doesn't exist"
                 );
-                doctors[useraddress].PatientToDoctor.push(
-                    msg.sender
-                );
+                doctors[useraddress].PatientToDoctor.push(msg.sender);
             } else if (
                 user0 == uint256(EntityType.MedicalResearchLab) &&
                 5 == uint256(EntityType.Patient)
@@ -319,23 +316,23 @@ contract MedicalData {
                     medicalResearchLabs[useraddress].labAddress != address(0),
                     "Medical Research Lab doesn't exist"
                 );
-                medicalResearchLabs[useraddress]
-                .PatientToMedRcLab
-                .push(msg.sender);
+                medicalResearchLabs[useraddress].PatientToMedRcLab.push(
+                    msg.sender
+                );
             } else if (
                 user0 == uint256(EntityType.PharmacyCompany) &&
                 5 == uint256(EntityType.Patient)
             ) {
                 require(
                     pharmacyCompanies[useraddress].pharmacyCompanyAddress !=
-                    address(0),
+                        address(0),
                     "Pharmacy Company doesn't exist"
                 );
-                pharmacyCompanies[useraddress]
-                .PatientToPharmacy
-                .push(msg.sender);
+                pharmacyCompanies[useraddress].PatientToPharmacy.push(
+                    msg.sender
+                );
             } else {
-                revert("You don't have any type of Account");
+                revert("Patient can transfer data without pathologists ");
             }
         }
     }
@@ -354,11 +351,11 @@ contract MedicalData {
                     pathologists[useraddress].pathologistAddress != address(0),
                     "Pathologist does not exist"
                 );
-                pathologists[useraddress]
-                .PatientToPathologiest
-                .push(msg.sender);
+                pathologists[useraddress].PatientToPathologiest.push(
+                    msg.sender
+                );
             } else {
-                revert("Don't have any kinds of account");
+                revert("Doctor can transfer data only pathologists ");
             }
         }
     }
@@ -380,20 +377,16 @@ contract MedicalData {
                     doctors[useraddress].BMDCNumber != 0,
                     "Doctor doesn't exist"
                 );
-                doctors[useraddress].PathologiestToDoctor.push(
-                    msg.sender
-                );
+                doctors[useraddress].PathologiestToDoctor.push(msg.sender);
             } else {
-                revert("You don't have any type of Account");
+                revert("pathologists can transfer data only doctor");
             }
         }
     }
 
-    function ConnectedAccountType(address useraddress)
-    public
-    view
-    returns (uint256)
-    {
+    function ConnectedAccountType(
+        address useraddress
+    ) public view returns (uint256) {
         uint256 user0 = accounts[useraddress];
 
         if (user0 == uint256(EntityType.Doctor)) {
@@ -411,11 +404,9 @@ contract MedicalData {
         }
     }
 
-    function getPathologist(address _pathologistAddress)
-    public
-    view
-    returns (Pathologist memory)
-    {
+    function getPathologist(
+        address _pathologistAddress
+    ) public view returns (Pathologist memory) {
         require(
             pathologists[_pathologistAddress].isAdded,
             "Pathologists doesn't exist"
@@ -424,11 +415,9 @@ contract MedicalData {
         return pathologists[_pathologistAddress];
     }
 
-    function getPharmacyCompany(address _pharmacyCompanyAddress)
-    public
-    view
-    returns (PharmacyCompany memory)
-    {
+    function getPharmacyCompany(
+        address _pharmacyCompanyAddress
+    ) public view returns (PharmacyCompany memory) {
         require(
             pharmacyCompanies[_pharmacyCompanyAddress].isAdded,
             "Pharmacy Companies doesn't exist"
@@ -437,11 +426,9 @@ contract MedicalData {
         return pharmacyCompanies[_pharmacyCompanyAddress];
     }
 
-    function getMedicalResearchLab(address _labAddress)
-    public
-    view
-    returns (MedicalResearchLab memory)
-    {
+    function getMedicalResearchLab(
+        address _labAddress
+    ) public view returns (MedicalResearchLab memory) {
         require(
             medicalResearchLabs[_labAddress].isAdded,
             "Medical Research Lab doesn't exist"
@@ -471,7 +458,6 @@ contract MedicalData {
             birthDefects
         );
     }
-
 
     function addTopMedichine(string memory medichine) public {
         pharmacyCompanies[msg.sender].TopMedichine.push(medichine);
