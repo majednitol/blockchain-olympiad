@@ -1,30 +1,55 @@
-import React from 'react'
-import FileUpload from '../../File/FileUpload'
-import DisplayFile from '../../File/DisplayFile'
+import React, { useContext } from "react";
+import FileUpload from "../../File/FileUpload";
+import DisplayFile from "../../File/DisplayFile";
 
+import BoxButton from "../../BoxButton";
+import { HealthContext } from "@/context/Health";
 
-
-import BoxButton from '../../BoxButton';
 const Prescription = () => {
-    return (
-        <div>
+  const {
+    account,
+    AddNewPatient,
+    transferDataByPatient,
+    AddMedicalResearchLab,
+    AddNewpathologist,
+    AddNewPharmacyCompany,
+    AddDoctor,
+    getPharmacyCompanyAllData,
+    getPathologistAllData,
+    getMedicalResearchLabAData,
+    getDoctorAllData,
+    getPatientAllData,
+    fetchData,
+    TopMedichine,
+    doctorData,
+    patientData,
+    PharmacyCompany,
+    MedicalResearchLab,
+    contractData,
+    PathologistData,
+    signer,
+    ConnectedAccountUser,
+    MedicalResearchLabReport,
+    MedicalResearchLabReports,
+    ConnectedEntityType,
+    addTopMedichine,
+    addLabReport,
+    setPatientPersonalData,
+    transferDataByDoctor,
+    transferDataByPathologist,
+    setPathologistTest,
+    ViewTopMedichine,
+  } = useContext(HealthContext);
+  return (
+    <div>
+      <BoxButton name="Upload File" />
 
+      <div>
+        <FileUpload userAccount={account} />
+        <DisplayFile />
+      </div>
+    </div>
+  );
+};
 
-            <BoxButton name="Upload File" />
-
-
-
-            <div >
-                <FileUpload />
-                <DisplayFile />
-            </div>
-
-
-        </div>
-    )
-}
-
-export default Prescription
-
-
-
+export default Prescription;

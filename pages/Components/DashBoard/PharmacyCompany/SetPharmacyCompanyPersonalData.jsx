@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext, useState } from "react";
 import BoxButton from "../../BoxButton";
 import { HealthContext } from "@/context/Health";
 
@@ -6,25 +6,36 @@ const PharmacyCompanyPersonalData = () => {
   const {
     account,
     AddNewPatient,
-    transferData,
+    transferDataByPatient,
     AddMedicalResearchLab,
     AddNewpathologist,
     AddNewPharmacyCompany,
     AddDoctor,
-    PharmacyCompanyAllData,
+    getPharmacyCompanyAllData,
     getPathologistAllData,
     getMedicalResearchLabAData,
-    doctorAllData,
-    patientAllData,
+    getDoctorAllData,
+    getPatientAllData,
     fetchData,
-    userName,
+    TopMedichine,
     doctorData,
     patientData,
     PharmacyCompany,
     MedicalResearchLab,
     contractData,
-    Pathologist,
+    PathologistData,
+    signer,
     ConnectedAccountUser,
+    MedicalResearchLabReport,
+    MedicalResearchLabReports,
+    ConnectedEntityType,
+    addTopMedichine,
+    addLabReport,
+    setPatientPersonalData,
+    transferDataByDoctor,
+    transferDataByPathologist,
+    setPathologistTest,
+    ViewTopMedichine,
   } = useContext(HealthContext);
   const [name, setName] = useState("");
   const [companyID, setcompanyID] = useState("");
@@ -98,7 +109,7 @@ const PharmacyCompanyPersonalData = () => {
       // Perform form submission
 
       console.log("Form submitted");
-      adNewPharmacyCompany(
+      AddNewPharmacyCompany(
         companyID,
         name,
         licenseID,
@@ -138,11 +149,10 @@ const PharmacyCompanyPersonalData = () => {
               <h5 class="modal-title " id="exampleModalLabel">
                 Sign Up
               </h5>
-
             </div>
-            <div >
+            <div>
               <form onSubmit={handleSubmit}>
-                <div >
+                <div>
                   <label for="recipient-name" class="col-form-label">
                     companyID :
                   </label>

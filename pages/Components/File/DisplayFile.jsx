@@ -3,28 +3,7 @@ import Styles from "./DisplayFile.module.css";
 import { HealthContext } from "@/context/Health";
 
 const DisplayFile = () => {
-  const {
-    account,
-    AddNewPatient,
-    transferData,
-    AddMedicalResearchLab,
-    AddNewpathologist,
-    AddNewPharmacyCompany,
-    AddDoctor,
-    PharmacyCompanyAllData,
-    getPathologistAllData,
-    getMedicalResearchLabAData,
-    doctorAllData,
-    patientAllData,
-    fetchData,
-    userName,
-    doctorData,
-    patientData,
-    PharmacyCompany,
-    MedicalResearchLab,
-    contractData,
-    Pathologist,
-  } = useContext(HealthContext);
+  const { patientData } = useContext(HealthContext);
   const [data, setData] = useState("");
   const getData = async () => {
     let dataArray;

@@ -42,7 +42,7 @@ const HealthProvider = ({ children }) => {
     // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
     //transferDataByPatient('0x0Da3aAc104688F96F6E6aBfF5E4c5fE4f20616D7')
     // getDoctorAllData()
-    getPatientAllData();
+    // getPatientAllData("0xA07cDb8d3E91e30606D5604284295A19102D531C");
     //getMedicalResearchLabAData();
     //getPathologistAllData()
 
@@ -607,7 +607,7 @@ const HealthProvider = ({ children }) => {
         transferDataByDoctor,
         transferDataByPathologist,
         setPathologistTest,
-        ViewTopMedichine
+        ViewTopMedichine,
       }}
     >
       {children}
