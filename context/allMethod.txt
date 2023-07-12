@@ -1,0 +1,79 @@
+#####Patient
+1.setPatient(
+        uint patientID,string  name,string  gender,uint256 age,string  location
+    )
+2.getPatient(address _patientAddress)
+3.transferDataByPatient(address useraddress)
+4.addPrescription(address _user, string memory url)
+
+setPatientPersonalData(
+        uint256 height,
+        string memory blood,
+        string memory previousDiseases,
+        string memory medicineDrugs,
+        string memory badHabits,
+        string memory chronicDiseases,
+        string memory healthAllergies,
+        string memory birthDefects
+    )
+
+
+
+
+#####Doctor
+getDoctor(address _doctorAddress)
+setDoctor(
+        uint256 doctorID,
+        string memory name,
+        string memory specialty,
+        uint256 consultationFee,
+        uint256 BMDCNumber,
+        uint256 yearOfExperience
+    )
+    transferDataByDoctor(address useraddress)
+
+    addPrescription(address _user, string memory url)
+
+#####Pathologist
+setPathologistTest(
+        string memory allergies,
+        string memory cancer,
+        string memory hormoneProblem,
+        uint256 diabetesLevel
+    )
+
+    setPathologist(
+            uint256 pathologistID,
+            string memory name,
+            uint256 licenseNumber,
+            string memory specializationArea,
+            uint256 totalExperience
+        )
+transferDataByPathologist(address useraddress)
+getPathologist(address _pathologistAddress)
+####MedicalResearchLab
+1.addLabReport(string memory report)
+setMedicalResearchLab(
+        uint256 labID,
+        string memory name,
+        uint256 licenseID,
+        string memory researchArea,
+        uint256 labRating
+    )
+
+getMedicalResearchLab(address _labAddress)
+#####PharmacyCompany
+setPharmacyCompany(
+        uint256 companyID,
+        string memory name,
+        uint256 licenseID,
+        string memory productInformation,
+        uint256 pharmacyRating
+    )
+    getPharmacyCompany(address _pharmacyCompanyAddress)
+
+addTopMedichine(string memory medichine)
+    ########others
+
+
+    ConnectedAccountType(address useraddress)
