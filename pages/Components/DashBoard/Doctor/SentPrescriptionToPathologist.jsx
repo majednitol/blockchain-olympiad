@@ -1,7 +1,7 @@
 import React from "react";
 import FileUpload from "@/pages/Components/File/FileUpload";
 
-const AddPrescription = () => {
+const SentPrescription = () => {
   const userAddess = document.querySelector(".address").value;
   return (
     <div>
@@ -11,4 +11,4 @@ const AddPrescription = () => {
   );
 };
 
-export default AddPrescription;
+export default SentPrescription;
