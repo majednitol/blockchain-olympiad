@@ -22,11 +22,12 @@ const HealthProvider = ({ children }) => {
   const [MedicalResearchLab, setMedicalResearchLab] = useState("");
   const [contractData, setContractData] = useState("");
   const [PathologistData, setPathologistData] = useState("");
+  const [PathologistTestData, setPathologistTestData] = useState([]);
 
   const [PharmacyCompany, setPharmacyCompany] = useState("");
   const [signer, setSigner] = useState("");
-  const [TopMedichine, setTopMedichine] = useState("");
-  const [MedicalResearchLabReport, setMedicalResearchLabReport] = useState("");
+  const [TopMedichine, setTopMedichine] = useState([]);
+  const [MedicalResearchLabReport, setMedicalResearchLabReport] = useState([]);
   const [ConnectedAccountUser, setConnectedAccountUser] = useState(0);
   const [PatientPersonalHealthData, setPatientPersonalHealthData] = useState(
     []
@@ -34,6 +35,7 @@ const HealthProvider = ({ children }) => {
   const [patientPersonalDoctorList, setPatientPersonalDoctorList] = useState(
     []
   );
+  const [DoctorPersonalPatient, setDoctorPersonalPatient] = useState([]);
 
   const router = useRouter();
   const provider = new ethers.providers.JsonRpcProvider(
@@ -101,24 +103,8 @@ const HealthProvider = ({ children }) => {
       connectedAccount
     );
     setMedicalResearchLab(MedicalResearchLabAData);
+    setMedicalResearchLabReport(MedicalResearchLabAData[8]);
     console.log(MedicalResearchLabAData);
-  };
-
-  const ViewTopMedichine = async () => {
-    const contractData = await connectWalletBycontractData(provider);
-    const connectedAccount = await connectWallet();
-    const ViewTopMedichine = await contractData[0].TopMedichine();
-    setTopMedichine(ViewTopMedichine);
-    console.log(ViewTopMedichine);
-  };
-
-  const MedicalResearchLabReports = async () => {
-    const contractData = await connectWalletBycontractData(provider);
-    const connectedAccount = await connectWallet();
-    const ViewMedicalResearchLabReports =
-      await contractData[0].MedicalResearchLabReports();
-    setMedicalResearchLabReport(ViewMedicalResearchLabReports);
-    console.log(ViewMedicalResearchLabReports);
   };
 
   const getPathologistAllData = async (pathologistAddress) => {
@@ -128,6 +114,7 @@ const HealthProvider = ({ children }) => {
       pathologistAddress
     );
     setPathologistData(pathologistAllData);
+    setPathologistTestData(pathologistAllData[9]);
     console.log(pathologistAllData);
   };
 
@@ -138,6 +125,7 @@ const HealthProvider = ({ children }) => {
       connectedAccount
     );
     setPharmacyCompany(PharmacyCompanyData);
+    setTopMedichine(PharmacyCompanyData[9]);
     console.log(PharmacyCompanyData);
   };
 
@@ -349,8 +337,6 @@ const HealthProvider = ({ children }) => {
       console.log("error account crate time", error);
     }
   };
-
-  MedicalResearchLabReports;
 
   const addLabReport = async (report) => {
     // works
@@ -613,7 +599,7 @@ const HealthProvider = ({ children }) => {
         signer,
         ConnectedAccountUser,
         MedicalResearchLabReport,
-        MedicalResearchLabReports,
+
         ConnectedEntityType,
         addTopMedichine,
         addLabReport,
@@ -621,9 +607,11 @@ const HealthProvider = ({ children }) => {
         transferDataByDoctor,
         transferDataByPathologist,
         setPathologistTest,
-        ViewTopMedichine,
+
         PatientPersonalHealthData,
         patientPersonalDoctorList,
+        PathologistTestData,
+        DoctorPersonalPatient,
       }}
     >
       {children}

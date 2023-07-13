@@ -88,6 +88,7 @@ contract MedicalData {
         address[] PatientToPharmacy; // allPatientAddressSharedToPharmacyCompany
         string userType;
         string[] TopMedichine;
+
     }
 
     mapping(address => uint256) public accounts;
@@ -97,7 +98,7 @@ contract MedicalData {
     mapping(address => Pathologist) pathologists; //pathologistTests
     mapping(address => MedicalResearchLab) medicalResearchLabs;
     mapping(address => PharmacyCompany) pharmacyCompanies;
-    mapping(address => PathologistTest) public pathologistTests; // Problem 1
+    // Problem 1
 
     // Setters and Getters for Patient struct
     function setPatient(
@@ -159,14 +160,13 @@ contract MedicalData {
         string memory hormoneProblem,
         uint256 diabetesLevel
     ) public {
-        PathologistTest memory test = PathologistTest({
-            Allergies: allergies,
-            Cancer: cancer,
-            HormoneProblem: hormoneProblem,
-            DiabatiesLevel: diabetesLevel
-        });
 
-        pathologistTests[msg.sender] = test; // problem fix
+        Pathologist storage pathologist = pathologists[msg.sender];
+        pathologist.pathologistTest.Allergies = allergies;
+        pathologist.pathologistTest.Cancer = cancer;
+        pathologist.pathologistTest.HormoneProblem = hormoneProblem;
+        pathologist.pathologistTest.DiabatiesLevel = diabetesLevel;
+
     }
 
     function getDoctor(
