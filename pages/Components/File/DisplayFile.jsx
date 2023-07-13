@@ -10,7 +10,6 @@ const DisplayFile = () => {
 
     try {
       dataArray = await patientData[8];
-      // hhi
       console.log("data image", dataArray);
     } catch (error) {
       alert(error);

@@ -88,6 +88,7 @@ const GetPersonalDetails = () => {
                 Patient Age: {String(patientData[4])}
                 <hr />
                 Patient Location: {patientData[5]}
+                {console.log("patient data", patientData)}
                 <div class="modal-footer">
                   <button
                     type="btn btn-dark"

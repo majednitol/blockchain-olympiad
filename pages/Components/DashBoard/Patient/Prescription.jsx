@@ -45,7 +45,7 @@ const Prescription = () => {
       <BoxButton name="Upload File" />
 
       <div>
-        <FileUpload userAccount={account} />
+        <FileUpload />
         <DisplayFile />
       </div>
     </div>
