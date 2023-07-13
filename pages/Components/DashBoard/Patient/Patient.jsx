@@ -3,7 +3,7 @@ import Prescription from "./Prescription";
 import DisplayFile from "../../File/DisplayFile";
 import SetPersonalHealthData from "@/pages/Components/DashBoard/Patient/SetPersonalHealthData";
 import PersonalHealthData from "@/pages/Components/DashBoard/Patient/PersonalHealthData";
-import ShareData from "@/pages/Components/DashBoard/Patient/ShareData";
+import ShareDataByPatient from "@/pages/Components/DashBoard/Patient/ShareDataByPatient";
 import GetPersonalDetails from "@/pages/Components/DashBoard/Patient/GetPersonalDetails";
 
 const PatientComponent = () => {
@@ -12,7 +12,7 @@ const PatientComponent = () => {
       <GetPersonalDetails />
       <SetPersonalHealthData />
       <PersonalHealthData />
-      <ShareData />
+      <ShareDataByPatient />
       <Prescription />
       <DisplayFile />
     </div>
