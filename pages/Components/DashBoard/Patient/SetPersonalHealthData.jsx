@@ -228,7 +228,7 @@ const SetPersonalHealthData = () => {
                     type="text"
                     class="form-control"
                     id="previousDiseases"
-                    name="genpreviousDiseasesder"
+                    name="previousDiseases"
                     value={previousDiseases}
                     placeholder="Enter your previousDiseases"
                     onChange={handleInputChange}

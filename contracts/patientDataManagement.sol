@@ -43,7 +43,6 @@ contract MedicalData {
         string userType;
     }
 
-    mapping(address => PatientPersonalData) private patientData;
 
     struct Pathologist {
         address pathologistAddress;
@@ -326,7 +325,7 @@ contract MedicalData {
             ) {
                 require(
                     pharmacyCompanies[useraddress].pharmacyCompanyAddress !=
-                        address(0),
+                    address(0),
                     "Pharmacy Company doesn't exist"
                 );
                 pharmacyCompanies[useraddress].PatientToPharmacy.push(
@@ -448,16 +447,16 @@ contract MedicalData {
         string memory healthAllergies,
         string memory birthDefects
     ) external {
-        patientData[msg.sender] = PatientPersonalData(
-            height,
-            blood,
-            previousDiseases,
-            medicineDrugs,
-            badHabits,
-            chronicDiseases,
-            healthAllergies,
-            birthDefects
-        );
+        Patient storage patient = patients[msg.sender];
+        patient.patientPersonalData.height = height;
+        patient.patientPersonalData.Blood = blood;
+        patient.patientPersonalData.PreviousDiseases = previousDiseases;
+        patient.patientPersonalData.Medicinedrugs = medicineDrugs;
+        patient.patientPersonalData.BadHabits = badHabits;
+        patient.patientPersonalData.ChronicDiseases = chronicDiseases;
+        patient.patientPersonalData.HealthAllergies = healthAllergies;
+        patient.patientPersonalData.BirthDefects = birthDefects;
+
     }
 
     function addTopMedichine(string memory medichine) public {

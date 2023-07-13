@@ -28,6 +28,9 @@ const HealthProvider = ({ children }) => {
   const [TopMedichine, setTopMedichine] = useState("");
   const [MedicalResearchLabReport, setMedicalResearchLabReport] = useState("");
   const [ConnectedAccountUser, setConnectedAccountUser] = useState(0);
+  const [PatientPersonalHealthData, setPatientPersonalHealthData] = useState(
+    []
+  );
 
   const router = useRouter();
   const provider = new ethers.providers.JsonRpcProvider(
@@ -75,6 +78,7 @@ const HealthProvider = ({ children }) => {
     // const connectedAccount = await connectWallet();
     const patientData = await contractData[1].getPatient(patientAddress);
     setPatientData(patientData);
+    setPatientPersonalHealthData(patientData[9]);
     console.log("patientData ", patientData);
   };
 
@@ -132,6 +136,7 @@ const HealthProvider = ({ children }) => {
     setPharmacyCompany(PharmacyCompanyData);
     console.log(PharmacyCompanyData);
   };
+
   const ConnectedEntityType = async () => {
     try {
       setLoading(true);
@@ -613,7 +618,9 @@ const HealthProvider = ({ children }) => {
         transferDataByPathologist,
         setPathologistTest,
         ViewTopMedichine,
-      }}>
+        PatientPersonalHealthData,
+      }}
+    >
       {children}
     </HealthContext.Provider>
   );
