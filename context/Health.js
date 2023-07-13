@@ -31,6 +31,9 @@ const HealthProvider = ({ children }) => {
   const [PatientPersonalHealthData, setPatientPersonalHealthData] = useState(
     []
   );
+  const [patientPersonalDoctorList, setPatientPersonalDoctorList] = useState(
+    []
+  );
 
   const router = useRouter();
   const provider = new ethers.providers.JsonRpcProvider(
@@ -79,6 +82,7 @@ const HealthProvider = ({ children }) => {
     const patientData = await contractData[1].getPatient(patientAddress);
     setPatientData(patientData);
     setPatientPersonalHealthData(patientData[9]);
+    setPatientPersonalDoctorList(patientData[10]);
     console.log("patientData ", patientData);
   };
 
@@ -619,6 +623,7 @@ const HealthProvider = ({ children }) => {
         setPathologistTest,
         ViewTopMedichine,
         PatientPersonalHealthData,
+        patientPersonalDoctorList,
       }}
     >
       {children}
