@@ -16,7 +16,7 @@ contract MedicalData {
         PatientPersonalData patientPersonalData;
         address[] personalDoctor;
     }
-
+    //  doctor ar phatolist er position change korci
     struct PatientPersonalData {
         uint256 height;
         string Blood;
@@ -37,12 +37,12 @@ contract MedicalData {
         uint256 BMDCNumber;
         uint256 yearOfExperience;
         address[] PatientToDoctor; //data share of all patient
-        address[] PathologiestToDoctor; // data share of all patient
+        string[] patientTest;
+        // data share of all patient
         bool isAdded;
         address[] TreatedPatient;
         string userType;
     }
-
 
     struct Pathologist {
         address pathologistAddress;
@@ -53,16 +53,16 @@ contract MedicalData {
         uint256 totalExperience;
         bool isAdded;
         address[] PatientToPathologiest; //allPatientsAddressSharedTopathologist
+        string[] pathologistTest;
         string userType;
-        PathologistTest pathologistTest;
     }
 
-    struct PathologistTest {
-        string Allergies;
-        string Cancer;
-        string HormoneProblem;
-        uint256 DiabatiesLevel;
-    }
+    // struct PathologistTest {
+    //     string Allergies;
+    //     string Cancer;
+    //     string HormoneProblem;
+    //     uint256 DiabatiesLevel;
+    // }
 
     struct MedicalResearchLab {
         address labAddress;
@@ -88,7 +88,6 @@ contract MedicalData {
         address[] PatientToPharmacy; // allPatientAddressSharedToPharmacyCompany
         string userType;
         string[] TopMedichine;
-
     }
 
     mapping(address => uint256) public accounts;
@@ -98,6 +97,7 @@ contract MedicalData {
     mapping(address => Pathologist) pathologists; //pathologistTests
     mapping(address => MedicalResearchLab) medicalResearchLabs;
     mapping(address => PharmacyCompany) pharmacyCompanies;
+
     // Problem 1
 
     // Setters and Getters for Patient struct
@@ -136,37 +136,40 @@ contract MedicalData {
         Patient
     }
 
-    function addLabReport(string memory report) external {
-        medicalResearchLabs[msg.sender].PatientLabReport.push(report); // problem 2
-    }
-
     function addPrescription(address _user, string memory url) external {
         //Docto or Patient addPrescription
         if (accounts[msg.sender] == uint256(EntityType.Doctor)) {
             require(doctors[msg.sender].isAdded, "Doctor doesn't exist");
             // doctors[msg.sender].imgUrl.push(url);
-            doctors[msg.sender].TreatedPatient.push(_user);
-            patients[_user].imgUrl.push(url);
-            patients[_user].personalDoctor.push(msg.sender);
+            if (accounts[_user] == uint256(EntityType.Pathologist)) {
+                pathologists[_user].pathologistTest.push(url);
+            } else if (accounts[_user] == uint256(EntityType.Patient)) {
+                doctors[msg.sender].TreatedPatient.push(_user);
+                patients[_user].imgUrl.push(url);
+                patients[_user].personalDoctor.push(msg.sender);
+            } else {
+                revert("You don't addPrescription in this  entity ");
+            }
         } else if (accounts[msg.sender] == uint256(EntityType.Patient)) {
             require(patients[msg.sender].isAdded, "Patient doesn't exist");
             patients[msg.sender].imgUrl.push(url);
+        } else if (accounts[msg.sender] == uint256(EntityType.Pathologist)) {
+            require(
+                pathologists[msg.sender].isAdded,
+                "pathologists doesn't exist"
+            );
+            doctors[_user].patientTest.push(url);
+        } else if (
+            accounts[msg.sender] == uint256(EntityType.MedicalResearchLab)
+        ) {
+            require(
+                medicalResearchLabs[msg.sender].isAdded,
+                "medicalResearchLabs doesn't exist"
+            );
+            medicalResearchLabs[msg.sender].PatientLabReport.push(url);
+        } else {
+            revert("You don't addPrescription in this  entity ");
         }
-    }
-
-    function setPathologistTest(
-        string memory allergies,
-        string memory cancer,
-        string memory hormoneProblem,
-        uint256 diabetesLevel
-    ) public {
-
-        Pathologist storage pathologist = pathologists[msg.sender];
-        pathologist.pathologistTest.Allergies = allergies;
-        pathologist.pathologistTest.Cancer = cancer;
-        pathologist.pathologistTest.HormoneProblem = hormoneProblem;
-        pathologist.pathologistTest.DiabatiesLevel = diabetesLevel;
-
     }
 
     function getDoctor(
@@ -337,52 +340,52 @@ contract MedicalData {
         }
     }
 
-    function transferDataByDoctor(address useraddress) public {
-        uint256 user0 = accounts[useraddress];
+    //    function transferDataByDoctor(address useraddress) public {
+    //        uint256 user0 = accounts[useraddress];
+    //
+    //        if (1 == uint256(EntityType.Doctor)) {
+    //            require(doctors[msg.sender].isAdded, "Doctor doesn't exist");
+    //
+    //            if (
+    //                user0 == uint256(EntityType.Pathologist) &&
+    //                1 == uint256(EntityType.Doctor)
+    //            ) {
+    //                require(
+    //                    pathologists[useraddress].pathologistAddress != address(0),
+    //                    "Pathologist does not exist"
+    //                );
+    //                pathologists[useraddress].PatientToPathologiest.push(
+    //                    msg.sender
+    //                );
+    //            } else {
+    //                revert("Doctor can transfer data only pathologists ");
+    //            }
+    //        }
+    //    }
 
-        if (1 == uint256(EntityType.Doctor)) {
-            require(doctors[msg.sender].isAdded, "Doctor doesn't exist");
-
-            if (
-                user0 == uint256(EntityType.Pathologist) &&
-                1 == uint256(EntityType.Doctor)
-            ) {
-                require(
-                    pathologists[useraddress].pathologistAddress != address(0),
-                    "Pathologist does not exist"
-                );
-                pathologists[useraddress].PatientToPathologiest.push(
-                    msg.sender
-                );
-            } else {
-                revert("Doctor can transfer data only pathologists ");
-            }
-        }
-    }
-
-    function transferDataByPathologist(address useraddress) public {
-        uint256 user0 = accounts[useraddress];
-
-        if (2 == uint256(EntityType.Pathologist)) {
-            require(
-                pathologists[msg.sender].isAdded,
-                "Pathologist doesn't exist"
-            );
-
-            if (
-                user0 == uint256(EntityType.Doctor) &&
-                2 == uint256(EntityType.Pathologist)
-            ) {
-                require(
-                    doctors[useraddress].BMDCNumber != 0,
-                    "Doctor doesn't exist"
-                );
-                doctors[useraddress].PathologiestToDoctor.push(msg.sender);
-            } else {
-                revert("pathologists can transfer data only doctor");
-            }
-        }
-    }
+    //    function transferDataByPathologist(address useraddress) public {
+    //        uint256 user0 = accounts[useraddress];
+    //
+    //        if (2 == uint256(EntityType.Pathologist)) {
+    //            require(
+    //                pathologists[msg.sender].isAdded,
+    //                "Pathologist doesn't exist"
+    //            );
+    //
+    //            if (
+    //                user0 == uint256(EntityType.Doctor) &&
+    //                2 == uint256(EntityType.Pathologist)
+    //            ) {
+    //                require(
+    //                    doctors[useraddress].BMDCNumber != 0,
+    //                    "Doctor doesn't exist"
+    //                );
+    //                doctors[useraddress].PathologiestToDoctor.push(msg.sender);
+    //            } else {
+    //                revert("pathologists can transfer data only doctor");
+    //            }
+    //        }
+    //    }
 
     function ConnectedAccountType(
         address useraddress
@@ -456,7 +459,6 @@ contract MedicalData {
         patient.patientPersonalData.ChronicDiseases = chronicDiseases;
         patient.patientPersonalData.HealthAllergies = healthAllergies;
         patient.patientPersonalData.BirthDefects = birthDefects;
-
     }
 
     function addTopMedichine(string memory medichine) public {

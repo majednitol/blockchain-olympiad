@@ -3,13 +3,14 @@ import React from "react";
 
 import DashboardLayout from "@/pages/Components/DashboardLayout/DashboardLayout";
 import IsAuth from "@/pages/Components/ProtectedRoute/IsAuth";
-import DisplayFile from "@/pages/Components/File/DisplayFile";
 
 const PatientFileUpload = () => {
   return (
-    <DashboardLayout>
-      <FileUpload />
-    </DashboardLayout>
+    <div>
+      <DashboardLayout>
+        <FileUpload />
+      </DashboardLayout>
+    </div>
   );
 };
 

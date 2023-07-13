@@ -1,14 +1,14 @@
 import React from "react";
 import FileUpload from "@/pages/Components/File/FileUpload";
 
-const SentPrescription = () => {
+const SentPrescriptionToPathologist = () => {
   const userAddess = document.querySelector(".address").value;
   return (
     <div>
       <input type="text" placeholder="Enter address" className="address" />
-      <FileUpload patientAddress={userAddess} />
+      <FileUpload userAddress={userAddess} />
     </div>
   );
 };
 
-export default SentPrescription;
+export default SentPrescriptionToPathologist;

@@ -2,14 +2,14 @@ import React, { useContext, useState } from "react";
 import Styles from "./DisplayFile.module.css";
 import { HealthContext } from "@/context/Health";
 
-const DisplayFile = () => {
+const DisplayFile = ({ userData }) => {
   const { patientData } = useContext(HealthContext);
   const [data, setData] = useState("");
   const getData = async () => {
     let dataArray;
 
     try {
-      dataArray = await patientData[8];
+      dataArray = await userData[8];
       console.log("data image", dataArray);
     } catch (error) {
       alert(error);

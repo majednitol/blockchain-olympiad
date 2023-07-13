@@ -35,8 +35,9 @@ const Prescription = () => {
       <BoxButton name="Upload File" />
 
       <div>
-        <FileUpload patientAddress={account} />
-        <DisplayFile />
+        {console.log("jjjj", account)}
+        <FileUpload userAddress={account} />
+        <DisplayFile userData={patientData} />
       </div>
     </div>
   );

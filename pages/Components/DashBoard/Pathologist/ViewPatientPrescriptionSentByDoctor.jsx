@@ -1,7 +1,7 @@
 import React from "react";
 import DisplayFile from "@/pages/Components/File/DisplayFile";
 
-const PatientPrescriptionSentByDoctor = () => {
+const ViewPatientPrescriptionSentByDoctor = () => {
   return (
     <div>
       <DisplayFile />
@@ -9,4 +9,4 @@ const PatientPrescriptionSentByDoctor = () => {
   );
 };
 
-export default PatientPrescriptionSentByDoctor;
+export default ViewPatientPrescriptionSentByDoctor;

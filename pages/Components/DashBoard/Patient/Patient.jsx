@@ -1,6 +1,4 @@
 import React from "react";
-import Prescription from "./Prescription";
-import DisplayFile from "../../File/DisplayFile";
 import SetPersonalHealthData from "@/pages/Components/DashBoard/Patient/SetPersonalHealthData";
 import PersonalHealthData from "@/pages/Components/DashBoard/Patient/PersonalHealthData";
 import ShareDataByPatient from "@/pages/Components/DashBoard/Patient/ShareDataByPatient";
@@ -13,8 +11,8 @@ const PatientComponent = () => {
       <SetPersonalHealthData />
       <PersonalHealthData />
       <ShareDataByPatient />
-      <Prescription />
-      <DisplayFile />
+      {/*<Prescription />*/}
+      {/*<DisplayFile />*/}
     </div>
   );
 };

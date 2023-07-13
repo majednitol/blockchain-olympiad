@@ -36,7 +36,14 @@ const HealthProvider = ({ children }) => {
     []
   );
   const [DoctorPersonalPatient, setDoctorPersonalPatient] = useState([]);
+  const [PatientToDoctorSharedData, setPatientToDoctorSharedData] = useState(
+    []
+  );
 
+  const [PatientToMedRcLabSharedData, setPatientToMedRcLabSharedData] =
+    useState([]);
+  const [PatientToPharmacySharedData, setPatientToPharmacySharedData] =
+    useState([]);
   const router = useRouter();
   const provider = new ethers.providers.JsonRpcProvider(
     `https://eth-sepolia.g.alchemy.com/v2/nGjYP7xrrjnCnxraBgpbLxaXxgYylt0z`
@@ -93,6 +100,8 @@ const HealthProvider = ({ children }) => {
     // const connectedAccount = await connectWallet();
     const doctorData = await contractData[0].getDoctor(doctorAddress);
     setDoctorData(doctorData);
+    setDoctorPersonalPatient(doctorData[10]);
+    setPatientToDoctorSharedData(doctorData[7]);
     console.log("doctorData", doctorData);
   };
 
@@ -104,6 +113,7 @@ const HealthProvider = ({ children }) => {
     );
     setMedicalResearchLab(MedicalResearchLabAData);
     setMedicalResearchLabReport(MedicalResearchLabAData[8]);
+    setPatientToMedRcLabSharedData(MedicalResearchLabAData[7]);
     console.log(MedicalResearchLabAData);
   };
 
@@ -114,7 +124,7 @@ const HealthProvider = ({ children }) => {
       pathologistAddress
     );
     setPathologistData(pathologistAllData);
-    setPathologistTestData(pathologistAllData[9]);
+
     console.log(pathologistAllData);
   };
 
@@ -126,6 +136,7 @@ const HealthProvider = ({ children }) => {
     );
     setPharmacyCompany(PharmacyCompanyData);
     setTopMedichine(PharmacyCompanyData[9]);
+    setPatientToPharmacySharedData(PharmacyCompanyData[7]);
     console.log(PharmacyCompanyData);
   };
 
@@ -444,65 +455,65 @@ const HealthProvider = ({ children }) => {
   };
 
   // }
-  const transferDataByDoctor = async (receiptAddress) => {
-    // works
-    // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
-
-    try {
-      if (window.ethereum) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-        const signer = provider.getSigner();
-        console.log("signer", signer);
-        const contract = new ethers.Contract(
-          patientAddress,
-          patientABI,
-          signer
-        );
-
-        const transferDatabyDoctor = await contract.transferDataByDoctor(
-          receiptAddress
-        );
-
-        await transferDatabyDoctor.wait();
-
-        window.location.reload();
-      } else {
-        console.error("Metamask is not installed");
-      }
-    } catch (error) {
-      console.log("error account crate time", error);
-    }
-  };
-  const transferDataByPathologist = async (receiptAddress) => {
-    // works
-    // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
-
-    try {
-      if (window.ethereum) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-        const signer = provider.getSigner();
-        console.log("signer", signer);
-        const contract = new ethers.Contract(
-          patientAddress,
-          patientABI,
-          signer
-        );
-
-        const transferDatabyPathologist =
-          await contract.transferDataByPathologist(receiptAddress);
-
-        await transferDatabyPathologist.wait();
-
-        window.location.reload();
-      } else {
-        console.error("Metamask is not installed");
-      }
-    } catch (error) {
-      console.log("error account crate time", error);
-    }
-  };
+  // const transferDataByDoctor = async (receiptAddress) => {
+  //   // works
+  //   // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+  //
+  //   try {
+  //     if (window.ethereum) {
+  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //
+  //       const signer = provider.getSigner();
+  //       console.log("signer", signer);
+  //       const contract = new ethers.Contract(
+  //         patientAddress,
+  //         patientABI,
+  //         signer
+  //       );
+  //
+  //       const transferDatabyDoctor = await contract.transferDataByDoctor(
+  //         receiptAddress
+  //       );
+  //
+  //       await transferDatabyDoctor.wait();
+  //
+  //       window.location.reload();
+  //     } else {
+  //       console.error("Metamask is not installed");
+  //     }
+  //   } catch (error) {
+  //     console.log("error account crate time", error);
+  //   }
+  // };
+  // const transferDataByPathologist = async (receiptAddress) => {
+  //   // works
+  //   // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
+  //
+  //   try {
+  //     if (window.ethereum) {
+  //       const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //
+  //       const signer = provider.getSigner();
+  //       console.log("signer", signer);
+  //       const contract = new ethers.Contract(
+  //         patientAddress,
+  //         patientABI,
+  //         signer
+  //       );
+  //
+  //       const transferDatabyPathologist =
+  //         await contract.transferDataByPathologist(receiptAddress);
+  //
+  //       await transferDatabyPathologist.wait();
+  //
+  //       window.location.reload();
+  //     } else {
+  //       console.error("Metamask is not installed");
+  //     }
+  //   } catch (error) {
+  //     console.log("error account crate time", error);
+  //   }
+  // };
   const transferDataByPatient = async (receiptAddress) => {
     // works
     // if(name|| accountAddress) return setError("Name and AccountAddress cannot be empty")
@@ -604,8 +615,7 @@ const HealthProvider = ({ children }) => {
         addTopMedichine,
         addLabReport,
         setPatientPersonalData,
-        transferDataByDoctor,
-        transferDataByPathologist,
+
         setPathologistTest,
 
         PatientPersonalHealthData,

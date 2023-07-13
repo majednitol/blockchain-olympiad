@@ -4,7 +4,7 @@ import axios from "axios";
 import Styles from "./FileUpload.module.css";
 import { HealthContext } from "@/context/Health";
 
-const FileUpload = ({ patientAddress }) => {
+const FileUpload = ({ userAddress }) => {
   const {
     account,
     AddNewPatient,
@@ -43,6 +43,7 @@ const FileUpload = ({ patientAddress }) => {
   const [filename, setFilename] = useState("No image selected");
 
   const handleSubmit = async (e) => {
+    console.log("address", userAddress);
     e.preventDefault();
     if (file) {
       try {
@@ -61,7 +62,7 @@ const FileUpload = ({ patientAddress }) => {
         });
 
         const imgHash = `ipfs://${resFile.data.IpfsHash}`;
-        signer.addPrescription(patientAddress, imgHash);
+        signer.addPrescription(userAddress, imgHash);
         alert("Successfully Image Uploaded");
         setFilename("No image selected");
         setFile(null);
