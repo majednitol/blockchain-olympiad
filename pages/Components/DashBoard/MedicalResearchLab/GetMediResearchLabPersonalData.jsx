@@ -99,7 +99,15 @@ const GetMediResearchLabPersonalData = () => {
                   >
                     Close
                   </button>
-                  {/* <button type="submit btn btn-primary" onClick={() => { handleSubmit }} class="btn btn-primary">Submit</button> */}
+                  <button
+                    type="submit btn btn-primary"
+                    onClick={() => {
+                      handleSubmit;
+                    }}
+                    class="btn btn-primary"
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </div>

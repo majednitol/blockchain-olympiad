@@ -29,7 +29,7 @@ const AddResearchLabReport = () => {
   } = useContext(HealthContext);
   return (
     <div>
-      <FileUpload patientAddress={account} />
+      <FileUpload userAddress={account} />
     </div>
   );
 };
