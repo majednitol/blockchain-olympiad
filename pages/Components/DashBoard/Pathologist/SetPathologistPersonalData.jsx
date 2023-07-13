@@ -99,12 +99,11 @@ const SetPathologistPersonalData = () => {
     e.preventDefault();
 
     if (
-      validateForm() &&
-      name !== " " &&
-      totalExperience !== " " &&
+      name !== "" &&
+      totalExperience !== "" &&
       pathologistID !== "" &&
-      specializationArea !== " " &&
-      licenseNumber !== " "
+      specializationArea !== "" &&
+      licenseNumber !== ""
     ) {
       // Perform form submission
 
@@ -118,6 +117,7 @@ const SetPathologistPersonalData = () => {
       );
     } else {
       console.log("please fill up all feild");
+      alert("Please fill up all feild");
     }
   };
 
@@ -127,19 +127,17 @@ const SetPathologistPersonalData = () => {
         type=""
         class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        data-bs-whatever="@mdo"
-      >
+        data-bs-target="#modalTwo"
+        data-bs-whatever="@mdo">
         <BoxButton name="pathologist Personal Data" handleFunction={() => {}} />
       </button>
 
       <div
         class="modal fade"
-        id="exampleModal"
+        id="modalTwo"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -150,8 +148,7 @@ const SetPathologistPersonalData = () => {
                 type="button"
                 class="btn-close mx-3"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 Close
               </button>
             </div>
@@ -240,8 +237,7 @@ const SetPathologistPersonalData = () => {
                   <button
                     type="btn btn-dark"
                     className="btn btn-dark"
-                    data-bs-dismiss="modal"
-                  >
+                    data-bs-dismiss="modal">
                     Close
                   </button>
                   <button
@@ -249,8 +245,7 @@ const SetPathologistPersonalData = () => {
                     onClick={(e) => {
                       handleSubmit(e);
                     }}
-                    class="btn btn-primary"
-                  >
+                    class="btn btn-primary">
                     Submit
                   </button>
                 </div>

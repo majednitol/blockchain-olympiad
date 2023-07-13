@@ -6,18 +6,23 @@ import SetPatientPersonalDetails from "./Components/DashBoard/Patient/SetPersona
 
 const Home = () => {
   const router = useRouter();
-  const { account, ConnectedAccountUser } = useContext(HealthContext);
+  const { loading, ConnectedAccountUser } = useContext(HealthContext);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   useEffect(() => {
-    alert(ConnectedAccountUser);
     if (ConnectedAccountUser != 0) {
       router.push("/dashboard");
+    } else {
+      router.push("/signup");
     }
   }, [ConnectedAccountUser]);
   return (
     <div>
       {/* <MainComponent /> */}
-      <SetPatientPersonalDetails />
+      {/* <SetPatientPersonalDetails /> */}
     </div>
   );
 };

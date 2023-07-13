@@ -16,6 +16,7 @@ export const HealthContext = React.createContext();
 const HealthProvider = ({ children }) => {
   const [account, setAccount] = useState("");
 
+  const [loading, setLoading] = useState(false);
   const [patientData, setPatientData] = useState("");
   const [doctorData, setDoctorData] = useState("");
   const [MedicalResearchLab, setMedicalResearchLab] = useState("");
@@ -133,6 +134,7 @@ const HealthProvider = ({ children }) => {
   };
   const ConnectedEntityType = async () => {
     try {
+      setLoading(true);
       const contractData = await connectWalletBycontractData(provider);
       const connectedAccount = await connectWallet();
       const ConnectedAccountUserType =
@@ -141,6 +143,8 @@ const HealthProvider = ({ children }) => {
       console.log("ConnectedAccountUserType", String(ConnectedAccountUserType));
     } catch (error) {
       console.log("no account have in address");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -576,6 +580,7 @@ const HealthProvider = ({ children }) => {
   return (
     <HealthContext.Provider
       value={{
+        loading,
         account,
         AddNewPatient,
         transferDataByPatient,
@@ -608,8 +613,7 @@ const HealthProvider = ({ children }) => {
         transferDataByPathologist,
         setPathologistTest,
         ViewTopMedichine,
-      }}
-    >
+      }}>
       {children}
     </HealthContext.Provider>
   );

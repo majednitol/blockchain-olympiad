@@ -1,5 +1,6 @@
 import React from "react";
 import DashboardLayout from "../Components/DashboardLayout/DashboardLayout";
+import IsAuth from "../Components/ProtectedRoute/IsAuth";
 
 const page = () => {
   return (
@@ -9,4 +10,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default IsAuth(page);

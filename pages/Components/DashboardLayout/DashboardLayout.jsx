@@ -4,7 +4,7 @@ import styles from "./dashboard.module.css";
 import { HealthContext } from "@/context/Health";
 import Link from "next/link";
 
-export default function DashboardLayout({ children }) {
+function DashboardLayout({ children }) {
   const { account, ConnectedAccountUser } = useContext(HealthContext);
   return (
     <>
@@ -20,11 +20,29 @@ export default function DashboardLayout({ children }) {
                     <p>Dashboard</p>
                   </Link>
                   {ConnectedAccountUser == 5 && (
-                    <Link
-                      href="/dashboard/patient-personal-details"
-                      className={styles.sidebarMenu__list__item__link}>
-                      <p>Pasent Details</p>
-                    </Link>
+                    <>
+                      <Link
+                        href="/dashboard/patient-personal-details"
+                        className={styles.sidebarMenu__list__item__link}>
+                        <p>Patient Details</p>
+                      </Link>
+
+                      <Link
+                        href="/dashboard/patient-file-upload"
+                        className={styles.sidebarMenu__list__item__link}>
+                        <p>File Upload</p>
+                      </Link>
+                    </>
+                  )}
+
+                  {ConnectedAccountUser == 2 && (
+                    <>
+                      <Link
+                        href="/dashboard/pathologist-personal-data"
+                        className={styles.sidebarMenu__list__item__link}>
+                        <p>Pathologist</p>
+                      </Link>
+                    </>
                   )}
                 </li>
               </ul>
@@ -38,3 +56,5 @@ export default function DashboardLayout({ children }) {
     </>
   );
 }
+
+export default DashboardLayout;
