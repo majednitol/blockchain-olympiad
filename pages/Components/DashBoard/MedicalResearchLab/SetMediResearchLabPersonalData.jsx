@@ -121,9 +121,8 @@ const SetMediResearchLabPersonalData = () => {
         type=""
         class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        data-bs-whatever="@mdo"
-      >
+        data-bs-target="#modalFive"
+        data-bs-whatever="@mdo">
         <BoxButton
           name="Medical ResearchLab Personal Data"
           handleFunction={() => {}}
@@ -132,11 +131,10 @@ const SetMediResearchLabPersonalData = () => {
 
       <div
         class="modal fade"
-        id="exampleModal"
+        id="modalFive"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -147,8 +145,7 @@ const SetMediResearchLabPersonalData = () => {
                 type="button"
                 class="btn-close mx-3"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 Close
               </button>
             </div>
@@ -233,8 +230,7 @@ const SetMediResearchLabPersonalData = () => {
                   <button
                     type="btn btn-dark"
                     className="btn btn-dark"
-                    data-bs-dismiss="modal"
-                  >
+                    data-bs-dismiss="modal">
                     Close
                   </button>
                   <button
@@ -242,8 +238,7 @@ const SetMediResearchLabPersonalData = () => {
                     onClick={(e) => {
                       handleSubmit(e);
                     }}
-                    class="btn btn-primary"
-                  >
+                    class="btn btn-primary">
                     Submit
                   </button>
                 </div>

@@ -126,19 +126,17 @@ const SetPatientPersonalDetails = () => {
         type=""
         class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
-        data-bs-whatever="@mdo"
-      >
+        data-bs-target="#modalOne"
+        data-bs-whatever="@mdo">
         <BoxButton name="Patient" handleFunction={() => {}} />
       </button>
 
       <div
         class="modal fade"
-        id="exampleModal"
+        id="modalOne"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -149,8 +147,7 @@ const SetPatientPersonalDetails = () => {
                 type="button"
                 class="btn-close mx-3"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              >
+                aria-label="Close">
                 Close
               </button>
             </div>
@@ -235,8 +232,7 @@ const SetPatientPersonalDetails = () => {
                     onClick={(e) => {
                       handleSubmit(e);
                     }}
-                    className="btn btn-primary"
-                  >
+                    className="btn btn-primary">
                     Submit
                   </button>
                 </div>

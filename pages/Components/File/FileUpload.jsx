@@ -41,6 +41,7 @@ const FileUpload = () => {
   } = useContext(HealthContext);
   const [file, setFile] = useState(null);
   const [filename, setFilename] = useState("No image selected");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (file) {
@@ -81,23 +82,26 @@ const FileUpload = () => {
     e.preventDefault();
   };
   return (
-    <div className={Styles.top}>
+    <div className="container pt-5">
       <form className={Styles.form} onSubmit={handleSubmit}>
-        <label htmlFor="file-upload" className={Styles.choose}>
-          Choose Image
-        </label>
-        <input
-          type="file"
-          disabled={!account}
-          id="file-upload"
-          name="data"
-          onChange={retrieveFile}
-        />
-        <span className={Styles.textArea}>
-          Image : {filename}
-          {console.log(filename)}
-        </span>
-        <button type="submit" className={Styles.upload} disabled={!file}>
+        <div className="form-group my-4">
+          <label htmlFor="file-upload" className="form-lebel">
+            Choose Image
+          </label>
+          <input
+            type="file"
+            disabled={!account}
+            id="file-upload"
+            name="data"
+            className="form-control"
+            onChange={retrieveFile}
+          />
+        </div>
+        <span className={Styles.textArea}>Image : {filename}</span>
+        <button
+          type="submit"
+          className="btn btn-success block my-4"
+          style={{ backgroundColor: "green" }}>
           Upload file
         </button>
       </form>
