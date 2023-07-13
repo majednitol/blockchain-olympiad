@@ -9,43 +9,33 @@ const Prescription = () => {
   const {
     account,
     AddNewPatient,
-    transferDataByPatient,
+    transferData,
     AddMedicalResearchLab,
     AddNewpathologist,
     AddNewPharmacyCompany,
     AddDoctor,
-    getPharmacyCompanyAllData,
+    PharmacyCompanyAllData,
     getPathologistAllData,
-    getMedicalResearchLabAData,
-    getDoctorAllData,
     getPatientAllData,
+    getMedicalResearchLabAData,
+    doctorAllData,
+    patientAllData,
     fetchData,
-    TopMedichine,
+    userName,
     doctorData,
     patientData,
     PharmacyCompany,
     MedicalResearchLab,
     contractData,
-    PathologistData,
-    signer,
-    ConnectedAccountUser,
-    MedicalResearchLabReport,
-    MedicalResearchLabReports,
-    ConnectedEntityType,
-    addTopMedichine,
-    addLabReport,
-    setPatientPersonalData,
-    transferDataByDoctor,
-    transferDataByPathologist,
-    setPathologistTest,
-    ViewTopMedichine,
+    Pathologist,
+    PatientPersonalHealthData,
   } = useContext(HealthContext);
   return (
     <div>
       <BoxButton name="Upload File" />
 
       <div>
-        <FileUpload />
+        <FileUpload patientAddress={account} />
         <DisplayFile />
       </div>
     </div>

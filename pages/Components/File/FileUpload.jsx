@@ -4,7 +4,7 @@ import axios from "axios";
 import Styles from "./FileUpload.module.css";
 import { HealthContext } from "@/context/Health";
 
-const FileUpload = () => {
+const FileUpload = ({ patientAddress }) => {
   const {
     account,
     AddNewPatient,
@@ -61,7 +61,7 @@ const FileUpload = () => {
         });
 
         const imgHash = `ipfs://${resFile.data.IpfsHash}`;
-        signer.addPrescription(account, imgHash);
+        signer.addPrescription(patientAddress, imgHash);
         alert("Successfully Image Uploaded");
         setFilename("No image selected");
         setFile(null);
@@ -101,7 +101,8 @@ const FileUpload = () => {
         <button
           type="submit"
           className="btn btn-success block my-4"
-          style={{ backgroundColor: "green" }}>
+          style={{ backgroundColor: "green" }}
+        >
           Upload file
         </button>
       </form>
