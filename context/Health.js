@@ -44,6 +44,7 @@ const HealthProvider = ({ children }) => {
     useState([]);
   const [PatientToPharmacySharedData, setPatientToPharmacySharedData] =
     useState([]);
+  const [sharedData, setSharedData] = useState("");
   const router = useRouter();
   const provider = new ethers.providers.JsonRpcProvider(
     `https://eth-sepolia.g.alchemy.com/v2/nGjYP7xrrjnCnxraBgpbLxaXxgYylt0z`
@@ -53,6 +54,7 @@ const HealthProvider = ({ children }) => {
     fetchData();
     getSigner();
     ConnectedEntityType();
+    // getDoctorAllData("0xA07cDb8d3E91e30606D5604284295A19102D531C");
 
     // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
     // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
@@ -94,11 +96,21 @@ const HealthProvider = ({ children }) => {
     setPatientPersonalDoctorList(patientData[10]);
     console.log("patientData ", patientData);
   };
+  const getPatientAllPrescription = async (patientAddress) => {
+    const contractData = await connectWalletBycontractData(provider);
+    const connectedAccount = await connectWallet();
+    const patientPrescription = await contractData[1].showSharedPrescription(
+      connectedAccount
+    );
+    setSharedData(patientPrescription);
+
+    console.log("patientData ", patientPrescription);
+  };
 
   const getDoctorAllData = async (doctorAddress) => {
     const contractData = await connectWalletBycontractData(provider);
-    // const connectedAccount = await connectWallet();
-    const doctorData = await contractData[0].getDoctor(doctorAddress);
+    const connectedAccount = await connectWallet();
+    const doctorData = await contractData[0].getDoctor(connectedAccount);
     setDoctorData(doctorData);
     setDoctorPersonalPatient(doctorData[10]);
     setPatientToDoctorSharedData(doctorData[7]);
@@ -119,9 +131,9 @@ const HealthProvider = ({ children }) => {
 
   const getPathologistAllData = async (pathologistAddress) => {
     const contractData = await connectWalletBycontractData(provider);
-    // const connectedAccount = await connectWallet();
+    const connectedAccount = await connectWallet();
     const pathologistAllData = await contractData[1].getPathologist(
-      pathologistAddress
+      connectedAccount
     );
     setPathologistData(pathologistAllData);
 
@@ -622,6 +634,10 @@ const HealthProvider = ({ children }) => {
         patientPersonalDoctorList,
         PathologistTestData,
         DoctorPersonalPatient,
+        sharedData,
+        PatientToDoctorSharedData,
+        PatientToMedRcLabSharedData,
+        PatientToPharmacySharedData,
       }}
     >
       {children}

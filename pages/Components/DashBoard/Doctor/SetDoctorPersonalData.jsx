@@ -138,8 +138,9 @@ const SetDoctorPersonalData = () => {
         class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
         data-bs-toggle="modal"
         data-bs-target="#modalFour"
-        data-bs-whatever="@mdo">
-        <BoxButton name="DoctorPersonalData" />
+        data-bs-whatever="@mdo"
+      >
+        <BoxButton name="DoctorPersonalData" handleFunction={() => {}} />
       </button>
 
       <div
@@ -147,7 +148,8 @@ const SetDoctorPersonalData = () => {
         id="modalFour"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+        aria-hidden="true"
+      >
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -158,7 +160,8 @@ const SetDoctorPersonalData = () => {
                 type="button"
                 class="btn-close mx-3"
                 data-bs-dismiss="modal"
-                aria-label="Close">
+                aria-label="Close"
+              >
                 Close
               </button>
             </div>
@@ -262,7 +265,8 @@ const SetDoctorPersonalData = () => {
                   <button
                     type="btn btn-dark"
                     className="btn btn-dark"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Close
                   </button>
                   <button type="submit btn btn-primary" class="btn btn-primary">

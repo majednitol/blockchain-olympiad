@@ -340,6 +340,10 @@ contract MedicalData {
         }
     }
 
+    function showSharedPrescription(address patientAddress) public view returns (string[] memory imageUrl) {
+        return patients[patientAddress].imgUrl;
+    }
+
     //    function transferDataByDoctor(address useraddress) public {
     //        uint256 user0 = accounts[useraddress];
     //
