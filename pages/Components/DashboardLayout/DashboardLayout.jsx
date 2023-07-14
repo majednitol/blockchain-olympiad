@@ -16,26 +16,42 @@ function DashboardLayout({ children }) {
                 <li className={styles.sidebarMenu__list__item}>
                   <Link
                     href="/dashboard"
-                    className={styles.sidebarMenu__list__item__link}>
+                    className={styles.sidebarMenu__list__item__link}
+                  >
                     <p>Dashboard</p>
                   </Link>
                   {ConnectedAccountUser == 5 && (
                     <>
                       <Link
                         href="/dashboard/patient-personal-details"
-                        className={styles.sidebarMenu__list__item__link}>
+                        className={styles.sidebarMenu__list__item__link}
+                      >
                         <p>Patient Details</p>
                       </Link>
 
                       <Link
                         href="/dashboard/patient-file-upload"
-                        className={styles.sidebarMenu__list__item__link}>
+                        className={styles.sidebarMenu__list__item__link}
+                      >
                         <p>File Upload</p>
                       </Link>
                       <Link
                         href="/dashboard/view-details"
-                        className={styles.sidebarMenu__list__item__link}>
-                        <p>View Details</p>
+                        className={styles.sidebarMenu__list__item__link}
+                      >
+                        <p>View Shared Data</p>
+                      </Link>
+                      <Link
+                        href="/dashboard/transfer-files"
+                        className={styles.sidebarMenu__list__item__link}
+                      >
+                        <p>Transfer Files</p>
+                      </Link>
+                      <Link
+                        href="/dashboard/patient-personal-doctor-list"
+                        className={styles.sidebarMenu__list__item__link}
+                      >
+                        <p>Patient Personal Doctor List</p>
                       </Link>
                     </>
                   )}
@@ -44,7 +60,8 @@ function DashboardLayout({ children }) {
                     <>
                       <Link
                         href="/dashboard/pathologist-personal-data"
-                        className={styles.sidebarMenu__list__item__link}>
+                        className={styles.sidebarMenu__list__item__link}
+                      >
                         <p>Pathologist</p>
                       </Link>
                     </>

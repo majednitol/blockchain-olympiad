@@ -1,47 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { HealthContext } from "@/context/Health";
 
-const PatientPersonalDoctors = () => {
-  const {
-    account,
-    AddNewPatient,
-    transferDataByPatient,
-    AddMedicalResearchLab,
-    AddNewpathologist,
-    AddNewPharmacyCompany,
-    AddDoctor,
-    getPharmacyCompanyAllData,
-    getPathologistAllData,
-    getMedicalResearchLabAData,
-    getDoctorAllData,
-    getPatientAllData,
-    fetchData,
-    TopMedichine,
-    doctorData,
-    patientData,
-    PharmacyCompany,
-    MedicalResearchLab,
-    contractData,
-    PathologistData,
-    signer,
-    ConnectedAccountUser,
-    MedicalResearchLabReport,
-    MedicalResearchLabReports,
-    ConnectedEntityType,
-    addTopMedichine,
-    addLabReport,
-    setPatientPersonalData,
-    transferDataByDoctor,
-    transferDataByPathologist,
-    setPathologistTest,
-    ViewTopMedichine,
-    patientPersonalDoctorList,
-  } = useContext(HealthContext);
+const PatientPersonalDoctors = (patientPersonalDoctor) => {
+  console.log("Patient Doctor", patientPersonalDoctor);
+  const [doctor, setDoctor] = useState([]);
   return (
     <div>
-      {patientPersonalDoctorList.map((el, i) => (
-        <div key={i}>{el}</div>
+        {Object.keys(patientPersonalDoctor).map(key => (
+        <p key={key}>
+          {key}: {patientPersonalDoctor[key]}
+        </p>
       ))}
+      {/* {(patientPersonalDoctor.map((doctor) => <h1>{doctor}</h1>))}; */}
     </div>
   );
 };

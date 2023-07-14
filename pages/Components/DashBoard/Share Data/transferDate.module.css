@@ -1,0 +1,24 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 100% of the viewport height */
+  width: 100vw;
+}
+.middle_content {
+  background-color: black;
+  padding: 50px;
+  border-radius: 10px;
+}
+.address {
+  width: 100%;
+  height: auto;
+  background-color: aliceblue;
+  outline: auto;
+  margin-bottom: 18px;
+}
+.button {
+  background-color: #FFCC00;
+  padding: 10px;
+  border-radius: 10px;
+}
