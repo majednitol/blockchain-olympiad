@@ -1,0 +1,88 @@
+#####Patient
+1.AddNewPatient(
+        int patientID,string  name,string  gender,int age,string  location
+    )
+2.getPatientAllData(address _patientAddress)
+3.transferDataByPatient(address useraddress)
+4.addPrescription(address _user, string  url)   ## already create a component
+5.already created DisplyFile component 
+6.setPatientPersonalData(
+int height,
+string  blood,
+string  previousDiseases,
+string  medicineDrugs,
+string  badHabits,
+string  chronicDiseases,
+string  healthAllergies,
+string  birthDefects
+    )
+    7. show doctor list who are treatment from patient array
+    8. show patient personal  data from patient array
+
+
+
+
+#####Doctor
+1.getDoctorAllData(address _doctorAddress)
+2.AddDoctor(
+        int doctorID,
+        string  name,
+        string  specialty,
+        int consultationFee,
+        int BMDCNumber,
+        int yearOfExperience
+    )
+ 3.   transferDataByDoctor(address useraddress)
+
+   4. addPrescription(address _user, string . url)
+5. show patient list who are treatmented from  doctor
+#####Pathologist
+1.setPathologistTest(
+        string  allergies,
+        string  cancer,
+        string  hormoneProblem,
+        int diabetesLevel
+    )
+
+
+
+   2. AddNewpathologist(
+            int pathologistID,
+            string  name,
+            int licenseNumber,
+            string  specializationArea,
+            int totalExperience
+        )
+3.transferDataByPathologist(address useraddress)
+4.getPathologistAllData(address _pathologistAddress)
+####MedicalResearchLab
+1.addLabReport(string  report)
+2.AddMedicalResearchLab(
+        int labID,
+        string  name,
+        int licenseID,
+        string  researchArea,
+        int labRating
+    )
+
+3.getMedicalResearchLabAData()
+#####PharmacyCompany
+1.AddNewPharmacyCompany(
+        int companyID,
+        string  name,
+        int licenseID,
+        string  productInformation,
+        int pharmacyRating
+    )
+ 2.   getPharmacyCompanyAllData()
+
+3.addTopMedichine(string  medichine)
+    ########others
+
+
+  1.  ConnectedEntityType(address useraddress)
+
+
+  ##NB:
+Patient pathologist ছাড়া সবাইকে ডাটা শেয়ার করব । ডাক্তার  pathologist কে শেয়ার করবে ar patient er prescription add korbe.. আর pathologist শুধু ডাক্তারকে শেয়ার করবে । 
+শেয়ার কৃত  ডাটা গুলা দেখানোর জন্য কিছু component বানাতে হবে ...
