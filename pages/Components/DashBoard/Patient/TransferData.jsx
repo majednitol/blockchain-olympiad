@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { HealthContext } from "@/context/Health";
 
-const TransferData = ({ transferData }) => {
+const TransferData = () => {
+  const { account, transferDataByPatient } = useContext(HealthContext);
   const shareData = () => {
     const userAddess = document.querySelector(".address").value;
     try {
       if (userAddess) {
-        transferData(userAddess);
+        transferDataByPatient(userAddess);
       }
     } catch (error) {
       alert(error);
@@ -14,7 +16,7 @@ const TransferData = ({ transferData }) => {
 
   return (
     <div>
-      <input type="text" placeholder="Enter address" className="address" />
+      <input type="text" placeholder=" address" className="address" />
       <button className="center button" onClick={shareData}>
         Share data
       </button>

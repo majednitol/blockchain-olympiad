@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { HealthContext } from "@/context/Health";
-import TransferData from "@/pages/Components/DashBoard/Share Data/TransferData";
+import TransferData from "@/pages/Components/DashBoard/Patient/TransferData";
 
 const ShareDataByPatient = () => {
   const { transferDataByPatient } = useContext(HealthContext);

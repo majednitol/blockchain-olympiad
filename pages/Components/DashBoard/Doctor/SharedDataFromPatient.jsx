@@ -39,11 +39,12 @@ const SharedDataFromPatient = () => {
     PatientToDoctorSharedData,
     PatientToMedRcLabSharedData,
     PatientToPharmacySharedData,
+    getPatientAllPrescription,
   } = useContext(HealthContext);
   return (
     <div>
       {PatientToDoctorSharedData.map((el, i) => {
-        sharedData(el);
+        getPatientAllPrescription(el);
       })}
     </div>
   );

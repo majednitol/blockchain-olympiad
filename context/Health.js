@@ -44,7 +44,7 @@ const HealthProvider = ({ children }) => {
     useState([]);
   const [PatientToPharmacySharedData, setPatientToPharmacySharedData] =
     useState([]);
-  const [sharedData, setSharedData] = useState("");
+  const [sharedData, setSharedData] = useState([]);
   const router = useRouter();
   const provider = new ethers.providers.JsonRpcProvider(
     `https://eth-sepolia.g.alchemy.com/v2/nGjYP7xrrjnCnxraBgpbLxaXxgYylt0z`
@@ -54,7 +54,7 @@ const HealthProvider = ({ children }) => {
     fetchData();
     getSigner();
     ConnectedEntityType();
-    // getDoctorAllData("0xA07cDb8d3E91e30606D5604284295A19102D531C");
+    //getDoctorAllData("0xA07cDb8d3E91e30606D5604284295A19102D531C");
 
     // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
     // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
@@ -638,6 +638,7 @@ const HealthProvider = ({ children }) => {
         PatientToDoctorSharedData,
         PatientToMedRcLabSharedData,
         PatientToPharmacySharedData,
+        getPatientAllPrescription,
       }}
     >
       {children}
