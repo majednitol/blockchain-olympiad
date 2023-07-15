@@ -53,7 +53,7 @@ const AddingTopMedichine = () => {
 
   return (
     <div>
-      <input type="text" placeholder="Enter Lab Report" className="address" />
+      <input type="text" placeholder="Enter Top Medicine" className="address" />
       <button className="center button" onClick={addMedicine}>
         submit medicine
       </button>
