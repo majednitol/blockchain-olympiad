@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
-import { ChatAppContext, HealthContext } from "@/context/Health";
-import MainComponent from "./Components/DashBoard/MainComponent";
-import SetPatientPersonalDetails from "./Components/DashBoard/Patient/SetPersonalDetails";
+import { HealthContext } from "@/context/Health";
+import SharedDataFromPatient from "@/pages/Components/DashBoard/Doctor/SharedDataFromPathologist";
 
 const Home = () => {
   const router = useRouter();
@@ -23,6 +22,7 @@ const Home = () => {
     <div>
       {/* <MainComponent /> */}
       {/* <SetPatientPersonalDetails /> */}
+      <SharedDataFromPatient />
     </div>
   );
 };

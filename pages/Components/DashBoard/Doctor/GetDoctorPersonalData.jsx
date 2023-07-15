@@ -53,7 +53,7 @@ const GetDoctorPersonalData = () => {
             {console.log(doctorData)}
             Account: {doctorData[0]}
             <hr />
-            DoctorId: {doctorData[1]}
+            DoctorId: {String(doctorData[1])}
             <hr />
             Doctor Name: {doctorData[2]}
             <hr />

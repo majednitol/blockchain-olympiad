@@ -54,7 +54,7 @@ const HealthProvider = ({ children }) => {
     fetchData();
     getSigner();
     ConnectedEntityType();
-    //getDoctorAllData("0xA07cDb8d3E91e30606D5604284295A19102D531C");
+    getDoctorAllData();
 
     // AddDoctor(1, 'rafi', 'xyz', 500, 33, 2)
     // AddNewpathologist(2, 'majed', 33, 'xyz', 3)
@@ -94,13 +94,13 @@ const HealthProvider = ({ children }) => {
     setPatientData(patientData);
     setPatientPersonalHealthData(patientData[9]);
     setPatientPersonalDoctorList(patientData[10]);
-    console.log("patientData ", patientData);
+    //console.log("patientData ", patientData);
   };
   const getPatientAllPrescription = async (patientAddress) => {
     const contractData = await connectWalletBycontractData(provider);
     const connectedAccount = await connectWallet();
     const patientPrescription = await contractData[1].showSharedPrescription(
-      connectedAccount
+      patientAddress
     );
     setSharedData(patientPrescription);
 

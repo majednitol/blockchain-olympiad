@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
 import { HealthContext } from "@/context/Health";
+import DisplayFile from "../../File/DisplayFile";
 
-const SharedDataFromPatient = () => {
+const SharedDataFromPathologist = () => {
   const {
     account,
     AddNewPatient,
@@ -43,11 +44,9 @@ const SharedDataFromPatient = () => {
   } = useContext(HealthContext);
   return (
     <div>
-      {PatientToDoctorSharedData.map((el, i) => {
-        getPatientAllPrescription(el);
-      })}
+      <DisplayFile userData={doctorData} />
     </div>
   );
 };
 
-export default SharedDataFromPatient;
+export default SharedDataFromPathologist;
