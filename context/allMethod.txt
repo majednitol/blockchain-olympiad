@@ -12,11 +12,14 @@ just component gula call korle hobe
 2.AddMedicalResearchLab
 3.GetMediResearchLabPersonalData
 4.ViewPrescriptionOrLabReport
+5.PatientToMedicalResearchLabSharedData
 #####PharmacyCompany
+
 1.AddNewPharmacyCompany
 2.AddingTopMedichine
 3.GetPharmacyCompanyPersonalData
 4.ViewTopMedicine
+5.PatientToPharmacyCompanySharedData
 
 
 
