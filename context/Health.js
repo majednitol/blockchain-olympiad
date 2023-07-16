@@ -139,7 +139,7 @@ const HealthProvider = ({ children }) => {
     setPatientToPharmacySharedData(PharmacyCompanyData[7]);
     console.log(PharmacyCompanyData);
   };
-
+//connected entity Types
   const ConnectedEntityType = async () => {
     try {
       setLoading(true);
