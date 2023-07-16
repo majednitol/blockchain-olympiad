@@ -11,7 +11,6 @@ const PatientPersonalDoctors = (patientPersonalDoctor) => {
           {key}: {patientPersonalDoctor[key]}
         </p>
       ))}
-      {/* {(patientPersonalDoctor.map((doctor) => <h1>{doctor}</h1>))}; */}
     </div>
   );
 };
