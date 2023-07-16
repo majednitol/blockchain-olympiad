@@ -76,9 +76,24 @@ function DashboardLayout({ children }) {
                   {ConnectedAccountUser == 3 && (
                     <>
                       <Link
-                        href="/dashboard/doctor-personal-data"
+                        href="/dashboard/medical-research-lab/MediResearchLabPersonalData"
                         className={styles.sidebarMenu__list__item__link}>
-                        <p>Medical Research Lab</p>
+                        <p>Personal Data</p>
+                      </Link>
+                      <Link
+                        href="/dashboard/medical-research-lab/ResearchLabReport"
+                        className={styles.sidebarMenu__list__item__link}>
+                        <p>Add Research Lab Report</p>
+                      </Link>
+                      <Link
+                        href="/dashboard/medical-research-lab/PrescriptionOrLabReport"
+                        className={styles.sidebarMenu__list__item__link}>
+                        <p>View Prescription Or Lab Report</p>
+                      </Link>
+                      <Link
+                        href="/dashboard/medical-research-lab/MedicalResearchLabSharedData"
+                        className={styles.sidebarMenu__list__item__link}>
+                        <p>Lab Shared Data</p>
                       </Link>
                     </>
                   )}

@@ -120,7 +120,7 @@ const PharmacyCompanyPersonalData = () => {
     <div>
       <button
         type=""
-        className="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
+        className=" align-content-center justify-content-center  d-flex align-content-sm-center"
         data-bs-toggle="modal"
         data-bs-target="#modalThree"
         data-bs-whatever="@mdo">

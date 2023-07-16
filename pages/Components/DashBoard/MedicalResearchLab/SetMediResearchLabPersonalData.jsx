@@ -92,20 +92,13 @@ const SetMediResearchLabPersonalData = () => {
 
     setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0 ? false : true;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      validateForm() ||
-      (name !== " " &&
-        labID !== "" &&
-        researchArea !== " " &&
-        licenseID !== " " &&
-        labRating !== " ")
-    ) {
+    if (validateForm()) {
       // Perform form submission
 
       console.log("Form submitted");
@@ -119,7 +112,7 @@ const SetMediResearchLabPersonalData = () => {
     <div>
       <button
         type=""
-        class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
+        class=" align-content-center justify-content-center  d-flex align-content-sm-center"
         data-bs-toggle="modal"
         data-bs-target="#modalFive"
         data-bs-whatever="@mdo">
@@ -218,8 +211,8 @@ const SetMediResearchLabPersonalData = () => {
                   <input
                     type="number"
                     class="form-control"
-                    id="researchArea"
-                    name="researchArea"
+                    id="labRating"
+                    name="labRating"
                     value={labRating}
                     onChange={handleInputChange}
                     placeholder="Enter your labRating"

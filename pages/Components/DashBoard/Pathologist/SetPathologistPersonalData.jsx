@@ -125,7 +125,7 @@ const SetPathologistPersonalData = () => {
     <div>
       <button
         type=""
-        class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
+        class=" align-content-center justify-content-center  d-flex align-content-sm-center"
         data-bs-toggle="modal"
         data-bs-target="#modalTwo"
         data-bs-whatever="@mdo">

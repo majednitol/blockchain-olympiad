@@ -22,12 +22,22 @@ const SignUpComponent = () => {
   }, [ConnectedAccountUser]);
 
   return (
-    <div className="d-flex">
-      <SetPatientPersonalDetails />
-      <SetPathologistPersonalData />
-      <PharmacyCompanyPersonalData />
-      <SetDoctorPersonalData />
-      <SetMediResearchLabPersonalData />
+    <div className="row pt-4">
+      <div className="col-md-3 mb-2">
+        <SetPatientPersonalDetails />
+      </div>
+      <div className="col-md-3 mb-2">
+        <SetPathologistPersonalData />
+      </div>
+      <div className="col-md-3 mb-2">
+        <PharmacyCompanyPersonalData />
+      </div>
+      <div className="col-md-3 mb-2">
+        <SetDoctorPersonalData />
+      </div>
+      <div className="col-md-3 mb-2">
+        <SetMediResearchLabPersonalData />
+      </div>
     </div>
   );
 };

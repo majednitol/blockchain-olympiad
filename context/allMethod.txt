@@ -1,22 +1,22 @@
 just component gula call korle hobe
 
 #####Pathologist
-1. AddNewpathologist
+1. AddNewpathologist(done)
 2.SentTestReportToDoctor (done)  
 3. ViewPatientPrescriptionSentByDoctor   (done)
 4.GetPathologistPersonalData   (done)
 
 
 ####MedicalResearchLab
-1.AddResearchLabReport 
-2.AddMedicalResearchLab
-3.GetMediResearchLabPersonalData
-4.ViewPrescriptionOrLabReport
-5.PatientToMedicalResearchLabSharedData
+1.AddResearchLabReport (done)
+2.AddMedicalResearchLab(done)
+3.GetMediResearchLabPersonalData(done)
+4.ViewPrescriptionOrLabReport(done)
+5.PatientToMedicalResearchLabSharedData(not working)
 
 #####PharmacyCompany
 
-1.AddNewPharmacyCompany
+1.AddNewPharmacyCompany(done)
 2.AddingTopMedichine (done)
 3.GetPharmacyCompanyPersonalData (done)
 4.ViewTopMedicine (done)
