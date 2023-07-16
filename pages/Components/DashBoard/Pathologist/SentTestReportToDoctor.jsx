@@ -1,12 +1,24 @@
-import React from "react";
+import { useState } from "react";
 import FileUpload from "@/pages/Components/File/FileUpload";
 
 const SentTestReportToDoctor = () => {
-  const userAddess = document.querySelector(".address").value;
+  const [address, setAddress] = useState("");
+
   return (
-    <div>
-      <input type="text" placeholder="Enter address" className="address" />
-      <FileUpload userAddress={userAddess} />
+    <div className="container pt-4">
+      <div className="col-md-8 offset-md-2">
+        <div className="card card-body ">
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Enter address "
+              onChange={(e) => useState(e.target.value)}
+              className="address form-control"
+            />
+          </div>
+          <FileUpload userAddress={address} />
+        </div>
+      </div>
     </div>
   );
 };

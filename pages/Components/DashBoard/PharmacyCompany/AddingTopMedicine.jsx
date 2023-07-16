@@ -52,11 +52,19 @@ const AddingTopMedichine = () => {
   };
 
   return (
-    <div>
-      <input type="text" placeholder="Enter Top Medicine" className="address" />
-      <button className="center button" onClick={addMedicine}>
-        submit medicine
-      </button>
+    <div className="container pt-2">
+      <div className="col-md-6 offset-md-3">
+        <div className="card card-body">
+          <input
+            type="text"
+            placeholder="Enter Top Medicine"
+            className="address form-control"
+          />
+          <button className="center btn btn-primary mt-2" onClick={addMedicine}>
+            submit medicine
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

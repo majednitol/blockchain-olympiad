@@ -15,11 +15,18 @@ const TransferData = () => {
   };
 
   return (
-    <div>
-      <input type="text" placeholder=" address" className="address" />
-      <button className="center button" onClick={shareData}>
-        Share data
-      </button>
+    <div className="container my-2">
+      <div className="card card-body">
+        <h1>Share Data</h1>
+        <input
+          type="text"
+          placeholder="address"
+          className="address form-control"
+        />
+        <button className="center btn btn-primary mt-2" onClick={shareData}>
+          Share data
+        </button>
+      </div>
     </div>
   );
 };

@@ -25,8 +25,7 @@ const DisplayFile = ({ userData }) => {
           <a
             href={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`}
             key={i}
-            target="_blank"
-          >
+            target="_blank">
             <img
               src={`https://gateway.pinata.cloud/ipfs/${item.substring(6)}`}
               alt="img"
@@ -42,13 +41,12 @@ const DisplayFile = ({ userData }) => {
   };
 
   return (
-    <div className="container">
+    <div className="container pt-4">
       <div className={Styles.imagelist}>{data}</div>
       <button
-        className="btn btn-success block my-4"
+        className="btn btn-success block m-auto "
         style={{ backgroundColor: "green" }}
-        onClick={getData}
-      >
+        onClick={getData}>
         Get data
       </button>
     </div>

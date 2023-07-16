@@ -39,33 +39,21 @@ const GetDoctorPersonalData = () => {
   } = useContext(HealthContext);
 
   return (
-    <div>
-      <div>
-        <button>
-          <BoxButton
-            name=" Doctor Personal Information"
-            handleFunction={getDoctorAllData}
-          />
-        </button>
-
-        <div>
-          <div class="modal-body">
-            {console.log(doctorData)}
-            Account: {doctorData[0]}
-            <hr />
-            DoctorId: {String(doctorData[1])}
-            <hr />
-            Doctor Name: {doctorData[2]}
-            <hr />
-            BMDC Number: {String(doctorData[5])}
-            <hr />
-            Doctor Speciality: {doctorData[3]}
-            <hr />
-            Consultation Fee : {String(doctorData[4])}
-            <hr />
-            Year Of Experience: {String(doctorData[6])}
-          </div>
-        </div>
+    <div className="container pt-5">
+      <div class="modal-body">
+        Account: {doctorData[0]}
+        <hr />
+        DoctorId: {String(doctorData[1])}
+        <hr />
+        Doctor Name: {doctorData[2]}
+        <hr />
+        BMDC Number: {String(doctorData[5])}
+        <hr />
+        Doctor Speciality: {doctorData[3]}
+        <hr />
+        Consultation Fee : {String(doctorData[4])}
+        <hr />
+        Year Of Experience: {String(doctorData[6])}
       </div>
     </div>
   );

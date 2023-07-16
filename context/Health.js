@@ -62,7 +62,7 @@ const HealthProvider = ({ children }) => {
     // getDoctorAllData()
     // getPatientAllData("0xA07cDb8d3E91e30606D5604284295A19102D531C");
     //getMedicalResearchLabAData();
-    getPathologistAllData();
+    // getPathologistAllData();
 
     //getPharmacyCompanyAllData()
     // AddNewPharmacyCompany(2, 'mjed', 44, 'xyz', 4)
@@ -639,8 +639,7 @@ const HealthProvider = ({ children }) => {
         PatientToMedRcLabSharedData,
         PatientToPharmacySharedData,
         getPatientAllPrescription,
-      }}
-    >
+      }}>
       {children}
     </HealthContext.Provider>
   );

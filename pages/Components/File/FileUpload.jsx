@@ -83,30 +83,31 @@ const FileUpload = ({ userAddress }) => {
     e.preventDefault();
   };
   return (
-    <div className="container pt-5">
-      <form className={Styles.form} onSubmit={handleSubmit}>
-        <div className="form-group my-4">
-          <label htmlFor="file-upload" className="form-lebel">
-            Choose Image
-          </label>
-          <input
-            type="file"
-            disabled={!account}
-            id="file-upload"
-            name="data"
-            className="form-control"
-            onChange={retrieveFile}
-          />
-        </div>
-        <span className={Styles.textArea}>Image : {filename}</span>
-        <button
-          type="submit"
-          className="btn btn-success block my-4"
-          style={{ backgroundColor: "green" }}
-        >
-          Upload file
-        </button>
-      </form>
+    <div className="container pt-2">
+      <div className="card card-body">
+        <form className={Styles.form} onSubmit={handleSubmit}>
+          <div className="form-group ">
+            <label htmlFor="file-upload" className="form-lebel">
+              Choose Image
+            </label>
+            <input
+              type="file"
+              disabled={!account}
+              id="file-upload"
+              name="data"
+              className="form-control"
+              onChange={retrieveFile}
+            />
+          </div>
+          <span className={Styles.textArea}>Image : {filename}</span>
+          <button
+            type="submit"
+            className="btn btn-success block my-4"
+            style={{ backgroundColor: "green" }}>
+            Upload file
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

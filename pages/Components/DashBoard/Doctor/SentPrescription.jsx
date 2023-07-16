@@ -9,13 +9,15 @@ const SentPrescription = () => {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Enter address"
-        className="address"
-        onChange={handleAddressChange}
-      />
+    <div className="container pt-5">
+      <div className="form-group">
+        <input
+          type="text"
+          placeholder="Enter address"
+          className="address form-control"
+          onChange={handleAddressChange}
+        />
+      </div>
       <FileUpload userAddress={userAddress} />
     </div>
   );

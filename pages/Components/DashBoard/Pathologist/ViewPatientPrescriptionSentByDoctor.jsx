@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import DisplayFile from "@/pages/Components/File/DisplayFile";
 import { HealthContext } from "@/context/Health";
 
@@ -37,6 +37,10 @@ const ViewPatientPrescriptionSentByDoctor = () => {
     setPathologistTest,
     ViewTopMedichine,
   } = useContext(HealthContext);
+
+  useEffect(() => {
+    getPathologistAllData();
+  }, []);
   return (
     <div>
       <DisplayFile userData={PathologistData} />

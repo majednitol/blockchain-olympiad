@@ -43,8 +43,8 @@ const GetPathologistPersonalData = () => {
   }, [account]);
 
   return (
-    <div className="container pt-5">
-      <div class="modal-content">
+    <div className="container pt-2">
+      <div class="card card-body">
         <div class="modal-header">
           <h5 class="modal-title " id="exampleModalLabel">
             Pathologist Personal Information

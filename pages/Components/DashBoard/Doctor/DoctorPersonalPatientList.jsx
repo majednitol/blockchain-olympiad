@@ -38,6 +38,7 @@ const DoctorPersonalPatientList = () => {
     patientPersonalDoctorList,
     DoctorPersonalPatient,
   } = useContext(HealthContext);
+
   return (
     <div>
       {DoctorPersonalPatient.map((el, i) => (

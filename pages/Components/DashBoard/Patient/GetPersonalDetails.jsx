@@ -33,7 +33,7 @@ const GetPersonalDetails = () => {
 
   return (
     <div className="container pt-5">
-      <div class="modal-content">
+      <div class="card card-body">
         <div class="modal-header">
           <h5 class="modal-title " id="exampleModalLabel">
             Patient Basic Information

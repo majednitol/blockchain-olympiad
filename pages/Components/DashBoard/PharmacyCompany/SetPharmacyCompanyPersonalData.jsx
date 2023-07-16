@@ -46,6 +46,7 @@ const PharmacyCompanyPersonalData = () => {
   const [errors, setErrors] = useState({});
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(name);
     if (name === "name") {
       setName(value);
     } else if (name === "companyID") {
@@ -92,20 +93,13 @@ const PharmacyCompanyPersonalData = () => {
 
     setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
+    return Object.keys(newErrors).length === 0 ? false : true;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (
-      validateForm() &&
-      name !== " " &&
-      pharmacyRating !== " " &&
-      companyID !== "" &&
-      productInformation !== " " &&
-      licenseID !== " "
-    ) {
+    if (validateForm()) {
       // Perform form submission
 
       console.log("Form submitted");
@@ -117,7 +111,8 @@ const PharmacyCompanyPersonalData = () => {
         pharmacyRating
       );
     } else {
-      console.log("please fill up all feild");
+      console.log("please fill up all feild", errors);
+      alert("Please fill up all feild!");
     }
   };
 
@@ -125,7 +120,7 @@ const PharmacyCompanyPersonalData = () => {
     <div>
       <button
         type=""
-        class="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
+        className="m-xl-5 align-content-center justify-content-center  d-flex align-content-sm-center"
         data-bs-toggle="modal"
         data-bs-target="#modalThree"
         data-bs-whatever="@mdo">
@@ -136,27 +131,27 @@ const PharmacyCompanyPersonalData = () => {
       </button>
 
       <div
-        class="modal fade"
+        className="modal fade"
         id="modalThree"
         tabindex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title " id="exampleModalLabel">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title " id="exampleModalLabel">
                 Sign Up
               </h5>
             </div>
             <div>
               <form onSubmit={handleSubmit}>
                 <div>
-                  <label for="recipient-name" class="col-form-label">
+                  <label for="recipient-name" className="col-form-label">
                     companyID :
                   </label>
                   <input
                     type="number"
-                    class="form-control"
+                    className="form-control"
                     id="companyID"
                     name="companyID"
                     placeholder="Enter your companyID"
@@ -165,13 +160,13 @@ const PharmacyCompanyPersonalData = () => {
                   />
                   {errors.companyID && <span>{errors.companyID}</span>}
                 </div>
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">
+                <div className="mb-3">
+                  <label for="recipient-name" className="col-form-label">
                     name :
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="name"
                     name="name"
                     value={name}
@@ -180,13 +175,13 @@ const PharmacyCompanyPersonalData = () => {
                   />
                   {errors.name && <span>{errors.name}</span>}
                 </div>{" "}
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">
+                <div className="mb-3">
+                  <label for="recipient-name" className="col-form-label">
                     licenseID :
                   </label>
                   <input
                     type="number"
-                    class="form-control"
+                    className="form-control"
                     id="licenseID"
                     name="licenseID"
                     value={licenseID}
@@ -195,13 +190,13 @@ const PharmacyCompanyPersonalData = () => {
                   />
                   {errors.licenseID && <span>{errors.licenseID}</span>}
                 </div>{" "}
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">
+                <div className="mb-3">
+                  <label for="recipient-name" className="col-form-label">
                     pharmacyRating :
                   </label>
                   <input
                     type="number"
-                    class="form-control"
+                    className="form-control"
                     id="pharmacyRating"
                     name="pharmacyRating"
                     value={pharmacyRating}
@@ -212,13 +207,13 @@ const PharmacyCompanyPersonalData = () => {
                     <span>{errors.pharmacyRating}</span>
                   )}
                 </div>
-                <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">
+                <div className="mb-3">
+                  <label for="recipient-name" className="col-form-label">
                     serviceArea :
                   </label>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     id="productInformation"
                     name="productInformation"
                     value={productInformation}
@@ -229,19 +224,16 @@ const PharmacyCompanyPersonalData = () => {
                     <span>{errors.productInformation}</span>
                   )}
                 </div>
-                <div class="modal-footer">
+                <div className="modal-footer">
                   <button
                     type="btn btn-dark"
-                    className="btn btn-dark"
+                    classNameName="btn btn-dark"
                     data-bs-dismiss="modal">
                     Close
                   </button>
                   <button
                     type="submit btn btn-primary"
-                    onClick={(e) => {
-                      handleSubmit(e);
-                    }}
-                    class="btn btn-primary">
+                    className="btn btn-primary">
                     Submit
                   </button>
                 </div>

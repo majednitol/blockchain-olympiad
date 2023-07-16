@@ -9,12 +9,10 @@ import TransferData from "@/pages/Components/DashBoard/Patient/TransferData";
 const PatientFileUpload = () => {
   const { account, transferDataByPatient } = useContext(HealthContext);
   return (
-    <div>
-      <DashboardLayout>
-        <FileUpload userAddress={account} />
-        <TransferData transferData={transferDataByPatient} />
-      </DashboardLayout>
-    </div>
+    <DashboardLayout>
+      <FileUpload userAddress={account} />
+      <TransferData transferData={transferDataByPatient} />
+    </DashboardLayout>
   );
 };
 
